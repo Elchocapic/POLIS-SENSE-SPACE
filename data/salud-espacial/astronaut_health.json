@@ -11,7 +11,7 @@
     },
     {
       "id": "aha2019",
-      "cita": "Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts (American Heart Association, 2019)",
+      "cita": "Fu, Levine et al., Circulation 2019 (AHA), Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts",
       "anio": 2019,
       "tipo": "articulo",
       "n_sujetos": 12,
@@ -256,77 +256,77 @@
   "indicadores": [
     {
       "id": "fc_nocturna",
-      "nombre": "Frecuencia cardiaca nocturna",
+      "nombre": "Frecuencia cardíaca nocturna",
       "sistema": "cardiovascular",
       "unidad": "lpm",
       "como_se_mide": "Holter 24 h"
     },
     {
       "id": "fc_diurna",
-      "nombre": "Frecuencia cardiaca en actividad diaria",
+      "nombre": "Frecuencia cardíaca en actividad diaria",
       "sistema": "cardiovascular",
       "unidad": "lpm",
       "como_se_mide": "Holter 24 h"
     },
     {
       "id": "fc_24h",
-      "nombre": "Frecuencia cardiaca (24 h / reposo)",
+      "nombre": "Frecuencia cardíaca (24 h / reposo)",
       "sistema": "cardiovascular",
       "unidad": "lpm",
-      "como_se_mide": "Holter u oscilometria"
+      "como_se_mide": "Holter u oscilometría"
     },
     {
       "id": "vfc",
-      "nombre": "Variabilidad de la frecuencia cardiaca (control autonomico)",
+      "nombre": "Variabilidad de la frecuencia cardíaca (control autonómico)",
       "sistema": "cardiovascular",
       "unidad": null,
       "como_se_mide": "Holter 24 h"
     },
     {
       "id": "pas_24h",
-      "nombre": "Presion arterial sistolica 24 h",
+      "nombre": "Presión arterial sistólica 24 h",
       "sistema": "cardiovascular",
       "unidad": "mmHg",
       "como_se_mide": "Monitor ambulatorio latido a latido"
     },
     {
       "id": "pad_24h",
-      "nombre": "Presion arterial diastolica 24 h",
+      "nombre": "Presión arterial diastólica 24 h",
       "sistema": "cardiovascular",
       "unidad": "mmHg",
       "como_se_mide": "Monitor ambulatorio"
     },
     {
       "id": "pam_24h",
-      "nombre": "Presion arterial media 24 h",
+      "nombre": "Presión arterial media 24 h",
       "sistema": "cardiovascular",
       "unidad": "mmHg",
       "como_se_mide": "Monitor ambulatorio braquial"
     },
     {
       "id": "dip_nocturno_pa",
-      "nombre": "Caida nocturna de la presion arterial",
+      "nombre": "Caída nocturna de la presión arterial",
       "sistema": "cardiovascular",
       "unidad": "mmHg",
       "como_se_mide": "Monitor ambulatorio"
     },
     {
       "id": "gasto_cardiaco",
-      "nombre": "Gasto cardiaco",
+      "nombre": "Gasto cardíaco",
       "sistema": "cardiovascular",
       "unidad": "L/min",
-      "como_se_mide": "Reinhalacion"
+      "como_se_mide": "Reinhalación"
     },
     {
       "id": "volumen_sistolico",
-      "nombre": "Volumen sistolico",
+      "nombre": "Volumen sistólico",
       "sistema": "cardiovascular",
       "unidad": "mL",
-      "como_se_mide": "Reinhalacion"
+      "como_se_mide": "Reinhalación"
     },
     {
       "id": "resistencia_vascular",
-      "nombre": "Resistencia vascular sistemica",
+      "nombre": "Resistencia vascular sistémica",
       "sistema": "cardiovascular",
       "unidad": null,
       "como_se_mide": "Calculada"
@@ -336,11 +336,11 @@
       "nombre": "Sensibilidad del baroreflejo arterial",
       "sistema": "cardiovascular",
       "unidad": "ms/mmHg",
-      "como_se_mide": "Presion de dedo + ECG"
+      "como_se_mide": "Presión de dedo + ECG"
     },
     {
       "id": "tolerancia_ortostatica",
-      "nombre": "Tolerancia ortostatica al regreso",
+      "nombre": "Tolerancia ortostática al regreso",
       "sistema": "cardiovascular",
       "unidad": null,
       "como_se_mide": "Prueba de pie / actividad diaria"
@@ -350,7 +350,7 @@
       "nombre": "Flujo en vena yugular interna",
       "sistema": "cardiovascular",
       "unidad": null,
-      "como_se_mide": "Ecografia"
+      "como_se_mide": "Ecografía"
     },
     {
       "id": "temp_central_reposo",
@@ -368,35 +368,35 @@
     },
     {
       "id": "sueno_duracion",
-      "nombre": "Duracion del sueno",
+      "nombre": "Duración del sueño",
       "sistema": "sueno",
       "unidad": "h/noche",
-      "como_se_mide": "Actigrafia de muneca + diario"
+      "como_se_mide": "Actigrafía de muñeca + diario"
     },
     {
       "id": "sueno_noches_7h",
-      "nombre": "Noches con 7 h de sueno o mas",
+      "nombre": "Noches con 7 h de sueño o más",
       "sistema": "sueno",
       "unidad": "%",
-      "como_se_mide": "Actigrafia"
+      "como_se_mide": "Actigrafía"
     },
     {
       "id": "sueno_medicacion",
-      "nombre": "Uso de medicacion para dormir",
+      "nombre": "Uso de medicación para dormir",
       "sistema": "sueno",
       "unidad": "% tripulantes",
       "como_se_mide": "Diario"
     },
     {
       "id": "dmo_columna",
-      "nombre": "Densidad mineral osea, columna lumbar",
+      "nombre": "Densidad mineral ósea, columna lumbar",
       "sistema": "oseo",
       "unidad": "%",
       "como_se_mide": "DXA"
     },
     {
       "id": "dmo_cadera",
-      "nombre": "Densidad mineral osea, cadera",
+      "nombre": "Densidad mineral ósea, cadera",
       "sistema": "oseo",
       "unidad": "%",
       "como_se_mide": "DXA"
@@ -410,7 +410,7 @@
     },
     {
       "id": "dmo_calcaneo",
-      "nombre": "Densidad mineral osea, calcaneo",
+      "nombre": "Densidad mineral ósea, calcáneo",
       "sistema": "oseo",
       "unidad": "%",
       "como_se_mide": "DXA"
@@ -424,10 +424,10 @@
     },
     {
       "id": "musculo_potencia",
-      "nombre": "Potencia maxima de pantorrilla",
+      "nombre": "Potencia máxima de pantorrilla",
       "sistema": "muscular",
       "unidad": "%",
-      "como_se_mide": "Dinamometria"
+      "como_se_mide": "Dinamometría"
     },
     {
       "id": "masa_corporal",
@@ -438,7 +438,7 @@
     },
     {
       "id": "ingesta_energia",
-      "nombre": "Ingesta energetica respecto a la recomendada",
+      "nombre": "Ingesta energética respecto a la recomendada",
       "sistema": "nutricion",
       "unidad": "%",
       "como_se_mide": "Registro de dieta"
@@ -452,14 +452,14 @@
     },
     {
       "id": "volumen_plasmatico",
-      "nombre": "Volumen plasmatico",
+      "nombre": "Volumen plasmático",
       "sistema": "sangre",
       "unidad": "%",
       "como_se_mide": "Calculado"
     },
     {
       "id": "hemolisis",
-      "nombre": "Destruccion de globulos rojos",
+      "nombre": "Destrucción de glóbulos rojos",
       "sistema": "sangre",
       "unidad": "%",
       "como_se_mide": "CO exhalado"
@@ -476,32 +476,32 @@
       "nombre": "Dosis efectiva diaria",
       "sistema": "radiacion",
       "unidad": "mSv/dia",
-      "como_se_mide": "Dosimetro personal"
+      "como_se_mide": "Dosímetro personal"
     },
     {
       "id": "radiacion_mision",
-      "nombre": "Dosis efectiva por mision de 6 meses",
+      "nombre": "Dosis efectiva por misión de 6 meses",
       "sistema": "radiacion",
       "unidad": "mSv",
-      "como_se_mide": "Dosimetria + modelos"
+      "como_se_mide": "Dosimetría + modelos"
     },
     {
       "id": "radiacion_limite",
-      "nombre": "Limite de carrera NASA",
+      "nombre": "Límite de carrera NASA",
       "sistema": "radiacion",
       "unidad": "mSv",
       "como_se_mide": "Norma"
     },
     {
       "id": "sans",
-      "nombre": "Sindrome neuro-ocular asociado al vuelo (SANS)",
+      "nombre": "Síndrome neuro-ocular asociado al vuelo (SANS)",
       "sistema": "vision",
       "unidad": "% tripulantes",
-      "como_se_mide": "Examen oftalmologico/OCT"
+      "como_se_mide": "Examen oftalmológico/OCT"
     },
     {
       "id": "herpes_reactivacion",
-      "nombre": "Reactivacion de herpesvirus",
+      "nombre": "Reactivación de herpesvirus",
       "sistema": "inmune",
       "unidad": "% tripulantes",
       "como_se_mide": "Saliva/orina"
@@ -515,7 +515,7 @@
     },
     {
       "id": "funcion_sensoriomotora",
-      "nombre": "Desempeno funcional/sensoriomotor al aterrizar",
+      "nombre": "Desempeño funcional/sensoriomotor al aterrizar",
       "sistema": "sensoriomotor",
       "unidad": "%",
       "como_se_mide": "Field Test"
@@ -525,14 +525,14 @@
       "nombre": "Cambios multisistema (Twins Study)",
       "sistema": "multisistema",
       "unidad": null,
-      "como_se_mide": "Multiomica + fisiologia"
+      "como_se_mide": "Multiómica + fisiología"
     }
   ],
   "efectos": [
     {
       "id": 1,
       "indicador_id": "fc_nocturna",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "55-199",
       "fase": "vuelo",
       "valor_pre": 55.5,
@@ -554,7 +554,7 @@
     {
       "id": 2,
       "indicador_id": "fc_diurna",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "55-199",
       "fase": "pre_vuelo",
       "valor_pre": 71.0,
@@ -571,12 +571,12 @@
       "dias_hasta_efecto": null,
       "n": 7,
       "fuente_id": "fraser2011",
-      "hallazgo": "FC en actividad diaria en Tierra: manana 71,0±13, tarde 71,5±9, noche 72,8±10 lpm (referencia pre-vuelo)."
+      "hallazgo": "FC en actividad diaria en Tierra: mañana 71,0±13, tarde 71,5±9, noche 72,8±10 lpm (referencia pre-vuelo)."
     },
     {
       "id": 3,
       "indicador_id": "fc_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -598,7 +598,7 @@
     {
       "id": 4,
       "indicador_id": "fc_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "52-199",
       "fase": "vuelo",
       "valor_pre": null,
@@ -615,12 +615,12 @@
       "dias_hasta_efecto": null,
       "n": 6,
       "fuente_id": "hughson2012",
-      "hallazgo": "FC, presion y baroreflejo sin cambio de pre-vuelo a vuelo."
+      "hallazgo": "FC, presión y baroreflejo sin cambio de pre-vuelo a vuelo."
     },
     {
       "id": 5,
       "indicador_id": "fc_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "52-199",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -637,7 +637,7 @@
       "dias_hasta_efecto": null,
       "n": 6,
       "fuente_id": "hughson2012",
-      "hallazgo": "Tras el vuelo la FC y el gasto cardiaco suben ligeramente."
+      "hallazgo": "Tras el vuelo la FC y el gasto cardíaco suben ligeramente."
     },
     {
       "id": 6,
@@ -659,7 +659,7 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "shuttle24h",
-      "hallazgo": "En vuelos cortos bajan FC, presion diastolica, su variabilidad y las extrasistoles ventriculares."
+      "hallazgo": "En vuelos cortos bajan FC, presión diastólica, su variabilidad y las extrasístoles ventriculares."
     },
     {
       "id": 7,
@@ -681,12 +681,12 @@
       "dias_hasta_efecto": null,
       "n": 4,
       "fuente_id": "penn_i4",
-      "hallazgo": "Cambios cardiovasculares modestos: el corazon late mas lento en microgravedad."
+      "hallazgo": "Cambios cardiovasculares modestos: el corazón late más lento en microgravedad."
     },
     {
       "id": 8,
       "indicador_id": "vfc",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "corta y larga",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -703,12 +703,12 @@
       "dias_hasta_efecto": "5-30 post",
       "n": 8,
       "fuente_id": "hrv2013",
-      "hallazgo": "5 dias tras el regreso la regulacion autonomica de la FC sigue alterada; al mes se recupera casi por completo."
+      "hallazgo": "5 días tras el regreso la regulación autonómica de la FC sigue alterada; al mes se recupera casi por completo."
     },
     {
       "id": 9,
       "indicador_id": "pas_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "vuelo",
       "valor_pre": 120.0,
@@ -730,7 +730,7 @@
     {
       "id": 10,
       "indicador_id": "pad_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -747,12 +747,12 @@
       "dias_hasta_efecto": null,
       "n": 12,
       "fuente_id": "aha2019",
-      "hallazgo": "PAD sin cambio durante ni despues del vuelo."
+      "hallazgo": "PAD sin cambio durante ni después del vuelo."
     },
     {
       "id": 11,
       "indicador_id": "pam_24h",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -769,12 +769,12 @@
       "dias_hasta_efecto": null,
       "n": 8,
       "fuente_id": "norsk2015",
-      "hallazgo": "Presion ambulatoria 24 h baja 8-10 mmHg por caida de 39% en la resistencia vascular sistemica."
+      "hallazgo": "Presión ambulatoria 24 h baja 8-10 mmHg por caída de 39% en la resistencia vascular sistémica."
     },
     {
       "id": 12,
       "indicador_id": "dip_nocturno_pa",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -791,12 +791,12 @@
       "dias_hasta_efecto": null,
       "n": 8,
       "fuente_id": "norsk2015",
-      "hallazgo": "La caida nocturna de presion (8±3 mmHg) se mantiene en el espacio."
+      "hallazgo": "La caída nocturna de presión (8±3 mmHg) se mantiene en el espacio."
     },
     {
       "id": 13,
       "indicador_id": "resistencia_vascular",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -813,12 +813,12 @@
       "dias_hasta_efecto": null,
       "n": 8,
       "fuente_id": "norsk2015",
-      "hallazgo": "Resistencia vascular sistemica -39%."
+      "hallazgo": "Resistencia vascular sistémica -39%."
     },
     {
       "id": 14,
       "indicador_id": "volumen_sistolico",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -835,12 +835,12 @@
       "dias_hasta_efecto": null,
       "n": 8,
       "fuente_id": "norsk2015",
-      "hallazgo": "Volumen sistolico +35±10%."
+      "hallazgo": "Volumen sistólico +35±10%."
     },
     {
       "id": 15,
       "indicador_id": "gasto_cardiaco",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "85-192",
       "fase": "vuelo",
       "valor_pre": null,
@@ -857,12 +857,12 @@
       "dias_hasta_efecto": null,
       "n": 8,
       "fuente_id": "norsk2015",
-      "hallazgo": "Gasto cardiaco +41±9%."
+      "hallazgo": "Gasto cardíaco +41±9%."
     },
     {
       "id": 16,
       "indicador_id": "baroreflejo",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "52-199",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -884,7 +884,7 @@
     {
       "id": 17,
       "indicador_id": "tolerancia_ortostatica",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -901,7 +901,7 @@
       "dias_hasta_efecto": null,
       "n": 12,
       "fuente_id": "aha2019",
-      "hallazgo": "Con ejercicio en vuelo y fluidos IV al aterrizar, ninguno tuvo hipotension ortostatica en actividades diarias."
+      "hallazgo": "Con ejercicio en vuelo y fluidos IV al aterrizar, ninguno tuvo hipotensión ortostática en actividades diarias."
     },
     {
       "id": 18,
@@ -923,12 +923,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "orthostatic",
-      "hallazgo": "Hipotension y presincope en 20-30% de astronautas al regresar."
+      "hallazgo": "Hipotensión y presíncope en 20-30% de astronautas al regresar."
     },
     {
       "id": 19,
       "indicador_id": "flujo_yugular",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~50",
       "fase": "vuelo",
       "valor_pre": null,
@@ -945,12 +945,12 @@
       "dias_hasta_efecto": "~50",
       "n": 11,
       "fuente_id": "jugular2019",
-      "hallazgo": "6 de 11 tripulantes con flujo yugular estancado o invertido ~dia 50; uno con trombo."
+      "hallazgo": "6 de 11 tripulantes con flujo yugular estancado o invertido ~día 50; uno con trombo."
     },
     {
       "id": 20,
       "indicador_id": "temp_central_reposo",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": 37.0,
@@ -972,7 +972,7 @@
     {
       "id": 21,
       "indicador_id": "temp_central_ejercicio",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -989,7 +989,7 @@
       "dias_hasta_efecto": null,
       "n": 11,
       "fuente_id": "stahn2017",
-      "hallazgo": "En ejercicio la temperatura central sube mas y mas rapido que en Tierra; a menudo supera 40 °C."
+      "hallazgo": "En ejercicio la temperatura central sube más y más rápido que en Tierra; a menudo supera 40 °C."
     },
     {
       "id": 22,
@@ -1033,7 +1033,7 @@
       "dias_hasta_efecto": null,
       "n": 85,
       "fuente_id": "barger2014",
-      "hallazgo": "~3 meses antes del vuelo ya dormian menos de 6,5 h/noche."
+      "hallazgo": "~3 meses antes del vuelo ya dormían menos de 6,5 h/noche."
     },
     {
       "id": 24,
@@ -1055,7 +1055,7 @@
       "dias_hasta_efecto": null,
       "n": 21,
       "fuente_id": "barger2014",
-      "hallazgo": "24% de noches con >=7 h en la ISS (12% en Transbordador) vs 50% y 42% tras la mision."
+      "hallazgo": "24% de noches con >=7 h en la ISS (12% en Transbordador) vs 50% y 42% tras la misión."
     },
     {
       "id": 25,
@@ -1077,12 +1077,12 @@
       "dias_hasta_efecto": null,
       "n": 85,
       "fuente_id": "barger2014",
-      "hallazgo": "75% de tripulantes de la ISS y 78% del Transbordador usaron somniferos en algun momento."
+      "hallazgo": "75% de tripulantes de la ISS y 78% del Transbordador usaron somníferos en algún momento."
     },
     {
       "id": 26,
       "indicador_id": "dmo_columna",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "120-180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1104,7 +1104,7 @@
     {
       "id": 27,
       "indicador_id": "dmo_cadera",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "120-180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1126,7 +1126,7 @@
     {
       "id": 28,
       "indicador_id": "dmo_cadera_trabecular",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "120-180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1148,7 +1148,7 @@
     {
       "id": 29,
       "indicador_id": "dmo_calcaneo",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "120-180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1165,12 +1165,12 @@
       "dias_hasta_efecto": null,
       "n": 14,
       "fuente_id": "lang2004",
-      "hallazgo": "Calcaneo -0,4%/mes."
+      "hallazgo": "Calcáneo -0,4%/mes."
     },
     {
       "id": 30,
       "indicador_id": "dmo_cadera",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1187,12 +1187,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "nasaBoneEvidence2017",
-      "hallazgo": "Perdida promedio de 1-1,5%/mes en sitios de carga; gran variacion entre sitios y tripulantes."
+      "hallazgo": "Pérdida promedio de 1-1,5%/mes en sitios de carga; gran variación entre sitios y tripulantes."
     },
     {
       "id": 31,
       "indicador_id": "dmo_cadera",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1214,7 +1214,7 @@
     {
       "id": 32,
       "indicador_id": "musculo_pantorrilla_vol",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1231,12 +1231,12 @@
       "dias_hasta_efecto": null,
       "n": 9,
       "fuente_id": "trappe2009",
-      "hallazgo": "Volumen de pantorrilla -13±2% (soleo -15%, gastrocnemio -10%)."
+      "hallazgo": "Volumen de pantorrilla -13±2% (sóleo -15%, gastrocnemio -10%)."
     },
     {
       "id": 33,
       "indicador_id": "musculo_potencia",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1253,12 +1253,12 @@
       "dias_hasta_efecto": null,
       "n": 9,
       "fuente_id": "trappe2009",
-      "hallazgo": "Potencia maxima -32% tras el vuelo."
+      "hallazgo": "Potencia máxima -32% tras el vuelo."
     },
     {
       "id": 34,
       "indicador_id": "masa_corporal",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1297,12 +1297,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "laurens2019",
-      "hallazgo": "Modelo lineal sobre 619 misiones: -2,4% por cada 100 dias (Matsumoto 2011)."
+      "hallazgo": "Modelo lineal sobre 619 misiones: -2,4% por cada 100 días (Matsumoto 2011)."
     },
     {
       "id": 36,
       "indicador_id": "ingesta_energia",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1319,12 +1319,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "smith2005",
-      "hallazgo": "Los tripulantes consumen en promedio 80% de la energia recomendada."
+      "hallazgo": "Los tripulantes consumen en promedio 80% de la energía recomendada."
     },
     {
       "id": 37,
       "indicador_id": "ejercicio_carga",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1341,12 +1341,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "exerciseLoading",
-      "hallazgo": "Carga real promedio 43 min/dia frente a 146,8 min asignados."
+      "hallazgo": "Carga real promedio 43 min/día frente a 146,8 min asignados."
     },
     {
       "id": 38,
       "indicador_id": "volumen_plasmatico",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1360,15 +1360,15 @@
       "cambio_max": null,
       "cambio_unidad": "%",
       "tendencia": "baja",
-      "dias_hasta_efecto": "primeros dias",
+      "dias_hasta_efecto": "primeros días",
       "n": null,
       "fuente_id": "trudel2022",
-      "hallazgo": "Se pierde ~10% del liquido de los vasos sanguineos al llegar al espacio."
+      "hallazgo": "Se pierde ~10% del líquido de los vasos sanguíneos al llegar al espacio."
     },
     {
       "id": 39,
       "indicador_id": "hemolisis",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1385,12 +1385,12 @@
       "dias_hasta_efecto": null,
       "n": 14,
       "fuente_id": "trudel2022",
-      "hallazgo": "54% mas destruccion de globulos rojos (3 vs 2 millones/s) durante toda la mision."
+      "hallazgo": "54% más destrucción de glóbulos rojos (3 vs 2 millones/s) durante toda la misión."
     },
     {
       "id": 40,
       "indicador_id": "hemolisis",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1407,12 +1407,12 @@
       "dias_hasta_efecto": null,
       "n": 14,
       "fuente_id": "trudel2022",
-      "hallazgo": "Un ano despues sigue 30% sobre el nivel pre-vuelo; globulos rojos normales a los 3-4 meses."
+      "hallazgo": "Un año después sigue 30% sobre el nivel pre-vuelo; glóbulos rojos normales a los 3-4 meses."
     },
     {
       "id": 41,
       "indicador_id": "anemia_aterrizaje",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "~180",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1451,7 +1451,7 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "crewdose2024",
-      "hallazgo": "Dosis efectiva ~0,2 a ~0,5 mSv/dia o mas."
+      "hallazgo": "Dosis efectiva ~0,2 a ~0,5 mSv/día o más."
     },
     {
       "id": 43,
@@ -1473,7 +1473,7 @@
       "dias_hasta_efecto": null,
       "n": 19,
       "fuente_id": "cucinotta2008",
-      "hallazgo": "Dosis efectiva media de 72 mSv por mision de ~6 meses."
+      "hallazgo": "Dosis efectiva media de 72 mSv por misión de ~6 meses."
     },
     {
       "id": 44,
@@ -1495,12 +1495,12 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "nasaStd3001Radiation",
-      "hallazgo": "Limite de carrera 600 mSv; 250 mSv por evento solar de particulas."
+      "hallazgo": "Límite de carrera 600 mSv; 250 mSv por evento solar de partículas."
     },
     {
       "id": 45,
       "indicador_id": "sans",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1517,7 +1517,7 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "sans",
-      "hallazgo": "~66% de astronautas de larga duracion muestran signos tempranos de SANS."
+      "hallazgo": "~66% de astronautas de larga duración muestran signos tempranos de SANS."
     },
     {
       "id": 46,
@@ -1539,7 +1539,7 @@
       "dias_hasta_efecto": null,
       "n": null,
       "fuente_id": "herpes2019",
-      "hallazgo": "61% de astronautas de la ISS eliminan herpesvirus reactivados; pocos con sintomas."
+      "hallazgo": "61% de astronautas de la ISS eliminan herpesvirus reactivados; pocos con síntomas."
     },
     {
       "id": 47,
@@ -1566,7 +1566,7 @@
     {
       "id": 48,
       "indicador_id": "funcion_sensoriomotora",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "larga",
       "fase": "post_vuelo",
       "valor_pre": null,
@@ -1583,12 +1583,12 @@
       "dias_hasta_efecto": "1-7 post",
       "n": null,
       "fuente_id": "fieldTest",
-      "hallazgo": "Un dia tras aterrizar el circuito funcional tarda 48% mas; deficits hasta una semana."
+      "hallazgo": "Un día tras aterrizar el circuito funcional tarda 48% más; déficits hasta una semana."
     },
     {
       "id": 49,
       "indicador_id": "masa_corporal_twins",
-      "mision": "ISS larga duracion",
+      "mision": "ISS larga duración",
       "duracion_dias": "340",
       "fase": "vuelo",
       "valor_pre": null,
@@ -1605,7 +1605,7 @@
       "dias_hasta_efecto": null,
       "n": 1,
       "fuente_id": "twins2019",
-      "hallazgo": "Baja masa corporal, distension carotidea y mayor grosor intima-media, cambios oculares, de expresion genica y cognitivos; la mayoria vuelve a niveles pre-vuelo."
+      "hallazgo": "Baja masa corporal, distensión carotídea y mayor grosor íntima-media, cambios oculares, de expresión génica y cognitivos; la mayoría vuelve a niveles pre-vuelo."
     }
   ],
   "parametros_simulacion": [
@@ -1620,7 +1620,7 @@
       "dias_hasta_estable": null,
       "fuente_id": "fraser2011",
       "origen": "medido",
-      "nota": "Sin cambio real; usar la linea base de cada persona."
+      "nota": "Sin cambio real; usar la línea base de cada persona."
     },
     {
       "indicador_id": "fc_diurna",
@@ -1646,7 +1646,7 @@
       "dias_hasta_estable": 7.0,
       "fuente_id": "aha2019",
       "origen": "medido",
-      "nota": "dias_hasta_estable es supuesto: el desplazamiento de fluidos ocurre en los primeros dias."
+      "nota": "días_hasta_estable es supuesto: el desplazamiento de fluidos ocurre en los primeros días."
     },
     {
       "indicador_id": "pad_24h",
@@ -1659,7 +1659,7 @@
       "dias_hasta_estable": null,
       "fuente_id": "aha2019",
       "origen": "medido",
-      "nota": "Sin cambio: mantener la linea base."
+      "nota": "Sin cambio: mantener la línea base."
     },
     {
       "indicador_id": "dip_nocturno_pa",
@@ -1685,7 +1685,7 @@
       "dias_hasta_estable": 75.0,
       "fuente_id": "stahn2017",
       "origen": "medido",
-      "nota": "Rampa gradual ~2,5 meses; un umbral fijo de fiebre en 38 °C daria falsos positivos."
+      "nota": "Rampa gradual ~2,5 meses; un umbral fijo de fiebre en 38 °C daría falsos positivos."
     },
     {
       "indicador_id": "sueno_duracion",
@@ -1698,7 +1698,7 @@
       "dias_hasta_estable": null,
       "fuente_id": "barger2014",
       "origen": "medido",
-      "nota": "Valor de Tierra = periodo de entrenamiento (<6,5 h)."
+      "nota": "Valor de Tierra = período de entrenamiento (<6,5 h)."
     },
     {
       "indicador_id": "dmo_columna",
@@ -1737,7 +1737,7 @@
       "dias_hasta_estable": null,
       "fuente_id": "trappe2009",
       "origen": "supuesto",
-      "nota": "Solo se midio pre/post (6 meses); la tasa lineal 13%/6 es un supuesto."
+      "nota": "Solo se midió pre/post (6 meses); la tasa lineal 13%/6 es un supuesto."
     },
     {
       "indicador_id": "masa_corporal",
@@ -1750,7 +1750,7 @@
       "dias_hasta_estable": null,
       "fuente_id": "laurens2019",
       "origen": "medido",
-      "nota": "Derivado de -2,4% por 100 dias (Matsumoto 2011)."
+      "nota": "Derivado de -2,4% por 100 días (Matsumoto 2011)."
     },
     {
       "indicador_id": "volumen_plasmatico",
@@ -1763,7 +1763,7 @@
       "dias_hasta_estable": 3.0,
       "fuente_id": "trudel2022",
       "origen": "supuesto",
-      "nota": "dias_hasta_estable es supuesto ('al llegar al espacio')."
+      "nota": "días_hasta_estable es supuesto ('al llegar al espacio')."
     },
     {
       "indicador_id": "radiacion_tasa",
@@ -1776,18 +1776,18 @@
       "dias_hasta_estable": null,
       "fuente_id": "crewdose2024",
       "origen": "medido",
-      "nota": "Rango 0,2-0,5 mSv/dia; 0,35 es el punto medio."
+      "nota": "Rango 0,2-0,5 mSv/día; 0,35 es el punto medio."
     }
   ],
   "datasets": [
     {
       "id": "osdr_i4",
-      "nombre": "Inspiration4 (SOMA): omica, clinica e inmune; datos procesados",
+      "nombre": "Inspiration4 (SOMA): ómica, clínica e inmune; datos procesados",
       "repositorio": "NASA OSDR",
       "acceso": "publico",
       "entorno": "vuelo",
-      "misiones": "Inspiration4 (3 dias, 2021)",
-      "variables": "Sangre, orina, saliva, piel, hisopados; ECG/FC/SpO2/sueno con Apple Watch en el estudio",
+      "misiones": "Inspiration4 (3 días, 2021)",
+      "variables": "Sangre, orina, saliva, piel, hisopados; ECG/FC/SpO2/sueño con Apple Watch en el estudio",
       "url": "https://www.nasa.gov/osdr-latest-news-soma-publications",
       "nota": "Crudos e identificables requieren solicitud aprobada."
     },
@@ -1797,7 +1797,7 @@
       "repositorio": "NASA OSDR",
       "acceso": "publico",
       "entorno": "vuelo",
-      "misiones": "ISS, orbita lunar, Marte",
+      "misiones": "ISS, órbita lunar, Marte",
       "variables": "Dosis absorbida (µGy/h)",
       "url": "https://visualization.osdr.nasa.gov/radlab/",
       "nota": "Ya usado en la app."
@@ -1809,9 +1809,9 @@
       "acceso": "solicitud",
       "entorno": "vuelo",
       "misiones": "Expediciones 58-73",
-      "variables": "FC, PA diastolica media, mareo, equilibrio, sentarse-levantarse",
+      "variables": "FC, PA diastólica media, mareo, equilibrio, sentarse-levantarse",
       "url": "https://nlsp.nasa.gov/explore?search=Spaceflight%20Standard%20Measures&dataType=EXPERIMENTS",
-      "nota": "Recoleccion en curso."
+      "nota": "Recolección en curso."
     },
     {
       "id": "nlsp_skylab",
@@ -1820,9 +1820,9 @@
       "acceso": "solicitud",
       "entorno": "vuelo",
       "misiones": "Skylab 2, 3, 4",
-      "variables": "Calcio, masa osea, masa magra, sueno, enfermedades, radiacion, microbiologia",
+      "variables": "Calcio, masa ósea, masa magra, sueño, enfermedades, radiación, microbiología",
       "url": "https://nlsp.nasa.gov/explore?search=Skylab%20Crew%20Health&dataType=EXPERIMENTS",
-      "nota": "Parte publica y parte con privacidad."
+      "nota": "Parte pública y parte con privacidad."
     },
     {
       "id": "nlsp_venoarteriolar",
@@ -1831,7 +1831,7 @@
       "acceso": "solicitud",
       "entorno": "vuelo",
       "misiones": "Expediciones 3-5",
-      "variables": "Flujo sanguineo, presion arterial, FC",
+      "variables": "Flujo sanguíneo, presión arterial, FC",
       "url": "https://nlsp.nasa.gov/explore?search=96-E290&dataType=EXPERIMENTS",
       "nota": null
     },
@@ -1842,7 +1842,7 @@
       "acceso": "solicitud",
       "entorno": "vuelo",
       "misiones": "Expediciones 27-32",
-      "variables": "FC, fuerza de reaccion, carga externa, velocidad",
+      "variables": "FC, fuerza de reacción, carga externa, velocidad",
       "url": "https://nlsp.nasa.gov/explore?search=Kinematics_T2&dataType=EXPERIMENTS",
       "nota": null
     },
@@ -1866,7 +1866,7 @@
       "misiones": "HERA Campaign 3",
       "variables": "PA, FC, SpO2, frecuencia respiratoria, temperatura de piel, actividad, carga de trabajo",
       "url": "https://nlsp.nasa.gov/explore?search=Wearable_Bio_Monitor&dataType=EXPERIMENTS",
-      "nota": "El mas parecido a un monitor de signos vitales, pero en analogo terrestre."
+      "nota": "El más parecido a un monitor de signos vitales, pero en análogo terrestre."
     },
     {
       "id": "nlsp_oawss",
@@ -1875,7 +1875,7 @@
       "acceso": "solicitud",
       "entorno": "analogo_tierra",
       "misiones": "Tierra",
-      "variables": "ECG, FC, frecuencia respiratoria, temperatura de piel, respuesta galvanica, sueno, animo",
+      "variables": "ECG, FC, frecuencia respiratoria, temperatura de piel, respuesta galvánica, sueño, ánimo",
       "url": "https://nlsp.nasa.gov/explore?search=OAWSS_Evaluation&dataType=EXPERIMENTS",
       "nota": null
     },
@@ -1886,9 +1886,9 @@
       "acceso": "solicitud",
       "entorno": "vuelo",
       "misiones": "Todas",
-      "variables": "Salud clinica de largo plazo",
+      "variables": "Salud clínica de largo plazo",
       "url": "https://nlsp.nasa.gov/explore?search=LSAH&dataType=EXPERIMENTS",
-      "nota": "Recoleccion en curso."
+      "nota": "Recolección en curso."
     },
     {
       "id": "nlsp_24h_bp_hr",

@@ -8,7 +8,7 @@ Escribe astronaut_health.db, astronaut_health.json y csv/<tabla>.csv en esta mis
 Todos los valores vienen de estudios publicados (tabla `fuentes`).
 Los campos marcados como 'supuesto' en parametros_simulacion NO son medidos.
 """
-import argparse, csv, json, sqlite3, pathlib
+import argparse, csv, json, re, sqlite3, pathlib
 
 parser = argparse.ArgumentParser(description="Genera la base de datos de efectos del vuelo espacial")
 parser.add_argument("--ts", type=pathlib.Path, help="ruta donde escribir un modulo TypeScript tipado (opcional)")
@@ -96,7 +96,7 @@ FUENTES = [
     # id, cita, anio, tipo, n, url, evidence_id_app
     ("norsk2015", "Norsk et al., J Physiol 593(3):573-584 (CARD, ISS)", 2015, "articulo", 8,
      "https://pmc.ncbi.nlm.nih.gov/articles/PMC4324706/", None),
-    ("aha2019", "Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts (American Heart Association, 2019)", 2019, "articulo", 12,
+    ("aha2019", "Fu, Levine et al., Circulation 2019 (AHA), Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts", 2019, "articulo", 12,
      "https://neurosciencenews.com/fainting-astronauts-exercise-14528/", None),
     ("fraser2011", "Fraser, Greaves, Blaber et al., IAC-11 (CCISS, ISS 55-199 d)", 2011, "conferencia", 7,
      "https://iafastro.directory/iac/archive/browse/IAC-11/A1/2/9471/", None),
@@ -365,15 +365,38 @@ DATASETS = [
      "Estudio internacional que no archivo datos en LSDA."),
 ]
 
+
+# Tildes para los textos que se muestran (los ids y nombres de columna no se tocan)
+ACENTOS = {'actigrafia': 'actigrafía', 'algun': 'algún', 'analogo': 'análogo', 'animo': 'ánimo', 'ano': 'año', 'asociada': 'asociada', 'autonomica': 'autonómica', 'autonomico': 'autonómico', 'caida': 'caída', 'calcaneo': 'calcáneo', 'calculada': 'calculada', 'cardiaca': 'cardíaca', 'cardiaco': 'cardíaco', 'carotidea': 'carotídea', 'clinica': 'clínica', 'corazon': 'corazón', 'daria': 'daría', 'deficits': 'déficits', 'desempeno': 'desempeño', 'despues': 'después', 'destruccion': 'destrucción', 'dia': 'día', 'diastolica': 'diastólica', 'dias': 'días', 'dinamometria': 'dinamometría', 'distension': 'distensión', 'dormian': 'dormían', 'dosimetria': 'dosimetría', 'dosimetro': 'dosímetro', 'duracion': 'duración', 'ecografia': 'ecografía', 'energetica': 'energética', 'energia': 'energía', 'expresion': 'expresión', 'extrasistoles': 'extrasístoles', 'fisiologia': 'fisiología', 'galvanica': 'galvánica', 'genica': 'génica', 'globulos': 'glóbulos', 'hipotension': 'hipotensión', 'intima': 'íntima', 'limite': 'límite', 'linea': 'línea', 'liquido': 'líquido', 'manana': 'mañana', 'mas': 'más', 'maxima': 'máxima', 'mayoria': 'mayoría', 'medicacion': 'medicación', 'microbiologia': 'microbiología', 'midio': 'midió', 'mision': 'misión', 'misiones': 'misiones', 'multiomica': 'multiómica', 'muneca': 'muñeca', 'nutricion': 'nutrición', 'oftalmologico': 'oftalmológico', 'omica': 'ómica', 'orbita': 'órbita', 'ortostatica': 'ortostática', 'oscilometria': 'oscilometría', 'osea': 'ósea', 'oseo': 'óseo', 'particulas': 'partículas', 'perdida': 'pérdida', 'periodo': 'período', 'plasmatico': 'plasmático', 'presincope': 'presíncope', 'presion': 'presión', 'publica': 'pública', 'radiacion': 'radiación', 'rapido': 'rápido', 'reaccion': 'reacción', 'reactivacion': 'reactivación', 'recoleccion': 'recolección', 'regulacion': 'regulación', 'reinhalacion': 'reinhalación', 'sanguineo': 'sanguíneo', 'sanguineos': 'sanguíneos', 'sindrome': 'síndrome', 'sintomas': 'síntomas', 'sistemica': 'sistémica', 'sistolica': 'sistólica', 'sistolico': 'sistólico', 'soleo': 'sóleo', 'solo': 'solo', 'somniferos': 'somníferos', 'sueno': 'sueño', 'termorregulacion': 'termorregulación', 'variacion': 'variación', 'vision': 'visión'}
+_ACENTO_RE = re.compile(r"[A-Za-z]+")
+def acentuar(texto):
+    if not isinstance(texto, str):
+        return texto
+    def rep(m):
+        w = m.group(0); a = ACENTOS.get(w.lower())
+        if not a: return w
+        return a[0].upper() + a[1:] if w[0].isupper() else a
+    return _ACENTO_RE.sub(rep, texto)
+
+TEXTO = {
+    "indicadores": {1, 4},          # nombre, como_se_mide
+    "efectos": {1, 2, 15, 18},      # mision, duracion_dias, dias_hasta_efecto, hallazgo
+    "parametros_simulacion": {10},  # nota
+    "datasets": {1, 5, 6, 8},       # nombre, misiones, variables, nota
+}
+def con_tildes(tabla, filas):
+    cols = TEXTO[tabla]
+    return [tuple(acentuar(v) if i in cols else v for i, v in enumerate(f)) for f in filas]
+
 con = sqlite3.connect(DB)
 con.executescript(SCHEMA)
 con.executemany("INSERT INTO fuentes VALUES (?,?,?,?,?,?,?)", FUENTES)
-con.executemany("INSERT INTO indicadores VALUES (?,?,?,?,?)", INDICADORES)
+con.executemany("INSERT INTO indicadores VALUES (?,?,?,?,?)", con_tildes("indicadores", INDICADORES))
 con.executemany("""INSERT INTO efectos (indicador_id, mision, duracion_dias, fase, valor_pre, de_pre, valor_vuelo, de_vuelo,
   valor_post, de_post, cambio, cambio_min, cambio_max, cambio_unidad, tendencia, dias_hasta_efecto, n, fuente_id, hallazgo)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", E)
-con.executemany("INSERT INTO parametros_simulacion VALUES (?,?,?,?,?,?,?,?,?,?,?)", PARAMS)
-con.executemany("INSERT INTO datasets VALUES (?,?,?,?,?,?,?,?,?)", DATASETS)
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", con_tildes("efectos", E))
+con.executemany("INSERT INTO parametros_simulacion VALUES (?,?,?,?,?,?,?,?,?,?,?)", con_tildes("parametros_simulacion", PARAMS))
+con.executemany("INSERT INTO datasets VALUES (?,?,?,?,?,?,?,?,?)", con_tildes("datasets", DATASETS))
 con.commit()
 
 # Exportaciones

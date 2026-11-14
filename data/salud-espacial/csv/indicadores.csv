@@ -1,40 +1,40 @@
 ﻿id,nombre,sistema,unidad,como_se_mide
-fc_nocturna,Frecuencia cardiaca nocturna,cardiovascular,lpm,Holter 24 h
-fc_diurna,Frecuencia cardiaca en actividad diaria,cardiovascular,lpm,Holter 24 h
-fc_24h,Frecuencia cardiaca (24 h / reposo),cardiovascular,lpm,Holter u oscilometria
-vfc,Variabilidad de la frecuencia cardiaca (control autonomico),cardiovascular,,Holter 24 h
-pas_24h,Presion arterial sistolica 24 h,cardiovascular,mmHg,Monitor ambulatorio latido a latido
-pad_24h,Presion arterial diastolica 24 h,cardiovascular,mmHg,Monitor ambulatorio
-pam_24h,Presion arterial media 24 h,cardiovascular,mmHg,Monitor ambulatorio braquial
-dip_nocturno_pa,Caida nocturna de la presion arterial,cardiovascular,mmHg,Monitor ambulatorio
-gasto_cardiaco,Gasto cardiaco,cardiovascular,L/min,Reinhalacion
-volumen_sistolico,Volumen sistolico,cardiovascular,mL,Reinhalacion
-resistencia_vascular,Resistencia vascular sistemica,cardiovascular,,Calculada
-baroreflejo,Sensibilidad del baroreflejo arterial,cardiovascular,ms/mmHg,Presion de dedo + ECG
-tolerancia_ortostatica,Tolerancia ortostatica al regreso,cardiovascular,,Prueba de pie / actividad diaria
-flujo_yugular,Flujo en vena yugular interna,cardiovascular,,Ecografia
+fc_nocturna,Frecuencia cardíaca nocturna,cardiovascular,lpm,Holter 24 h
+fc_diurna,Frecuencia cardíaca en actividad diaria,cardiovascular,lpm,Holter 24 h
+fc_24h,Frecuencia cardíaca (24 h / reposo),cardiovascular,lpm,Holter u oscilometría
+vfc,Variabilidad de la frecuencia cardíaca (control autonómico),cardiovascular,,Holter 24 h
+pas_24h,Presión arterial sistólica 24 h,cardiovascular,mmHg,Monitor ambulatorio latido a latido
+pad_24h,Presión arterial diastólica 24 h,cardiovascular,mmHg,Monitor ambulatorio
+pam_24h,Presión arterial media 24 h,cardiovascular,mmHg,Monitor ambulatorio braquial
+dip_nocturno_pa,Caída nocturna de la presión arterial,cardiovascular,mmHg,Monitor ambulatorio
+gasto_cardiaco,Gasto cardíaco,cardiovascular,L/min,Reinhalación
+volumen_sistolico,Volumen sistólico,cardiovascular,mL,Reinhalación
+resistencia_vascular,Resistencia vascular sistémica,cardiovascular,,Calculada
+baroreflejo,Sensibilidad del baroreflejo arterial,cardiovascular,ms/mmHg,Presión de dedo + ECG
+tolerancia_ortostatica,Tolerancia ortostática al regreso,cardiovascular,,Prueba de pie / actividad diaria
+flujo_yugular,Flujo en vena yugular interna,cardiovascular,,Ecografía
 temp_central_reposo,Temperatura corporal central en reposo,termorregulacion,°C,Sensor de flujo de calor en frente (Double Sensor)
 temp_central_ejercicio,Temperatura corporal central en ejercicio,termorregulacion,°C,Sensor de flujo de calor en frente
-sueno_duracion,Duracion del sueno,sueno,h/noche,Actigrafia de muneca + diario
-sueno_noches_7h,Noches con 7 h de sueno o mas,sueno,%,Actigrafia
-sueno_medicacion,Uso de medicacion para dormir,sueno,% tripulantes,Diario
-dmo_columna,"Densidad mineral osea, columna lumbar",oseo,%,DXA
-dmo_cadera,"Densidad mineral osea, cadera",oseo,%,DXA
+sueno_duracion,Duración del sueño,sueno,h/noche,Actigrafía de muñeca + diario
+sueno_noches_7h,Noches con 7 h de sueño o más,sueno,%,Actigrafía
+sueno_medicacion,Uso de medicación para dormir,sueno,% tripulantes,Diario
+dmo_columna,"Densidad mineral ósea, columna lumbar",oseo,%,DXA
+dmo_cadera,"Densidad mineral ósea, cadera",oseo,%,DXA
 dmo_cadera_trabecular,Hueso trabecular de cadera (vBMD),oseo,%,QCT
-dmo_calcaneo,"Densidad mineral osea, calcaneo",oseo,%,DXA
+dmo_calcaneo,"Densidad mineral ósea, calcáneo",oseo,%,DXA
 musculo_pantorrilla_vol,Volumen muscular de pantorrilla,muscular,%,MRI
-musculo_potencia,Potencia maxima de pantorrilla,muscular,%,Dinamometria
+musculo_potencia,Potencia máxima de pantorrilla,muscular,%,Dinamometría
 masa_corporal,Masa corporal,nutricion,%,Balanza de masa en vuelo
-ingesta_energia,Ingesta energetica respecto a la recomendada,nutricion,%,Registro de dieta
+ingesta_energia,Ingesta energética respecto a la recomendada,nutricion,%,Registro de dieta
 ejercicio_carga,Tiempo de ejercicio con carga,actividad,min/dia,Registros de equipos
-volumen_plasmatico,Volumen plasmatico,sangre,%,Calculado
-hemolisis,Destruccion de globulos rojos,sangre,%,CO exhalado
+volumen_plasmatico,Volumen plasmático,sangre,%,Calculado
+hemolisis,Destrucción de glóbulos rojos,sangre,%,CO exhalado
 anemia_aterrizaje,Anemia al aterrizar,sangre,tripulantes,Hemograma
-radiacion_tasa,Dosis efectiva diaria,radiacion,mSv/dia,Dosimetro personal
-radiacion_mision,Dosis efectiva por mision de 6 meses,radiacion,mSv,Dosimetria + modelos
-radiacion_limite,Limite de carrera NASA,radiacion,mSv,Norma
-sans,Sindrome neuro-ocular asociado al vuelo (SANS),vision,% tripulantes,Examen oftalmologico/OCT
-herpes_reactivacion,Reactivacion de herpesvirus,inmune,% tripulantes,Saliva/orina
+radiacion_tasa,Dosis efectiva diaria,radiacion,mSv/dia,Dosímetro personal
+radiacion_mision,Dosis efectiva por misión de 6 meses,radiacion,mSv,Dosimetría + modelos
+radiacion_limite,Límite de carrera NASA,radiacion,mSv,Norma
+sans,Síndrome neuro-ocular asociado al vuelo (SANS),vision,% tripulantes,Examen oftalmológico/OCT
+herpes_reactivacion,Reactivación de herpesvirus,inmune,% tripulantes,Saliva/orina
 co2_cefalea,Cefalea asociada a CO2 de cabina,ambiente,odds ratio por mmHg,Sensores de cabina + reportes
-funcion_sensoriomotora,Desempeno funcional/sensoriomotor al aterrizar,sensoriomotor,%,Field Test
-masa_corporal_twins,Cambios multisistema (Twins Study),multisistema,,Multiomica + fisiologia
+funcion_sensoriomotora,Desempeño funcional/sensoriomotor al aterrizar,sensoriomotor,%,Field Test
+masa_corporal_twins,Cambios multisistema (Twins Study),multisistema,,Multiómica + fisiología
