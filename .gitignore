@@ -1,0 +1,15 @@
+# Secretos
+.env
+*.key
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# Python / Node
+__pycache__/
+.venv/
+node_modules/
+# Engram: SOLO se versionan los chunks y el manifest; revisar antes de commit
+.engram/*.db
+.engram/*.db-*
