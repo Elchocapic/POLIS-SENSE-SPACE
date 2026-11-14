@@ -1,7 +1,7 @@
 # Convenciones del equipo
 
 ## Memoria (Engram)
-- **Un solo proyecto**: `nasa-space-app` (no cambiarlo; la memoria se separa por nombre de proyecto).
+- **Un solo proyecto**: `polis-sense-space` (no cambiarlo; la memoria se separa por nombre de proyecto).
 - **Un solo idioma** para memorias compartidas (acordar: español o inglés). La búsqueda no cruza idiomas.
 - `scope: project` → decisiones, bugs, convenciones, datos del reto (útil para todos).
 - `scope: personal` → notas propias. **Ojo:** el scope NO evita la sincronización. Para notas realmente privadas, usar otro proyecto de Engram y no subirlo.

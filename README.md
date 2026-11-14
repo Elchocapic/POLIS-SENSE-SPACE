@@ -1,4 +1,4 @@
-# Nasa Space App
+# POLIS SENSE SPACE
 
 Repositorio compartido del equipo. Metodología: **Spec Kit** (specs → plan → tareas → código). Memoria del agente compartida con **Engram** vía Git Sync.
 
