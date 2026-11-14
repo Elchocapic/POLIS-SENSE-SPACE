@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POLIS SENSE SPACE prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: consola con pestañas; "Mi estado" en tres columnas (cuerpo | lecturas | qué hacer), se apila en móvil. */
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --ink:#18222d; --muted:#5b6876; --line:#d3dae1;
+  --accent:#1f6f8b; --accent-ink:#ffffff;
+  --ok:#3d8f63; --warn:#c98a12; --crit:#c8372d; --idle:#c9d1d9;
+  --warn-bg:#fbf1da; --crit-bg:#fbe3e0; --band:#dfe9ee;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#10161d; --panel:#18212b; --ink:#e6ecf2; --muted:#93a1af; --line:#2b3744;
+    --accent:#58b3cf; --accent-ink:#0c1318;
+    --ok:#56b384; --warn:#e0a83a; --crit:#ef6257; --idle:#3a4856;
+    --warn-bg:#33290f; --crit-bg:#3a1a17; --band:#22303c;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#10161d; --panel:#18212b; --ink:#e6ecf2; --muted:#93a1af; --line:#2b3744;
+  --accent:#58b3cf; --accent-ink:#0c1318;
+  --ok:#56b384; --warn:#e0a83a; --crit:#ef6257; --idle:#3a4856;
+  --warn-bg:#33290f; --crit-bg:#3a1a17; --band:#22303c;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;letter-spacing:.02em;text-wrap:balance}
+h1{font-size:30px;text-transform:uppercase}
+h2{font-size:20px;text-transform:uppercase;color:var(--muted)}
+h3{font-size:22px}
+p{margin:0}
+a{color:var(--accent)}
+.wrap{max-width:1240px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.sub{color:var(--muted)}
+.notice{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);padding:8px 12px;border-radius:6px;color:var(--muted);font-size:13.5px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rowlabel{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:88px}
+button{font:inherit;cursor:pointer;color:var(--ink)}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.crew{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 14px;text-align:left;display:flex;gap:10px;align-items:center}
+.crew small{display:block;color:var(--muted)}
+.crew[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ok);flex:none}
+.dot.s1{background:var(--warn)} .dot.s2{background:var(--crit)}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:2px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:8px 14px;font-family:var(--display);font-size:19px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:270px minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:start}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+@media (max-width:980px){.grid,.grid2{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:600;border:1px solid var(--line)}
+.pill::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--ok)}
+.pill.s1::before{background:var(--warn)} .pill.s2::before{background:var(--crit)}
+svg.body{width:100%;max-width:230px;align-self:center;height:auto}
+.zone{fill:var(--idle);stroke:var(--panel);stroke-width:3;cursor:pointer;transition:fill .2s}
+.zone.s0{fill:var(--ok)} .zone.s1{fill:var(--warn)} .zone.s2{fill:var(--crit)}
+.zone.sel{stroke:var(--ink)}
+.zone.s2{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){.zone.s2{animation:none}}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.field{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:4px 10px;align-items:center}
+.field label{font-weight:500}
+.field small{grid-column:1/-1;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.field input[type=number],.ask input{width:100%;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+.field input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.field.dev label::after{content:" ▲";color:var(--warn);font-size:11px}
+hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
+.alert{border:1px solid var(--line);border-left:5px solid var(--warn);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;background:var(--warn-bg)}
+.alert.s2{border-left-color:var(--crit);background:var(--crit-bg)}
+.alert.s0{border-left-color:var(--accent);background:var(--panel)}
+.alert.hit{box-shadow:0 0 0 2px var(--ink)}
+.alert .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;align-items:baseline}
+.alert h4{margin:6px 0 0;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.alert ol,.alert ul{margin:0;padding-left:20px}
+.alert ul.chk{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:4px 12px}
+.chk label{display:flex;gap:7px;align-items:flex-start;cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--accent)}
+.ready{font-size:13px;font-weight:600}
+.src{font-size:12.5px;color:var(--muted)}
+.empty{color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:18px;text-align:center}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tcard .val{font-family:var(--display);font-size:28px;font-variant-numeric:tabular-nums;line-height:1.1}
+.tcard .val small{font-family:var(--body);font-size:13px;color:var(--muted)}
+.tcard svg{width:100%;height:auto}
+.bar{height:14px;border-radius:7px;background:var(--band);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.bar.down i{background:var(--warn)}
+.pad{border:0;border-radius:10px;min-height:150px;font-family:var(--display);font-size:26px;text-transform:uppercase;background:var(--band);color:var(--ink);width:100%}
+.pad.go{background:var(--ok);color:#fff}
+.pad.wait{background:var(--crit-bg)}
+.primary{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:8px 16px;font-weight:600}
+.ask{display:flex;gap:8px}
+.ask input{flex:1}
+.sym{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 12px}
+.sym label{display:flex;gap:7px;cursor:pointer}
+.sym input{accent-color:var(--accent)}
+.ef{border:1px solid var(--line);border-radius:8px;padding:10px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+.ef strong{font-weight:600}
+.ef .trend{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ef .trend.up{color:var(--crit)} .ef .trend.down{color:var(--warn)} .ef .trend.eq{color:var(--ok)}
+.ef p,.ef .src{grid-column:1/-1}
+.tag{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>POLIS SENSE SPACE</h1>
+      <p class="sub">Monitoreo de salud del astronauta · día de misión <span id="diaMision">14</span></p>
+    </div>
+    <span id="estado" class="pill">Sin novedades</span>
+  </header>
+
+  <div class="notice">Prototipo con datos simulados o ingresados a mano. No es un dispositivo médico. Los cambios propios del vuelo (presión, temperatura, sueño, hueso, músculo, radiación) siguen valores publicados de estudios en la ISS (pestaña <em>Datos del vuelo</em>). La tripulación es ficticia y los pasos y materiales de los procedimientos son de ejemplo: deben reemplazarse por protocolos citados.</div>
+
+  <div class="row" role="group" aria-label="Tripulación"><span class="rowlabel">Tripulante</span><span id="crew" class="row"></span></div>
+  <div class="row" id="dias" role="group" aria-label="Día de misión">
+    <span class="rowlabel">Día de misión</span>
+    <button type="button" class="chip" data-d="14">14</button>
+    <button type="button" class="chip" data-d="60">60</button>
+    <button type="button" class="chip" data-d="120">120</button>
+    <button type="button" class="chip" data-d="180">180</button>
+  </div>
+  <div class="row" id="scen" role="group" aria-label="Escenarios simulados">
+    <span class="rowlabel">Simular</span>
+    <button type="button" class="chip" data-s="normal">Día normal</button>
+    <button type="button" class="chip" data-s="brazo">Lesión de brazo</button>
+    <button type="button" class="chip" data-s="fiebre">Fiebre</button>
+    <button type="button" class="chip" data-s="co2">CO₂ alto en cabina</button>
+    <button type="button" class="chip" data-s="sueno">Falta de sueño</button>
+    <button type="button" class="chip" data-s="tormenta">Tormenta solar</button>
+    <button type="button" class="chip" data-s="animo">Aislamiento</button>
+  </div>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" role="tab" data-t="estado">Mi estado</button>
+    <button type="button" role="tab" data-t="tend">Tendencias</button>
+    <button type="button" role="tab" data-t="chequeo">Chequeo diario</button>
+    <button type="button" role="tab" data-t="asis">Asistente</button>
+    <button type="button" role="tab" data-t="datos">Datos del vuelo</button>
+  </div>
+
+  <!-- MI ESTADO -->
+  <div class="grid" id="v-estado">
+    <section class="panel" aria-label="Mapa corporal">
+      <h2>Mapa corporal</h2>
+      <svg class="body" viewBox="0 0 200 400" role="group" aria-label="Zonas del cuerpo">
+        <circle class="zone" data-z="cabeza" cx="100" cy="36" r="28" tabindex="0" role="button"/>
+        <rect class="zone" data-z="torax" x="64" y="70" width="72" height="72" rx="12" tabindex="0" role="button"/>
+        <rect class="zone" data-z="abdomen" x="67" y="145" width="66" height="58" rx="10" tabindex="0" role="button"/>
+        <rect class="zone" data-z="brazoD" x="33" y="74" width="26" height="130" rx="13" tabindex="0" role="button"/>
+        <rect class="zone" data-z="brazoI" x="141" y="74" width="26" height="130" rx="13" tabindex="0" role="button"/>
+        <rect class="zone" data-z="piernaD" x="68" y="207" width="30" height="180" rx="14" tabindex="0" role="button"/>
+        <rect class="zone" data-z="piernaI" x="102" y="207" width="30" height="180" rx="14" tabindex="0" role="button"/>
+      </svg>
+      <div class="legend">
+        <span><i style="background:var(--ok)"></i>Normal</span>
+        <span><i style="background:var(--warn)"></i>Vigilar</span>
+        <span><i style="background:var(--crit)"></i>Grave</span>
+      </div>
+      <p class="sub">Toca una zona para registrar dolor, inflamación y movilidad.</p>
+    </section>
+    <section class="panel" aria-label="Lecturas de hoy">
+      <h2>Lecturas de hoy</h2>
+      <div id="vitales" class="stack"></div>
+      <hr>
+      <h3 id="zonaTitulo">Zona</h3>
+      <div id="zonal" class="stack"></div>
+    </section>
+    <section class="panel" aria-label="Qué hacer">
+      <h2>Qué hacer</h2>
+      <div id="alertas" class="stack"></div>
+    </section>
+  </div>
+
+  <!-- TENDENCIAS -->
+  <div class="stack" id="v-tend" hidden>
+    <p class="sub">Últimos 14 días. La franja es tu rango normal en vuelo, calculado con los 5 primeros días de esta ventana: así los cambios esperados del vuelo no se confunden con enfermedad.</p>
+    <div class="cards" id="tcards"></div>
+    <section class="panel">
+      <h2>Cambios lentos del vuelo</h2>
+      <p class="sub">No se notan día a día, pero se acumulan. Estimación para el día de misión elegido según estudios en la ISS.</p>
+      <div class="cards" id="largo"></div>
+    </section>
+    <section class="panel">
+      <h2>Radiación acumulada</h2>
+      <div id="rad" class="stack"></div>
+    </section>
+  </div>
+
+  <!-- CHEQUEO -->
+  <div class="grid2" id="v-chequeo" hidden>
+    <section class="panel">
+      <h2>¿Cómo estás hoy?</h2>
+      <div id="chk" class="stack"></div>
+      <hr>
+      <h3>Síntomas</h3>
+      <div class="sym" id="sint"></div>
+    </section>
+    <section class="panel">
+      <h2>Test de atención</h2>
+      <p class="sub">Cinco intentos. Toca el recuadro en cuanto se ponga verde. Detecta la fatiga antes de que la notes.</p>
+      <button type="button" class="pad" id="pad">Iniciar test</button>
+      <p id="pvtRes" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <!-- ASISTENTE -->
+  <div class="stack" id="v-asis" hidden>
+    <section class="panel">
+      <h2>Asistente de procedimientos</h2>
+      <p class="sub">Funciona sin conexión. Responde solo con los procedimientos cargados en la app. No diagnostica ni receta.</p>
+      <form class="ask" id="askForm">
+        <input type="text" id="q" aria-label="Pregunta" placeholder="Ej.: qué hago si sube el CO2" autocomplete="off">
+        <button type="submit" class="primary">Preguntar</button>
+      </form>
+      <div class="row" id="sugs">
+        <button type="button" class="chip">Me golpeé el brazo, ¿qué hago?</button>
+        <button type="button" class="chip">¿Qué hago en una tormenta solar?</button>
+        <button type="button" class="chip">¿Tengo una infección?</button>
+      </div>
+      <div id="resp" class="stack"></div>
+    </section>
+  </div>
+
+  <!-- DATOS DEL VUELO -->
+  <div class="stack" id="v-datos" hidden>
+    <section class="panel">
+      <h2>Qué le pasa al cuerpo en el espacio</h2>
+      <p class="sub" id="datosResumen"></p>
+      <div class="row" id="sistemas" role="group" aria-label="Filtrar por sistema"></div>
+      <div id="efectos" class="stack"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// 0. BASE DE DATOS (generada desde data/salud-espacial/build_db.py del repositorio)
+// =====================================================================
+const BD = {"fuentes":[{"id":"norsk2015","cita":"Norsk et al., J Physiol 593(3):573-584 (CARD, ISS)","anio":2015,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC4324706/"},{"id":"aha2019","cita":"Fu, Levine et al., Circulation 2019 (AHA), Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts","anio":2019,"url":"https://neurosciencenews.com/fainting-astronauts-exercise-14528/"},{"id":"fraser2011","cita":"Fraser, Greaves, Blaber et al., IAC-11 (CCISS, ISS 55-199 d)","anio":2011,"url":"https://iafastro.directory/iac/archive/browse/IAC-11/A1/2/9471/"},{"id":"hughson2012","cita":"Hughson et al., J Appl Physiol 2012, Cardiovascular regulation during long-duration spaceflights to the ISS","anio":2012,"url":"https://www.eurekalert.org/news-releases/850481"},{"id":"shuttle24h","cita":"Holter y presion 24 h en astronautas del Transbordador (resumen en scite, J.B. Charles)","anio":1996,"url":"https://scite.ai/authors/john-b-charles-W8zrrg"},{"id":"hrv2013","cita":"Holter 24 h y variabilidad de FC en 8 astronautas de la ISS (PMC3628896)","anio":2013,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC3628896"},{"id":"stahn2017","cita":"Stahn et al., Sci Rep 7:16180, Increased core body temperature in astronauts during long-duration space missions","anio":2017,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078"},{"id":"barger2014","cita":"Barger et al., Lancet Neurol 13:904-912 (sueno en Transbordador e ISS)","anio":2014,"url":"https://www.news-medical.net/news/20140810/Space-missions-affect-sleep-patterns-in-astronauts.aspx"},{"id":"lang2004","cita":"Lang et al., J Bone Miner Res 19(6):1006-1012 (DXA/QCT, ISS 4-6 meses)","anio":2004,"url":"https://pubmed.ncbi.nlm.nih.gov/15125798/"},{"id":"sibonga2013","cita":"Sibonga, Curr Osteoporos Rep 11:92-98","anio":2013,"url":"https://springerlink.bibliotecabuap.elogim.com/content/pdf/10.1007/s11914-013-0136-5.pdf"},{"id":"nasaBoneEvidence2017","cita":"NASA HRP Evidence Report: Risk of Bone Fracture due to Spaceflight-induced Changes to Bone","anio":2017,"url":"https://ntrs.nasa.gov/api/citations/20170004597/downloads/20170004597.pdf"},{"id":"trappe2009","cita":"Trappe et al., J Appl Physiol 106(4):1159-1168 (musculo, ISS 6 meses)","anio":2009,"url":"https://epublications.marquette.edu/bio_fac/24/"},{"id":"laurens2019","cita":"Laurens et al., Front Physiol 10:321 (revision balance energetico; cita Zwart 2014 y Matsumoto 2011)","anio":2019,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC6449861"},{"id":"smith2005","cita":"Smith, Zwart et al., estado nutricional tras vuelo largo en la ISS","anio":2005,"url":"https://data.zhenzhi.com/details/1/886246903"},{"id":"trudel2022","cita":"Trudel et al., Nature Medicine 2022, Hemolysis contributes to anemia during long-duration space flight","anio":2022,"url":"https://ohri.ca/newsroom/story/view/1428?l=en"},{"id":"crewdose2024","cita":"Normas de dosis de radiacion para tripulantes de la ISS por agencia (PMC10919966)","anio":2024,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC10919966"},{"id":"cucinotta2008","cita":"Cucinotta et al., Radiat Res 170:127-138 (dosimetria de organos, ISS)","anio":2008,"url":"https://bioone.org/journals/radiation-research/volume-170/issue-1/RR1330.1/Physical-and-Biological-Organ-Dosimetry-Analysis-for-International-Space-Station/10.1667/RR1330.1.full"},{"id":"twins2019","cita":"Garrett-Bakelman et al., Science 364:eaau8650 (NASA Twins Study)","anio":2019,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC7580864"},{"id":"i4_2024","cita":"Molecular and physiological changes in the SpaceX Inspiration4 civilian crew, Nature 632:1155-1164","anio":2024,"url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997"},{"id":"penn_i4","cita":"Penn Medicine, primer estudio de una tripulacion civil (Inspiration4)","anio":2024,"url":"https://www.pennmedicine.org/news/first-study-of-civilian-space-crew-charts-course-for-research-as-commercial-flight-heats-up"},{"id":"sans","cita":"NASA clinical update on SANS, 2023; NASA-led review, 2025","anio":2023,"url":"https://ntrs.nasa.gov/citations/20220014606"},{"id":"herpes2019","cita":"Mehta, Crucian et al., Frontiers in Microbiology, 2019","anio":2019,"url":"https://public-pages-files-2025.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2019.00016/text"},{"id":"orthostatic","cita":"NASA NTRS 20080043912, post-spaceflight orthostatic intolerance","anio":2008,"url":"https://ntrs.nasa.gov/citations/20080043912"},{"id":"jugular2019","cita":"Marshall-Goebel et al., JAMA Network Open, 2019","anio":2019,"url":"https://scholarlycommons.henryford.com/surgery_articles/390"},{"id":"co2Law2014","cita":"Law et al., J Occup Environ Med, 2014","anio":2014,"url":"https://ohsonline.com/articles/2014/05/12/study-indicates-co2-may-cause-astronauts-headaches.aspx"},{"id":"fieldTest","cita":"NASA Field Test and Functional Task Test studies","url":"https://www.nasa.gov/humans-in-space/walk-the-line-nasa-studies-physical-performance-after-spaceflight"},{"id":"exerciseLoading","cita":"NASA NTRS 20110015001, on-orbit exercise loading","anio":2011,"url":"https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20110015001.pdf"},{"id":"nasaStd3001Radiation","cita":"NASA-STD-3001 Vol. 1; NASA OCHMO Radiation Protection Technical Brief","url":"https://www.nasa.gov/sites/default/files/atoms/files/radiation_protection_technical_brief_ochmo.pdf"}],"indicadores":[{"id":"fc_nocturna","nombre":"Frecuencia cardíaca nocturna","sistema":"cardiovascular","unidad":"lpm"},{"id":"fc_diurna","nombre":"Frecuencia cardíaca en actividad diaria","sistema":"cardiovascular","unidad":"lpm"},{"id":"fc_24h","nombre":"Frecuencia cardíaca (24 h / reposo)","sistema":"cardiovascular","unidad":"lpm"},{"id":"vfc","nombre":"Variabilidad de la frecuencia cardíaca (control autonómico)","sistema":"cardiovascular"},{"id":"pas_24h","nombre":"Presión arterial sistólica 24 h","sistema":"cardiovascular","unidad":"mmHg"},{"id":"pad_24h","nombre":"Presión arterial diastólica 24 h","sistema":"cardiovascular","unidad":"mmHg"},{"id":"pam_24h","nombre":"Presión arterial media 24 h","sistema":"cardiovascular","unidad":"mmHg"},{"id":"dip_nocturno_pa","nombre":"Caída nocturna de la presión arterial","sistema":"cardiovascular","unidad":"mmHg"},{"id":"gasto_cardiaco","nombre":"Gasto cardíaco","sistema":"cardiovascular","unidad":"L/min"},{"id":"volumen_sistolico","nombre":"Volumen sistólico","sistema":"cardiovascular","unidad":"mL"},{"id":"resistencia_vascular","nombre":"Resistencia vascular sistémica","sistema":"cardiovascular"},{"id":"baroreflejo","nombre":"Sensibilidad del baroreflejo arterial","sistema":"cardiovascular","unidad":"ms/mmHg"},{"id":"tolerancia_ortostatica","nombre":"Tolerancia ortostática al regreso","sistema":"cardiovascular"},{"id":"flujo_yugular","nombre":"Flujo en vena yugular interna","sistema":"cardiovascular"},{"id":"temp_central_reposo","nombre":"Temperatura corporal central en reposo","sistema":"termorregulacion","unidad":"°C"},{"id":"temp_central_ejercicio","nombre":"Temperatura corporal central en ejercicio","sistema":"termorregulacion","unidad":"°C"},{"id":"sueno_duracion","nombre":"Duración del sueño","sistema":"sueno","unidad":"h/noche"},{"id":"sueno_noches_7h","nombre":"Noches con 7 h de sueño o más","sistema":"sueno","unidad":"%"},{"id":"sueno_medicacion","nombre":"Uso de medicación para dormir","sistema":"sueno","unidad":"% tripulantes"},{"id":"dmo_columna","nombre":"Densidad mineral ósea, columna lumbar","sistema":"oseo","unidad":"%"},{"id":"dmo_cadera","nombre":"Densidad mineral ósea, cadera","sistema":"oseo","unidad":"%"},{"id":"dmo_cadera_trabecular","nombre":"Hueso trabecular de cadera (vBMD)","sistema":"oseo","unidad":"%"},{"id":"dmo_calcaneo","nombre":"Densidad mineral ósea, calcáneo","sistema":"oseo","unidad":"%"},{"id":"musculo_pantorrilla_vol","nombre":"Volumen muscular de pantorrilla","sistema":"muscular","unidad":"%"},{"id":"musculo_potencia","nombre":"Potencia máxima de pantorrilla","sistema":"muscular","unidad":"%"},{"id":"masa_corporal","nombre":"Masa corporal","sistema":"nutricion","unidad":"%"},{"id":"ingesta_energia","nombre":"Ingesta energética respecto a la recomendada","sistema":"nutricion","unidad":"%"},{"id":"ejercicio_carga","nombre":"Tiempo de ejercicio con carga","sistema":"actividad","unidad":"min/dia"},{"id":"volumen_plasmatico","nombre":"Volumen plasmático","sistema":"sangre","unidad":"%"},{"id":"hemolisis","nombre":"Destrucción de glóbulos rojos","sistema":"sangre","unidad":"%"},{"id":"anemia_aterrizaje","nombre":"Anemia al aterrizar","sistema":"sangre","unidad":"tripulantes"},{"id":"radiacion_tasa","nombre":"Dosis efectiva diaria","sistema":"radiacion","unidad":"mSv/dia"},{"id":"radiacion_mision","nombre":"Dosis efectiva por misión de 6 meses","sistema":"radiacion","unidad":"mSv"},{"id":"radiacion_limite","nombre":"Límite de carrera NASA","sistema":"radiacion","unidad":"mSv"},{"id":"sans","nombre":"Síndrome neuro-ocular asociado al vuelo (SANS)","sistema":"vision","unidad":"% tripulantes"},{"id":"herpes_reactivacion","nombre":"Reactivación de herpesvirus","sistema":"inmune","unidad":"% tripulantes"},{"id":"co2_cefalea","nombre":"Cefalea asociada a CO2 de cabina","sistema":"ambiente","unidad":"odds ratio por mmHg"},{"id":"funcion_sensoriomotora","nombre":"Desempeño funcional/sensoriomotor al aterrizar","sistema":"sensoriomotor","unidad":"%"},{"id":"masa_corporal_twins","nombre":"Cambios multisistema (Twins Study)","sistema":"multisistema"}],"efectos":[{"indicador_id":"fc_nocturna","mision":"ISS larga duración","duracion_dias":"55-199","fase":"vuelo","valor_pre":55.5,"valor_vuelo":55.7,"cambio":0.2,"cambio_unidad":"lpm","tendencia":"sin_cambio","n":7,"fuente_id":"fraser2011","hallazgo":"FC nocturna igual que en Tierra (55,5±7 vs 55,7±8 lpm en vuelo)."},{"indicador_id":"fc_diurna","mision":"ISS larga duración","duracion_dias":"55-199","fase":"pre_vuelo","valor_pre":71.0,"cambio_unidad":"lpm","tendencia":"sin_cambio","n":7,"fuente_id":"fraser2011","hallazgo":"FC en actividad diaria en Tierra: mañana 71,0±13, tarde 71,5±9, noche 72,8±10 lpm (referencia pre-vuelo)."},{"indicador_id":"fc_24h","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","tendencia":"sin_cambio","n":8,"fuente_id":"norsk2015","hallazgo":"FC y catecolaminas sin cambio durante meses en la ISS."},{"indicador_id":"fc_24h","mision":"ISS larga duración","duracion_dias":"52-199","fase":"vuelo","tendencia":"sin_cambio","n":6,"fuente_id":"hughson2012","hallazgo":"FC, presión y baroreflejo sin cambio de pre-vuelo a vuelo."},{"indicador_id":"fc_24h","mision":"ISS larga duración","duracion_dias":"52-199","fase":"post_vuelo","tendencia":"sube","n":6,"fuente_id":"hughson2012","hallazgo":"Tras el vuelo la FC y el gasto cardíaco suben ligeramente."},{"indicador_id":"fc_24h","mision":"Transbordador","duracion_dias":"corta","fase":"vuelo","tendencia":"baja","fuente_id":"shuttle24h","hallazgo":"En vuelos cortos bajan FC, presión diastólica, su variabilidad y las extrasístoles ventriculares."},{"indicador_id":"fc_24h","mision":"Inspiration4","duracion_dias":"3","fase":"vuelo","tendencia":"baja","n":4,"fuente_id":"penn_i4","hallazgo":"Cambios cardiovasculares modestos: el corazón late más lento en microgravedad."},{"indicador_id":"vfc","mision":"ISS larga duración","duracion_dias":"corta y larga","fase":"post_vuelo","tendencia":"variable","n":8,"fuente_id":"hrv2013","hallazgo":"5 días tras el regreso la regulación autonómica de la FC sigue alterada; al mes se recupera casi por completo."},{"indicador_id":"pas_24h","mision":"ISS larga duración","duracion_dias":"~180","fase":"vuelo","valor_pre":120.0,"valor_vuelo":106.0,"valor_post":122.0,"cambio":-14.0,"cambio_unidad":"mmHg","tendencia":"baja","n":12,"fuente_id":"aha2019","hallazgo":"PAS 24 h: 120±10 antes, 106±9 en vuelo, 122±13 al aterrizar."},{"indicador_id":"pad_24h","mision":"ISS larga duración","duracion_dias":"~180","fase":"vuelo","tendencia":"sin_cambio","n":12,"fuente_id":"aha2019","hallazgo":"PAD sin cambio durante ni después del vuelo."},{"indicador_id":"pam_24h","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","cambio":-9.0,"cambio_min":-10.0,"cambio_max":-8.0,"cambio_unidad":"mmHg","tendencia":"baja","n":8,"fuente_id":"norsk2015","hallazgo":"Presión ambulatoria 24 h baja 8-10 mmHg por caída de 39% en la resistencia vascular sistémica."},{"indicador_id":"dip_nocturno_pa","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","valor_vuelo":8.0,"cambio_unidad":"mmHg","tendencia":"sin_cambio","n":8,"fuente_id":"norsk2015","hallazgo":"La caída nocturna de presión (8±3 mmHg) se mantiene en el espacio."},{"indicador_id":"resistencia_vascular","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","cambio":-39.0,"cambio_unidad":"%","tendencia":"baja","n":8,"fuente_id":"norsk2015","hallazgo":"Resistencia vascular sistémica -39%."},{"indicador_id":"volumen_sistolico","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","cambio":35.0,"cambio_min":25.0,"cambio_max":45.0,"cambio_unidad":"%","tendencia":"sube","n":8,"fuente_id":"norsk2015","hallazgo":"Volumen sistólico +35±10%."},{"indicador_id":"gasto_cardiaco","mision":"ISS larga duración","duracion_dias":"85-192","fase":"vuelo","cambio":41.0,"cambio_min":32.0,"cambio_max":50.0,"cambio_unidad":"%","tendencia":"sube","n":8,"fuente_id":"norsk2015","hallazgo":"Gasto cardíaco +41±9%."},{"indicador_id":"baroreflejo","mision":"ISS larga duración","duracion_dias":"52-199","fase":"post_vuelo","cambio":-33.0,"cambio_unidad":"%","tendencia":"baja","n":6,"fuente_id":"hughson2012","hallazgo":"Respuesta del baroreflejo cae ~1/3 tras el vuelo, solo sentado."},{"indicador_id":"tolerancia_ortostatica","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","tendencia":"sin_cambio","n":12,"fuente_id":"aha2019","hallazgo":"Con ejercicio en vuelo y fluidos IV al aterrizar, ninguno tuvo hipotensión ortostática en actividades diarias."},{"indicador_id":"tolerancia_ortostatica","mision":"Transbordador","duracion_dias":"corta","fase":"post_vuelo","cambio_min":20.0,"cambio_max":30.0,"cambio_unidad":"% tripulantes","tendencia":"baja","fuente_id":"orthostatic","hallazgo":"Hipotensión y presíncope en 20-30% de astronautas al regresar."},{"indicador_id":"flujo_yugular","mision":"ISS larga duración","duracion_dias":"~50","fase":"vuelo","tendencia":"variable","n":11,"fuente_id":"jugular2019","hallazgo":"6 de 11 tripulantes con flujo yugular estancado o invertido ~día 50; uno con trombo."},{"indicador_id":"temp_central_reposo","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","valor_pre":37.0,"valor_vuelo":38.0,"cambio":1.0,"cambio_unidad":"°C","tendencia":"sube","n":11,"fuente_id":"stahn2017","hallazgo":"Aumento de ~1 °C en reposo que se desarrolla gradualmente en 2,5 meses, hasta ~38 °C; ligado a IL-1ra."},{"indicador_id":"temp_central_ejercicio","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","valor_vuelo":40.0,"cambio_unidad":"°C","tendencia":"sube","n":11,"fuente_id":"stahn2017","hallazgo":"En ejercicio la temperatura central sube más y más rápido que en Tierra; a menudo supera 40 °C."},{"indicador_id":"sueno_duracion","mision":"ISS","duracion_dias":"larga","fase":"vuelo","valor_vuelo":6.09,"cambio":-2.41,"cambio_unidad":"h vs programado","tendencia":"baja","n":21,"fuente_id":"barger2014","hallazgo":"Promedio 6,09 h/noche en la ISS (5,96 en Transbordador) aunque se programan 8,5 h."},{"indicador_id":"sueno_duracion","mision":"Entrenamiento","duracion_dias":"~90 d antes","fase":"pre_vuelo","valor_pre":6.5,"cambio_unidad":"h","tendencia":"baja","n":85,"fuente_id":"barger2014","hallazgo":"~3 meses antes del vuelo ya dormían menos de 6,5 h/noche."},{"indicador_id":"sueno_noches_7h","mision":"ISS","duracion_dias":"larga","fase":"vuelo","valor_vuelo":24.0,"valor_post":50.0,"cambio_unidad":"%","tendencia":"baja","n":21,"fuente_id":"barger2014","hallazgo":"24% de noches con >=7 h en la ISS (12% en Transbordador) vs 50% y 42% tras la misión."},{"indicador_id":"sueno_medicacion","mision":"ISS","duracion_dias":"larga","fase":"vuelo","valor_vuelo":75.0,"cambio_unidad":"% tripulantes","tendencia":"sube","n":85,"fuente_id":"barger2014","hallazgo":"75% de tripulantes de la ISS y 78% del Transbordador usaron somníferos en algún momento."},{"indicador_id":"dmo_columna","mision":"ISS larga duración","duracion_dias":"120-180","fase":"vuelo","cambio":-0.9,"cambio_unidad":"%/mes","tendencia":"baja","n":14,"fuente_id":"lang2004","hallazgo":"aBMD columna -0,9%/mes."},{"indicador_id":"dmo_cadera","mision":"ISS larga duración","duracion_dias":"120-180","fase":"vuelo","cambio":-1.45,"cambio_min":-1.5,"cambio_max":-1.4,"cambio_unidad":"%/mes","tendencia":"baja","n":14,"fuente_id":"lang2004","hallazgo":"aBMD cadera -1,4 a -1,5%/mes."},{"indicador_id":"dmo_cadera_trabecular","mision":"ISS larga duración","duracion_dias":"120-180","fase":"vuelo","cambio":-2.45,"cambio_min":-2.7,"cambio_max":-2.2,"cambio_unidad":"%/mes","tendencia":"baja","n":14,"fuente_id":"lang2004","hallazgo":"vBMD trabecular de cadera -2,2 a -2,7%/mes."},{"indicador_id":"dmo_calcaneo","mision":"ISS larga duración","duracion_dias":"120-180","fase":"vuelo","cambio":-0.4,"cambio_unidad":"%/mes","tendencia":"baja","n":14,"fuente_id":"lang2004","hallazgo":"Calcáneo -0,4%/mes."},{"indicador_id":"dmo_cadera","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","cambio":-1.25,"cambio_min":-1.5,"cambio_max":-1.0,"cambio_unidad":"%/mes","tendencia":"baja","fuente_id":"nasaBoneEvidence2017","hallazgo":"Pérdida promedio de 1-1,5%/mes en sitios de carga; gran variación entre sitios y tripulantes."},{"indicador_id":"dmo_cadera","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","cambio_max":-10.0,"cambio_unidad":"%","tendencia":"baja","fuente_id":"sibonga2013","hallazgo":"Algunos astronautas pierden >10% en cadera y columna tras 6 meses."},{"indicador_id":"musculo_pantorrilla_vol","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","cambio":-13.0,"cambio_min":-15.0,"cambio_max":-11.0,"cambio_unidad":"%","tendencia":"baja","n":9,"fuente_id":"trappe2009","hallazgo":"Volumen de pantorrilla -13±2% (sóleo -15%, gastrocnemio -10%)."},{"indicador_id":"musculo_potencia","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","cambio":-32.0,"cambio_unidad":"%","tendencia":"baja","n":9,"fuente_id":"trappe2009","hallazgo":"Potencia máxima -32% tras el vuelo."},{"indicador_id":"masa_corporal","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","cambio":-3.5,"cambio_min":-5.0,"cambio_max":-2.0,"cambio_unidad":"%","tendencia":"baja","fuente_id":"laurens2019","hallazgo":"En la ISS reciente se pierde 2-5% de la masa inicial (Zwart 2014)."},{"indicador_id":"masa_corporal","mision":"619 misiones","duracion_dias":"varias","fase":"vuelo","cambio":-2.4,"cambio_unidad":"% por 100 dias","tendencia":"baja","fuente_id":"laurens2019","hallazgo":"Modelo lineal sobre 619 misiones: -2,4% por cada 100 días (Matsumoto 2011)."},{"indicador_id":"ingesta_energia","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","valor_vuelo":80.0,"cambio_unidad":"%","tendencia":"baja","fuente_id":"smith2005","hallazgo":"Los tripulantes consumen en promedio 80% de la energía recomendada."},{"indicador_id":"ejercicio_carga","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","valor_vuelo":43.0,"cambio_unidad":"min/dia","tendencia":"baja","fuente_id":"exerciseLoading","hallazgo":"Carga real promedio 43 min/día frente a 146,8 min asignados."},{"indicador_id":"volumen_plasmatico","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","cambio":-10.0,"cambio_unidad":"%","tendencia":"baja","fuente_id":"trudel2022","hallazgo":"Se pierde ~10% del líquido de los vasos sanguíneos al llegar al espacio."},{"indicador_id":"hemolisis","mision":"ISS larga duración","duracion_dias":"~180","fase":"vuelo","cambio":54.0,"cambio_unidad":"%","tendencia":"sube","n":14,"fuente_id":"trudel2022","hallazgo":"54% más destrucción de glóbulos rojos (3 vs 2 millones/s) durante toda la misión."},{"indicador_id":"hemolisis","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","cambio":30.0,"cambio_unidad":"%","tendencia":"sube","n":14,"fuente_id":"trudel2022","hallazgo":"Un año después sigue 30% sobre el nivel pre-vuelo; glóbulos rojos normales a los 3-4 meses."},{"indicador_id":"anemia_aterrizaje","mision":"ISS larga duración","duracion_dias":"~180","fase":"post_vuelo","valor_post":5.0,"cambio_unidad":"de 13","tendencia":"sube","n":13,"fuente_id":"trudel2022","hallazgo":"5 de 13 astronautas con anemia diagnosticable al aterrizar."},{"indicador_id":"radiacion_tasa","mision":"ISS","duracion_dias":"-","fase":"vuelo","cambio_min":0.2,"cambio_max":0.5,"cambio_unidad":"mSv/dia","tendencia":"sube","fuente_id":"crewdose2024","hallazgo":"Dosis efectiva ~0,2 a ~0,5 mSv/día o más."},{"indicador_id":"radiacion_mision","mision":"ISS","duracion_dias":"~180","fase":"vuelo","valor_vuelo":72.0,"cambio_unidad":"mSv","tendencia":"sube","n":19,"fuente_id":"cucinotta2008","hallazgo":"Dosis efectiva media de 72 mSv por misión de ~6 meses."},{"indicador_id":"radiacion_limite","mision":"-","duracion_dias":"carrera","fase":"vuelo","valor_vuelo":600.0,"cambio_unidad":"mSv","tendencia":"sin_cambio","fuente_id":"nasaStd3001Radiation","hallazgo":"Límite de carrera 600 mSv; 250 mSv por evento solar de partículas."},{"indicador_id":"sans","mision":"ISS larga duración","duracion_dias":"larga","fase":"vuelo","valor_vuelo":66.0,"cambio_unidad":"% tripulantes","tendencia":"sube","fuente_id":"sans","hallazgo":"~66% de astronautas de larga duración muestran signos tempranos de SANS."},{"indicador_id":"herpes_reactivacion","mision":"ISS","duracion_dias":"larga","fase":"vuelo","valor_vuelo":61.0,"cambio_unidad":"% tripulantes","tendencia":"sube","fuente_id":"herpes2019","hallazgo":"61% de astronautas de la ISS eliminan herpesvirus reactivados; pocos con síntomas."},{"indicador_id":"co2_cefalea","mision":"ISS","duracion_dias":"-","fase":"vuelo","cambio":2.0,"cambio_unidad":"odds ratio por mmHg","tendencia":"sube","fuente_id":"co2Law2014","hallazgo":"Cada 1 mmHg de CO2 duplica la probabilidad de cefalea; <=4 mmHg reduce a la mitad el riesgo semanal."},{"indicador_id":"funcion_sensoriomotora","mision":"ISS larga duración","duracion_dias":"larga","fase":"post_vuelo","cambio":48.0,"cambio_unidad":"% mas tiempo","tendencia":"baja","fuente_id":"fieldTest","hallazgo":"Un día tras aterrizar el circuito funcional tarda 48% más; déficits hasta una semana."},{"indicador_id":"masa_corporal_twins","mision":"ISS larga duración","duracion_dias":"340","fase":"vuelo","tendencia":"variable","n":1,"fuente_id":"twins2019","hallazgo":"Baja masa corporal, distensión carotídea y mayor grosor íntima-media, cambios oculares, de expresión génica y cognitivos; la mayoría vuelve a niveles pre-vuelo."}],"parametros":[{"indicador_id":"fc_nocturna","valor_tierra":55.5,"valor_vuelo_objetivo":55.7,"forma":"escalon","fuente_id":"fraser2011","origen":"medido","nota":"Sin cambio real; usar la línea base de cada persona."},{"indicador_id":"fc_diurna","valor_tierra":71.0,"valor_vuelo_objetivo":71.0,"forma":"escalon","fuente_id":"fraser2011","origen":"medido","nota":"Valor en vuelo asumido igual a Tierra (Hughson 2012: FC sin cambio)."},{"indicador_id":"pas_24h","valor_tierra":120.0,"valor_vuelo_objetivo":106.0,"forma":"escalon","dias_hasta_estable":7.0,"fuente_id":"aha2019","origen":"medido","nota":"días_hasta_estable es supuesto: el desplazamiento de fluidos ocurre en los primeros días."},{"indicador_id":"pad_24h","forma":"escalon","fuente_id":"aha2019","origen":"medido","nota":"Sin cambio: mantener la línea base."},{"indicador_id":"dip_nocturno_pa","valor_tierra":8.0,"valor_vuelo_objetivo":8.0,"forma":"escalon","fuente_id":"norsk2015","origen":"medido","nota":"La bajada nocturna se mantiene."},{"indicador_id":"temp_central_reposo","valor_tierra":37.0,"valor_vuelo_objetivo":38.0,"forma":"gradual","dias_hasta_estable":75.0,"fuente_id":"stahn2017","origen":"medido","nota":"Rampa gradual ~2,5 meses; un umbral fijo de fiebre en 38 °C daría falsos positivos."},{"indicador_id":"sueno_duracion","valor_tierra":6.5,"valor_vuelo_objetivo":6.09,"forma":"escalon","fuente_id":"barger2014","origen":"medido","nota":"Valor de Tierra = período de entrenamiento (<6,5 h)."},{"indicador_id":"dmo_columna","valor_tierra":0.0,"forma":"lineal","tasa_por_mes":-0.9,"tasa_unidad":"%/mes","fuente_id":"lang2004","origen":"medido"},{"indicador_id":"dmo_cadera","valor_tierra":0.0,"forma":"lineal","tasa_por_mes":-1.45,"tasa_unidad":"%/mes","fuente_id":"lang2004","origen":"medido"},{"indicador_id":"musculo_pantorrilla_vol","valor_tierra":0.0,"valor_vuelo_objetivo":-13.0,"forma":"lineal","tasa_por_mes":-2.17,"tasa_unidad":"%/mes","fuente_id":"trappe2009","origen":"supuesto","nota":"Solo se midió pre/post (6 meses); la tasa lineal 13%/6 es un supuesto."},{"indicador_id":"masa_corporal","valor_tierra":0.0,"forma":"lineal","tasa_por_mes":-0.73,"tasa_unidad":"%/mes","fuente_id":"laurens2019","origen":"medido","nota":"Derivado de -2,4% por 100 días (Matsumoto 2011)."},{"indicador_id":"volumen_plasmatico","valor_tierra":0.0,"valor_vuelo_objetivo":-10.0,"forma":"escalon","dias_hasta_estable":3.0,"fuente_id":"trudel2022","origen":"supuesto","nota":"días_hasta_estable es supuesto ('al llegar al espacio')."},{"indicador_id":"radiacion_tasa","valor_tierra":0.35,"forma":"escalon","fuente_id":"crewdose2024","origen":"medido","nota":"Rango 0,2-0,5 mSv/día; 0,35 es el punto medio."}]};
+const IND = Object.fromEntries(BD.indicadores.map(i => [i.id, i]));
+const FUE = Object.fromEntries(BD.fuentes.map(f => [f.id, f]));
+const PAR = Object.fromEntries(BD.parametros.map(p => [p.indicador_id, p]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const coma = (n, d=1) => n.toFixed(d).replace('.', ',');
+const signo = (n, d=1) => (n > 0 ? '+' : n < 0 ? '−' : '') + coma(Math.abs(n), d);
+function corta(f){
+  if (!f) return '';
+  const m = f.cita.match(/^(.{0,40}?et al\.)/);
+  return (m ? m[1] : f.cita.split(/[,(]/)[0].trim().slice(0, 48)) + (f.anio ? ' ' + f.anio : '');
+}
+const enlace = f => f ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(corta(f))}</a>` : '';
+/** Cambio esperado respecto a Tierra en un día de misión. Lineal: % de la línea base. */
+function esperado(id, dia){
+  const p = PAR[id]; if (!p) return 0;
+  if (p.forma === 'lineal') return (p.tasa_por_mes ?? 0) * dia / 30.44;
+  if (p.valor_tierra == null || p.valor_vuelo_objetivo == null) return 0;
+  const frac = p.dias_hasta_estable ? Math.min(Math.max(dia, 0) / p.dias_hasta_estable, 1) : 1;
+  return (p.valor_vuelo_objetivo - p.valor_tierra) * frac;
+}
+/** Un hallazgo de la base con su fuente, para mostrar junto a una alerta. */
+function dato(ind, fuente){
+  const e = BD.efectos.find(x => x.indicador_id === ind && (!fuente || x.fuente_id === fuente));
+  return e ? `${esc(e.hallazgo)} (${enlace(FUE[e.fuente_id])})` : '';
+}
+const valorEf = (ind, campo='valor_vuelo') => BD.efectos.find(e => e.indicador_id === ind && e[campo] != null)?.[campo];
+const TASA_RAD = PAR.radiacion_tasa?.valor_tierra ?? 0.35;           // mSv por día en la ISS
+const LIMITE_CARRERA = valorEf('radiacion_limite') ?? 600;            // mSv (NASA-STD-3001)
+
+// =====================================================================
+// 1. DATOS SIMULADOS
+// =====================================================================
+const DIAS = 14, DIAS_BASE = 5;
+const VARS = [
+  {k:'temp', label:'Temperatura corporal', unit:'°C', min:35, max:41, step:0.1, ruido:0.12, tol:0.4, ind:'temp_central_reposo'},
+  {k:'fc',   label:'Frecuencia cardíaca en reposo', unit:'lpm', min:40, max:160, step:1, ruido:2.5, tol:8, ind:'fc_nocturna'},
+  {k:'pas',  label:'Presión sistólica', unit:'mmHg', min:80, max:180, step:1, ruido:3, tol:12, ind:'pas_24h'},
+  {k:'spo2', label:'Saturación de oxígeno', unit:'%', min:80, max:100, step:1, ruido:0.5, tol:2},
+  {k:'fr',   label:'Frecuencia respiratoria', unit:'rpm', min:8, max:35, step:1, ruido:0.8, tol:3},
+  {k:'sueno',label:'Sueño de anoche', unit:'h', min:0, max:10, step:0.5, ruido:0.4, tol:1.2, ind:'sueno_duracion'},
+];
+const CO2 = {k:'co2', label:'CO₂ en cabina (compartido)', unit:'mmHg', min:0, max:12, step:0.1, ruido:0.2, tol:1.2};
+const ZVARS = [
+  {k:'dolor', label:'Dolor', unit:'0 a 10', min:0, max:10, step:1},
+  {k:'inflam',label:'Inflamación', unit:'0 a 3', min:0, max:3, step:1},
+  {k:'mov',   label:'Movilidad', unit:'%', min:0, max:100, step:5},
+];
+const KVARS = [
+  {k:'animo',  label:'Ánimo', unit:'1 muy bajo · 5 muy bueno', min:1, max:5, step:1},
+  {k:'estres', label:'Estrés', unit:'1 nada · 5 mucho', min:1, max:5, step:1},
+  {k:'energia',label:'Energía', unit:'1 agotado · 5 con energía', min:1, max:5, step:1},
+];
+const SINTOMAS = ['Dolor de cabeza','Náuseas','Mareo','Tos','Visión borrosa','Dolor de espalda'];
+const ZONAS = {cabeza:'Cabeza', torax:'Tórax', abdomen:'Abdomen', brazoD:'Brazo derecho', brazoI:'Brazo izquierdo', piernaD:'Pierna derecha', piernaI:'Pierna izquierda'};
+const TODAS = Object.keys(ZONAS);
+const EXTREMIDAD = ['brazoD','brazoI','piernaD','piernaI'];
+const PERFILES = [   // tripulación ficticia; "centro" = su normal en Tierra antes del vuelo
+  {id:'t1', nombre:'V. Andrade', rol:'Comandante',         centro:{temp:36.6, fc:62, pas:118, spo2:98, fr:14, sueno:7.5}, rt:270, previa:85},
+  {id:'t2', nombre:'L. Mora',    rol:'Ingeniera de vuelo', centro:{temp:36.8, fc:57, pas:112, spo2:98, fr:13, sueno:7},   rt:255, previa:40},
+  {id:'t3', nombre:'D. Paredes', rol:'Oficial médico',     centro:{temp:36.5, fc:66, pas:124, spo2:97, fr:15, sueno:7.5}, rt:290, previa:120},
+];
+const zonaSana = () => ({dolor:0, inflam:0, mov:100});
+const red = (n, step) => { const d = step < 1 ? 1 : 0; return +(Math.round(n/step)*step).toFixed(d); };
+const lim = (n, v) => Math.min(v.max, Math.max(v.min, n));
+function rng(seed){ return () => { seed = (seed*1664525 + 1013904223) >>> 0; return seed/4294967296; }; }
+function mediana(a){ const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length%2 ? s[m] : (s[m-1]+s[m])/2; }
+
+const S = {trip:[], cab:{co2:[], dosis:[]}, sel:0, zona:'brazoD', escenario:null, tab:'estado', checks:{}, dia:14, sis:'todos'};
+
+// El día i de la ventana es el día de misión S.dia-(DIAS-1-i). Cada valor = normal en Tierra + adaptación medida + ruido.
+function generar(){
+  const r = rng(20261114), ru = a => (r()*2-1)*a;
+  const diaDe = i => Math.max(1, S.dia - (DIAS - 1 - i));
+  S.cab.co2 = Array.from({length:DIAS}, () => red(2.5 + ru(CO2.ruido), 0.1));
+  S.cab.dosis = Array.from({length:DIAS}, () => +(TASA_RAD + ru(0.06)).toFixed(2));   // mSv por día
+  S.trip = PERFILES.map(p => {
+    const hist = Array.from({length:DIAS}, (_, i) => {
+      const d = {};
+      for (const v of VARS) d[v.k] = lim(red(p.centro[v.k] + (v.ind ? esperado(v.ind, diaDe(i)) : 0) + ru(v.ruido), v.step), v);
+      return d;
+    });
+    const base = {};   // línea base personal en vuelo: mediana de los primeros días de la ventana
+    for (const v of VARS) base[v.k] = red(mediana(hist.slice(0, DIAS_BASE).map(d => d[v.k])), v.step);
+    const z = {}; for (const k of TODAS) z[k] = zonaSana();
+    return {...p, hist, base, hoy:hist[DIAS-1], z, chk:{animo:4, estres:2, energia:4}, sint:{}, pvt:Math.round(p.rt*(1+ru(0.05)))};
+  });
+}
+const baseCO2 = () => red(mediana(S.cab.co2.slice(0, DIAS_BASE)), 0.1);
+
+// Cada escenario inyecta una causa conocida en los datos: así se comprueba si el sistema la distingue.
+function cargar(nombre){
+  generar();
+  const c = S.trip[S.sel], h = c.hist, n = DIAS-1, cab = S.cab;
+  const suma = (d, o) => { for (const k in o){ const v = VARS.find(x=>x.k===k); d[k] = lim(red(d[k]+o[k], v.step), v); } };
+  if (nombre==='brazo'){ c.z.brazoD = {dolor:8, inflam:2, mov:40}; S.zona='brazoD'; suma(c.hoy,{fc:10, pas:8}); }
+  if (nombre==='fiebre'){ suma(h[n-1],{temp:0.9, fc:9}); suma(h[n],{temp:2, fc:24, fr:4, spo2:-1}); c.chk.energia=2; S.zona='torax'; }
+  if (nombre==='co2'){
+    cab.co2[n-1]=4.2; cab.co2[n]=6.5;
+    S.trip.forEach((t,i)=>{ suma(t.hist[n-1],{fr:2}); suma(t.hoy,{fr:5, fc:7}); t.z.cabeza.dolor = i===S.sel?5:3; t.sint['Dolor de cabeza']=true; });
+    S.zona='cabeza';
+  }
+  if (nombre==='sueno'){ suma(h[n-2],{sueno:-2}); suma(h[n-1],{sueno:-2.5}); suma(h[n],{sueno:-3, fc:5}); c.pvt=Math.round(c.rt*1.38); c.chk.energia=2; S.zona='cabeza'; }
+  if (nombre==='tormenta'){ cab.dosis[n]=18; }
+  if (nombre==='animo'){ c.chk={animo:2, estres:4, energia:2}; suma(h[n],{sueno:-1}); }
+  S.escenario = nombre; S.checks = {};
+  ponerInputs(); render();
+}
+
+// =====================================================================
+// 2. PROCEDIMIENTOS (contenido de ejemplo, falta citar protocolo)
+// =====================================================================
+const PROC = {
+  lesion:{ titulo:'Lesión en una extremidad', claves:'brazo pierna golpe golpee lesion fractura torcedura esguince inflamacion hinchado extremidad mano pie caida',
+    pasos:x=>['Detén la actividad y sostén la extremidad en una posición cómoda.',
+      `Revisa color, temperatura y sensibilidad de ${x==='pierna'?'el pie':'la mano'}, y el pulso en ${x==='pierna'?'el tobillo':'la muñeca'}.`,
+      'Inmoviliza con la férula y fíjala con la venda sin apretar.','Aplica frío de 15 a 20 minutos, envuelto en tela.','Registra de nuevo dolor y movilidad en 2 horas.'],
+    escalar:'Contacta al médico de vuelo si hay deformidad, entumecimiento, piel fría o pálida, o si el dolor no baja.',
+    items:x=>['Férula moldeable','Venda elástica','Compresa fría', x==='pierna'?'Correa de sujeción':'Cabestrillo','Tijeras de punta roma','Analgésico del botiquín (con autorización médica)'] },
+  fiebre:{ titulo:'Fiebre', claves:'fiebre temperatura caliente escalofrios infeccion calentura',
+    pasos:()=>['Repite la medición en 15 minutos para confirmar.','Registra pulso, respiración y saturación de oxígeno.','Bebe líquidos y suspende el ejercicio de hoy.','Usa mascarilla y reduce el contacto cercano con la tripulación.','Mide la temperatura cada 4 horas y anota los síntomas nuevos.'],
+    escalar:'Contacta al médico de vuelo si llegas a 39 °C, la saturación baja de 94 %, hay confusión o la fiebre dura más de 24 horas.',
+    items:()=>['Termómetro','Oxímetro de pulso','Bolsa de bebida','Mascarilla','Antitérmico del botiquín (con autorización médica)'] },
+  co2:{ titulo:'CO₂ alto en cabina', claves:'co2 dioxido carbono aire ventilacion cabina respirar depurador ambiente',
+    pasos:()=>['Pasa a un módulo con mejor ventilación.','Mide el CO₂ en los otros módulos.','Revisa el depurador de CO₂ y despeja las rejillas de ventilación obstruidas.','Evita el ejercicio en este módulo hasta que baje la lectura.','Vuelve a medir CO₂ y síntomas en 30 minutos.'],
+    escalar:'Contacta a control de misión si el CO₂ no baja, o si aparece confusión o dificultad para respirar.',
+    items:()=>['Medidor portátil de CO₂','Ventilador portátil','Cartucho de repuesto del depurador','Oxímetro de pulso'] },
+  sueno:{ titulo:'Falta de sueño', claves:'sueno dormir insomnio cansado cansancio fatiga desvelo',
+    pasos:()=>['Avisa a la tripulación antes de tareas críticas y pide una segunda verificación.','Reprograma lo que no sea urgente.','Toma una siesta de 20 a 30 minutos si el plan del día lo permite.','Evita cafeína 6 horas antes de dormir y atenúa la luz una hora antes.'],
+    escalar:'Contacta al médico de vuelo si duermes menos de 6 horas tres noches seguidas.',
+    items:()=>['Antifaz','Tapones para los oídos','Registro de sueño'] },
+  atencion:{ titulo:'Atención reducida', claves:'atencion concentracion reaccion lento test errores distraido',
+    pasos:()=>['No hagas solo tareas críticas hoy: pide doble verificación.','Descansa 20 a 30 minutos.','Repite el test de atención después de descansar.','Revisa cuánto dormiste las últimas tres noches.'],
+    escalar:'Contacta al médico de vuelo si el resultado sigue bajo después de dormir bien.',
+    items:()=>['Lista de verificación de la tarea','Compañero para doble verificación'] },
+  animo:{ titulo:'Ánimo bajo o estrés alto', claves:'animo triste tristeza estres ansiedad solo soledad aislamiento familia nervioso agobiado',
+    pasos:()=>['Cuéntale a un compañero cómo te sientes hoy.','Programa un mensaje o una llamada con tu familia.','Mantén tu rutina de ejercicio y tu horario de sueño.','Dedica 30 minutos a una actividad que disfrutes.','Repite el chequeo mañana.'],
+    escalar:'Pide una conferencia privada con el equipo de apoyo psicológico si esto dura 3 días o más.',
+    items:()=>['Tiempo libre en el plan del día','Canal de comunicación con familia','Diario personal'] },
+  radiacion:{ titulo:'Evento de radiación solar', claves:'radiacion tormenta solar dosis dosimetro refugio protones sol',
+    pasos:()=>['Ve al refugio: la zona con más blindaje de la nave.','Suspende las actividades fuera del refugio.','Lee tu dosímetro personal cada hora y regístralo.','Permanece en el refugio hasta que la dosis vuelva a su valor habitual.'],
+    escalar:'Informa a control de misión de la dosis recibida. Contacta al médico de vuelo si hay náuseas o vómito.',
+    items:()=>['Dosímetro personal','Agua y comida para 24 horas','Botiquín','Registro de dosis'] },
+  dolor:{ titulo:'Dolor localizado', claves:'dolor duele molestia pecho abdomen estomago cabeza',
+    pasos:()=>['Describe el dolor: cuándo empezó, tipo e intensidad.','Registra todos los signos vitales ahora.','Repite el registro en 1 hora.'],
+    escalar:'Contacta al médico de vuelo si el dolor aumenta o aparecen otros síntomas. Dolor en el pecho: contacta de inmediato.',
+    items:()=>['Tensiómetro','Oxímetro de pulso','Termómetro'] },
+};
+
+// =====================================================================
+// 3. DETECCIÓN Y ATRIBUCIÓN DE CAUSA (umbrales de ejemplo)
+// =====================================================================
+function racha(c, k, cond){ let n=0; for (let i=DIAS-1;i>=0 && cond(c.hist[i][k]);i--) n++; return n; }
+
+function evaluar(c){
+  const a = [], v = c.hoy, b = c.base, n = DIAS-1;
+  const co2 = S.cab.co2[n], co2Alto = co2 >= 4, dosisHoy = S.cab.dosis[n];
+  const otros = S.trip.filter(t => t !== c);
+  const add = (proc, x, o) => a.push({proc, pasos:PROC[proc].pasos(x), items:PROC[proc].items(x), escalar:PROC[proc].escalar, ...o});
+
+  if (dosisHoy >= 5) add('radiacion', null, {id:'rad', sev:2, zonas:TODAS, titulo:'Evento de radiación solar',
+    porque:[`Dosis de hoy ${coma(dosisHoy)} mSv (habitual ${coma(TASA_RAD, 2)} mSv por día)`],
+    causa:'Ambiental: viene de fuera de la nave y afecta a toda la tripulación por igual.',
+    dato:dato('radiacion_tasa')});
+
+  for (const z of EXTREMIDAD){
+    const d = c.z[z];
+    const grave = d.dolor >= 7 || (d.inflam >= 2 && d.mov <= 50), vigilar = d.dolor >= 4 || d.inflam >= 2 || d.mov <= 70;
+    if (!grave && !vigilar) continue;
+    const hueso = esperado('dmo_cadera', S.dia);
+    add('lesion', z.startsWith('pierna')?'pierna':'brazo', {id:'lesion-'+z, sev:grave?2:1, zonas:[z], titulo:'Posible lesión en '+ZONAS[z].toLowerCase(),
+      porque:[`Dolor ${d.dolor}/10`, `inflamación ${d.inflam}/3`, `movilidad ${d.mov} %`],
+      causa:'Individual y localizada: solo se desvía esta zona y tus signos vitales siguen cerca de tu línea base.',
+      dato:`En el día ${S.dia} la cadera ya perdió cerca de ${coma(Math.abs(hueso))} % de densidad ósea, así que una fractura es más probable que en Tierra. ${dato('dmo_cadera', 'lang2004')}`});
+  }
+
+  const umbralT = b.temp + 0.8;
+  if (v.temp >= umbralT){
+    const dias = racha(c, 'temp', x => x >= umbralT);
+    const otrosConFiebre = otros.filter(t => t.hoy.temp >= t.base.temp + 0.8).length;
+    const adapT = esperado('temp_central_reposo', S.dia);
+    add('fiebre', null, {id:'fiebre', sev:v.temp >= Math.max(38, b.temp + 1.2) ? 2 : 1, zonas:['cabeza','torax'], titulo:'Fiebre',
+      porque:[`Temperatura ${v.temp.toFixed(1)} °C (tu base en vuelo ${b.temp} °C)`, `pulso ${v.fc} lpm (base ${b.fc})`, `${dias} ${dias===1?'día':'días seguidos'} por encima de tu rango`],
+      causa: otrosConFiebre ? `Posible contagio: ${otrosConFiebre+1} de ${S.trip.length} tripulantes tienen fiebre.` :
+        co2Alto ? 'Mixta: hay fiebre y además CO₂ alto en cabina. Atiende ambas.' :
+        'Individual e interna: solo tú te desvías y el ambiente de cabina está normal. Compatible con infección.',
+      dato:`En el día ${S.dia} de vuelo la temperatura normal ya sube ${signo(adapT)} °C sin enfermedad; por eso se compara con tu base en vuelo y no con 37 °C. ${dato('temp_central_reposo')}`});
+  }
+
+  if (co2Alto){
+    const afectados = S.trip.filter(t => t.hoy.fr >= t.base.fr + 3).length;
+    const porque = [`CO₂ ${co2.toFixed(1)} mmHg (habitual ${baseCO2()})`, `tu respiración ${v.fr} rpm (base ${b.fr})`];
+    if (c.z.cabeza.dolor >= 3) porque.push(`dolor de cabeza ${c.z.cabeza.dolor}/10`);
+    add('co2', null, {id:'co2', sev:co2 >= 6 ? 2 : 1, zonas:['cabeza','torax'], titulo:'CO₂ alto en cabina', porque,
+      causa:`Ambiental: el CO₂ está elevado, no hay fiebre y ${afectados} de ${S.trip.length} tripulantes respiran más rápido de lo normal.`,
+      dato:dato('co2_cefalea')});
+  }
+
+  if (v.sueno < 6){
+    const noches = racha(c, 'sueno', x => x < 6);
+    add('sueno', null, {id:'sueno', sev:(v.sueno < 4 || noches >= 3) ? 2 : 1, zonas:['cabeza'], titulo:'Falta de sueño',
+      porque:[`Dormiste ${v.sueno} h (tu base ${b.sueno} h)`, `${noches} ${noches===1?'noche':'noches seguidas'} con menos de 6 h`],
+      causa:'Conductual: temperatura y ambiente normales. El riesgo es de atención y errores, más que físico.',
+      dato:dato('sueno_duracion', 'barger2014')});
+  }
+
+  if (c.pvt >= c.rt * 1.25){
+    add('atencion', null, {id:'atencion', sev:c.pvt >= c.rt*1.5 ? 2 : 1, zonas:['cabeza'], titulo:'Atención reducida',
+      porque:[`Tiempo de reacción ${c.pvt} ms (tu base ${c.rt} ms)`],
+      causa: v.sueno < 6 ? 'Conductual: coincide con falta de sueño.' : co2Alto ? 'Ambiental: coincide con CO₂ alto en cabina.' : 'Sin causa clara todavía. Revisa sueño y carga de trabajo.'});
+  }
+
+  if (c.chk.animo <= 2 || c.chk.estres >= 4){
+    add('animo', null, {id:'animo', sev:1, zonas:['cabeza'], titulo:'Ánimo bajo o estrés alto',
+      porque:[`Ánimo ${c.chk.animo}/5`, `estrés ${c.chk.estres}/5`, `energía ${c.chk.energia}/5`],
+      causa:'Conductual: signos vitales y ambiente normales. Es frecuente en aislamiento y confinamiento prolongados.'});
+  }
+
+  for (const z of ['cabeza','torax','abdomen']){
+    const d = c.z[z];
+    if (d.dolor < 4 || (z === 'cabeza' && (co2Alto || v.sueno < 6))) continue;
+    add('dolor', null, {id:'dolor-'+z, sev:d.dolor >= 7 ? 2 : 1, zonas:[z], titulo:'Dolor en '+ZONAS[z].toLowerCase(),
+      porque:[`Dolor ${d.dolor}/10`], causa:'Sin causa ambiental a la vista. Hace falta más información para orientar.'});
+  }
+  return a.sort((x,y) => y.sev - x.sev);
+}
+
+// =====================================================================
+// 4. ASISTENTE SIN CONEXIÓN
+// =====================================================================
+const fold = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const DIAGNOSTICO = /(que tengo|tengo una? (infeccion|fractura|enfermedad|tumor)|diagnos|que enfermedad|estoy enfermo|medicamento|pastilla|dosis de|recet|debo tomar|que tomo)/;
+function responder(q){
+  const f = fold(q.slice(0,200));
+  if (!f.trim()) return {tipo:'vacio'};
+  if (DIAGNOSTICO.test(f)) return {tipo:'negativa'};
+  const palabras = f.split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  let mejor = null, puntos = 0;
+  for (const k in PROC){
+    const claves = (PROC[k].claves + ' ' + fold(PROC[k].titulo)).split(' ');
+    const p = palabras.filter(w => claves.includes(w)).length;
+    if (p > puntos){ puntos = p; mejor = k; }
+  }
+  return mejor ? {tipo:'proc', proc:mejor} : {tipo:'nada'};
+}
+
+// =====================================================================
+// 5. INTERFAZ
+// =====================================================================
+const $ = id => document.getElementById(id);
+const SEV = ['Normal','Vigilar','Grave'];
+const DEFS = {v:VARS, c:[CO2], z:ZVARS, k:KVARS};
+
+function campo(v, g){
+  const id = `${g}-${v.k}`;
+  return `<div class="field" id="f-${id}"><label for="${id}">${v.label}</label>
+    <input type="number" id="${id}" data-g="${g}" data-k="${v.k}" min="${v.min}" max="${v.max}" step="${v.step}">
+    <input type="range" id="${id}-r" aria-label="${v.label}" data-g="${g}" data-k="${v.k}" min="${v.min}" max="${v.max}" step="${v.step}">
+    <small id="${id}-s"></small></div>`;
+}
+$('vitales').innerHTML = VARS.map(v => campo(v,'v')).join('') + campo(CO2,'c');
+$('zonal').innerHTML = ZVARS.map(v => campo(v,'z')).join('');
+$('chk').innerHTML = KVARS.map(v => campo(v,'k')).join('');
+$('sint').innerHTML = SINTOMAS.map((s,i) => `<label for="sint-${i}"><input type="checkbox" id="sint-${i}" data-sint="${s}">${s}</label>`).join('');
+
+const actual = () => S.trip[S.sel];
+function destino(g){ const c = actual(); return g==='v' ? c.hoy : g==='z' ? c.z[S.zona] : g==='k' ? c.chk : null; }
+function leer(g,k){ return g==='c' ? S.cab.co2[DIAS-1] : destino(g)[k]; }
+function escribir(g,k,n){ if (g==='c') S.cab.co2[DIAS-1] = n; else destino(g)[k] = n; }
+function ponerInputs(){
+  for (const g in DEFS) for (const v of DEFS[g]){ const id = `${g}-${v.k}`; $(id).value = leer(g,v.k); $(id+'-r').value = leer(g,v.k); }
+  SINTOMAS.forEach((s,i) => { $('sint-'+i).checked = !!actual().sint[s]; });
+}
+
+document.addEventListener('input', e => {
+  const t = e.target, g = t.dataset.g, k = t.dataset.k;
+  if (!g) return;
+  const def = DEFS[g].find(v => v.k === k);
+  let n = parseFloat(t.value); if (isNaN(n)) return;
+  n = lim(n, def); escribir(g,k,n);
+  const id = `${g}-${k}`;
+  if (t.type === 'range') $(id).value = n; else $(id+'-r').value = n;
+  S.escenario = null; render();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.sint){ actual().sint[t.dataset.sint] = t.checked; return; }
+  if (t.type === 'checkbox' && t.id.startsWith('chk-')){ S.checks[t.id] = t.checked; render(); }
+});
+$('scen').addEventListener('click', e => { const b = e.target.closest('button'); if (b) cargar(b.dataset.s); });
+$('dias').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ S.dia = +b.dataset.d; cargar(S.escenario ?? 'normal'); } });
+$('crew').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ S.sel = +b.dataset.i; S.checks = {}; ponerInputs(); render(); } });
+$('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ S.tab = b.dataset.t; render(); } });
+$('sistemas').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ S.sis = b.dataset.sis; render(); } });
+function elegirZona(z){ S.zona = z; ponerInputs(); render(); }
+document.querySelectorAll('.zone').forEach(el => {
+  el.addEventListener('click', () => elegirZona(el.dataset.z));
+  el.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' '){ e.preventDefault(); elegirZona(el.dataset.z); } });
+});
+
+function tarjeta(a, resaltar){
+  const ids = a.items.map((_,i) => `chk-${a.id}-${i}`), listos = ids.filter(id => S.checks[id]).length;
+  const cab = a.sev === undefined ? `<h3>${a.titulo}</h3>` : `<h3>${a.titulo}</h3><span class="pill s${a.sev}">${SEV[a.sev]}</span>`;
+  return `<article class="alert s${a.sev ?? 0}${resaltar?' hit':''}">
+    <div class="top">${cab}</div>
+    ${a.zonas ? `<div><strong>Zona:</strong> ${a.zonas.length===TODAS.length ? 'Todo el cuerpo' : a.zonas.map(z=>ZONAS[z]).join(', ')}</div>` : ''}
+    ${a.porque ? `<div><strong>Por qué salta:</strong> ${a.porque.join(', ')}.</div>` : ''}
+    ${a.causa ? `<div><strong>Causa probable:</strong> ${a.causa}</div>` : ''}
+    ${a.dato ? `<div><strong>Dato del vuelo:</strong> ${a.dato}</div>` : ''}
+    <h4>Reúne antes de empezar <span class="ready">(${listos} de ${ids.length})</span></h4>
+    <ul class="chk">${a.items.map((it,i) => `<li><label for="${ids[i]}"><input type="checkbox" id="${ids[i]}"${S.checks[ids[i]]?' checked':''}>${it}</label></li>`).join('')}</ul>
+    <h4>Pasos</h4><ol>${a.pasos.map(p => `<li>${p}</li>`).join('')}</ol>
+    <div><strong>Cuándo escalar:</strong> ${a.escalar}</div>
+    <div class="src">Pasos y materiales de ejemplo basados en primeros auxilios generales. Falta citar el protocolo.</div>
+  </article>`;
+}
+
+function chispa(vals, lo, hi, tol){
+  const W=260, H=70, p=7, mn = Math.min(lo, ...vals) - tol*0.3, mx = Math.max(hi, ...vals) + tol*0.3;
+  const x = i => p + i*(W-2*p)/(vals.length-1), y = v => H - p - (v-mn)/(mx-mn)*(H-2*p);
+  const pts = vals.map((v,i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const fuera = vals[vals.length-1] < lo || vals[vals.length-1] > hi;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Tendencia de 14 días">
+    <rect x="${p}" y="${y(hi).toFixed(1)}" width="${W-2*p}" height="${(y(lo)-y(hi)).toFixed(1)}" fill="var(--band)"/>
+    <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="${x(vals.length-1).toFixed(1)}" cy="${y(vals[vals.length-1]).toFixed(1)}" r="4.5" fill="var(${fuera?'--crit':'--accent'})"/></svg>`;
+}
+
+// Cambios lentos: indicadores lineales de la base (hueso, músculo, masa corporal)
+const LARGO = [
+  {ind:'dmo_cadera', label:'Densidad ósea de cadera', consejo:'El ejercicio resistido con carga es la principal protección.'},
+  {ind:'dmo_columna', label:'Densidad ósea de columna', consejo:'Cumple las sesiones de ejercicio resistido del plan.'},
+  {ind:'musculo_pantorrilla_vol', label:'Volumen muscular de pantorrilla', consejo:'Prioriza la intensidad del ejercicio, no solo la duración.'},
+  {ind:'masa_corporal', label:'Masa corporal', consejo:'Las tripulaciones comen cerca del 80 % de la energía recomendada: completa tus comidas.'},
+];
+function largoPlazo(){
+  return LARGO.map(l => {
+    const p = PAR[l.ind], cambio = esperado(l.ind, S.dia), f = FUE[p.fuente_id];
+    const ancho = Math.min(100, Math.abs(cambio) / 15 * 100);
+    return `<div class="tcard"><span class="sub">${l.label}</span>
+      <span class="val">${signo(cambio)} % <small>desde el lanzamiento</small></span>
+      <div class="bar down" role="img" aria-label="${l.label}: ${signo(cambio)} %"><i style="width:${ancho.toFixed(1)}%"></i></div>
+      <span class="src">Ritmo ${signo(p.tasa_por_mes, 2)} % por mes${p.origen === 'supuesto' ? ' (repartido de forma lineal: solo se midió antes y después)' : ''} · ${enlace(f)}</span>
+      <span class="src">${l.consejo}</span></div>`;
+  }).join('');
+}
+
+// Pestaña de datos: todos los hallazgos de la base, filtrables por sistema
+const NOMBRE_SISTEMA = {cardiovascular:'Corazón y presión', termorregulacion:'Temperatura', sueno:'Sueño', oseo:'Hueso', muscular:'Músculo', nutricion:'Nutrición', actividad:'Ejercicio', sangre:'Sangre', radiacion:'Radiación', vision:'Visión', inmune:'Inmunidad', ambiente:'Ambiente', sensoriomotor:'Equilibrio', multisistema:'Varios'};
+const FLECHA = {sube:['↑','up'], baja:['↓','down'], sin_cambio:['=','eq'], variable:['~','eq']};
+const FASE = {vuelo:'en vuelo', post_vuelo:'al regresar', pre_vuelo:'antes del vuelo'};
+function resumenCambio(e){
+  const u = e.cambio_unidad ? ' ' + e.cambio_unidad : '';
+  if (e.cambio_min != null && e.cambio_max != null) return `${coma(e.cambio_min, 1)} a ${coma(e.cambio_max, 1)}${u}`;
+  if (e.cambio != null) return `${signo(e.cambio, Math.abs(e.cambio) < 1 ? 2 : 1)}${u}`;
+  if (e.valor_vuelo != null) return `${coma(e.valor_vuelo, Number.isInteger(e.valor_vuelo) ? 0 : 1)}${u}`;
+  return '';
+}
+function datosVuelo(){
+  const sistemas = [...new Set(BD.indicadores.map(i => i.sistema))].filter(s => BD.efectos.some(e => IND[e.indicador_id].sistema === s));
+  $('sistemas').innerHTML = ['todos', ...sistemas].map(s => `<button type="button" class="chip" data-sis="${s}" aria-pressed="${S.sis === s}">${s === 'todos' ? 'Todos' : NOMBRE_SISTEMA[s] ?? s}</button>`).join('');
+  const lista = BD.efectos.filter(e => S.sis === 'todos' || IND[e.indicador_id].sistema === S.sis);
+  $('datosResumen').textContent = `${BD.efectos.length} hallazgos de ${BD.fuentes.length} estudios publicados sobre ${BD.indicadores.length} indicadores. Fuente: data/salud-espacial en el repositorio del equipo.`;
+  $('efectos').innerHTML = lista.map(e => {
+    const i = IND[e.indicador_id], [fl, cls] = FLECHA[e.tendencia] ?? ['', 'eq'];
+    return `<article class="ef"><div><strong>${esc(i.nombre)}</strong> <span class="tag">${esc(FASE[e.fase] ?? e.fase)} · ${esc(e.mision ?? '')}${e.n ? ` · n=${e.n}` : ''}</span></div>
+      <span class="trend ${cls}">${fl} ${esc(resumenCambio(e))}</span>
+      <p>${esc(e.hallazgo)}</p><span class="src">${enlace(FUE[e.fuente_id])}</span></article>`;
+  }).join('');
+}
+
+function render(){
+  const c = actual(), porTrip = S.trip.map(evaluar), alertas = porTrip[S.sel];
+
+  // Tripulación, día de misión, escenarios y pestañas
+  $('diaMision').textContent = S.dia;
+  $('crew').innerHTML = S.trip.map((t,i) => { const m = porTrip[i].length ? porTrip[i][0].sev : 0;
+    return `<button type="button" class="crew" data-i="${i}" aria-pressed="${i===S.sel}"><span class="dot s${m}"></span><span>${t.nombre}<small>${t.rol} · ${SEV[m]}</small></span></button>`; }).join('');
+  document.querySelectorAll('#dias button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.d === S.dia)));
+  document.querySelectorAll('#scen button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.s === S.escenario)));
+  document.querySelectorAll('#tabs button').forEach(b => { b.setAttribute('aria-selected', String(b.dataset.t === S.tab)); $('v-'+b.dataset.t).hidden = b.dataset.t !== S.tab; });
+
+  const max = alertas.length ? alertas[0].sev : 0;
+  $('estado').className = 'pill s'+max;
+  $('estado').textContent = `${c.nombre}: ` + (max===0 ? 'sin novedades' : `${alertas.length} ${alertas.length===1?'alerta':'alertas'} · ${SEV[max]}`);
+
+  // Mapa corporal
+  const sevZona = {}; for (const z of TODAS) sevZona[z] = 0;
+  for (const a of alertas) for (const z of a.zonas) sevZona[z] = Math.max(sevZona[z], a.sev);
+  document.querySelectorAll('.zone').forEach(el => { const z = el.dataset.z;
+    el.setAttribute('class', `zone s${sevZona[z]}${z===S.zona?' sel':''}`); el.setAttribute('aria-label', `${ZONAS[z]}: ${SEV[sevZona[z]]}`); });
+  $('zonaTitulo').textContent = `${ZONAS[S.zona]} · ${SEV[sevZona[S.zona]]}`;
+
+  // Lecturas: base personal en vuelo + lo que el vuelo cambia respecto a Tierra a esta altura de la misión
+  const pie = (v, val, b) => { const d = val - b; return `${v.unit} · base ${b} · ${Math.abs(d) < v.step/2 ? 'sin cambio' : (d>0?'+':'−') + Math.abs(d).toFixed(v.step<1?1:0)}`; };
+  const vuelo = v => { if (!v.ind) return ''; const e = esperado(v.ind, S.dia);
+    return Math.abs(e) < v.step/2 ? '' : ` · el vuelo ya cambia tu normal en ${signo(e, v.step<1?1:0)} ${v.unit} (${corta(FUE[PAR[v.ind].fuente_id])})`; };
+  for (const v of VARS){ $(`f-v-${v.k}`).classList.toggle('dev', Math.abs(c.hoy[v.k]-c.base[v.k]) > v.tol); $(`v-${v.k}-s`).textContent = pie(v, c.hoy[v.k], c.base[v.k]) + vuelo(v); }
+  const co2 = S.cab.co2[DIAS-1];
+  $('f-c-co2').classList.toggle('dev', co2 - baseCO2() > CO2.tol); $('c-co2-s').textContent = pie(CO2, co2, baseCO2());
+  for (const v of [...ZVARS, ...KVARS]) $(`${ZVARS.includes(v)?'z':'k'}-${v.k}-s`).textContent = v.unit;
+
+  // Qué hacer
+  $('alertas').innerHTML = alertas.length ? alertas.map(a => tarjeta(a, a.zonas.length < TODAS.length && a.zonas.includes(S.zona))).join('')
+    : '<div class="empty">Todas las lecturas están dentro de tu rango normal. Carga un escenario o cambia un valor para ver cómo responde el sistema.</div>';
+
+  // Tendencias
+  const tc = VARS.map(v => { const vals = c.hist.map(d => d[v.k]);
+    return `<div class="tcard"><span class="sub">${v.label}</span><span class="val">${c.hoy[v.k]} <small>${v.unit} · base ${c.base[v.k]}</small></span>${chispa(vals, c.base[v.k]-v.tol, c.base[v.k]+v.tol, v.tol)}</div>`; });
+  tc.push(`<div class="tcard"><span class="sub">CO₂ en cabina</span><span class="val">${co2} <small>mmHg · base ${baseCO2()}</small></span>${chispa(S.cab.co2, baseCO2()-CO2.tol, baseCO2()+CO2.tol, CO2.tol)}</div>`);
+  tc.push(`<div class="tcard"><span class="sub">Dosis diaria de radiación</span><span class="val">${S.cab.dosis[DIAS-1]} <small>mSv</small></span>${chispa(S.cab.dosis, TASA_RAD-0.15, TASA_RAD+0.15, 0.3)}</div>`);
+  $('tcards').innerHTML = tc.join('');
+  $('largo').innerHTML = largoPlazo();
+  const ventana = S.cab.dosis.reduce((s,x) => s+x, 0), previos = Math.max(0, S.dia - DIAS);
+  const mision = ventana + previos * TASA_RAD, total = c.previa + mision;
+  const porDia = mediana(S.cab.dosis), diasRest = Math.max(0, Math.floor((LIMITE_CARRERA - total)/porDia));
+  $('rad').innerHTML = `<p><strong>${coma(total)} mSv</strong> de ${LIMITE_CARRERA} mSv del límite de carrera de la NASA (${coma(total/LIMITE_CARRERA*100)} %).</p>
+    <div class="bar" role="img" aria-label="Dosis de carrera usada"><i style="width:${Math.min(100,total/LIMITE_CARRERA*100).toFixed(1)}%"></i></div>
+    <p class="sub">Antes de esta misión: ${c.previa} mSv. En esta misión: ${coma(mision)} mSv en ${S.dia} días${previos ? ` (los últimos ${DIAS} simulados, el resto estimado a ${coma(TASA_RAD, 2)} mSv por día)` : ''}. Al ritmo de ${coma(porDia, 2)} mSv por día quedan unos ${diasRest} días de margen.</p>
+    <p class="src">${dato('radiacion_tasa')} · ${dato('radiacion_mision')}</p>`;
+
+  $('pvtRes').textContent = `Último resultado de ${c.nombre}: ${c.pvt} ms (su base: ${c.rt} ms).`;
+  if (S.tab === 'datos') datosVuelo();
+}
+
+// Test de atención: 5 intentos de tiempo de reacción
+const T = {n:0, tiempos:[], t0:0, timer:null, fase:'idle'};
+const pad = $('pad');
+function espera(){ T.fase='wait'; pad.className='pad wait'; pad.textContent=`Espera… (${T.n+1} de 5)`;
+  T.timer = setTimeout(() => { T.fase='go'; T.t0=performance.now(); pad.className='pad go'; pad.textContent='¡Toca!'; }, 1500 + Math.random()*2500); }
+pad.addEventListener('click', () => {
+  if (T.fase==='idle'){ T.n=0; T.tiempos=[]; espera(); }
+  else if (T.fase==='wait'){ clearTimeout(T.timer); pad.textContent='Muy pronto. Espera el verde.'; T.timer = setTimeout(espera, 900); }
+  else if (T.fase==='go'){ T.tiempos.push(performance.now()-T.t0); T.n++;
+    if (T.n < 5) espera();
+    else { T.fase='idle'; pad.className='pad'; pad.textContent='Repetir test';
+      actual().pvt = Math.round(T.tiempos.reduce((s,x)=>s+x,0)/5); S.escenario=null; render(); } }
+});
+
+// Asistente
+function preguntar(q){
+  $('q').value = q; const r = responder(q);
+  $('resp').innerHTML = r.tipo==='negativa' ? '<div class="alert s0"><strong>No puedo diagnosticar ni recetar.</strong> Contacta al oficial médico de la tripulación. Si no está disponible, sigue el procedimiento para tus síntomas y contacta al médico de vuelo.</div>'
+    : r.tipo==='proc' ? tarjeta({id:'asis-'+r.proc, titulo:PROC[r.proc].titulo, pasos:PROC[r.proc].pasos(/pierna|pie|tobillo|rodilla/.test(fold(q))?'pierna':'brazo'), items:PROC[r.proc].items(/pierna|pie|tobillo|rodilla/.test(fold(q))?'pierna':'brazo'), escalar:PROC[r.proc].escalar})
+    : r.tipo==='nada' ? '<div class="empty">No tengo un procedimiento verificado sobre eso. Pregunta al oficial médico.</div>' : '';
+}
+$('askForm').addEventListener('submit', e => { e.preventDefault(); preguntar($('q').value); });
+$('sugs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) preguntar(b.textContent); });
+
+cargar('brazo');
+</script>
+</body>
+</html>

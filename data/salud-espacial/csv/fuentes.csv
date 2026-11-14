@@ -1,0 +1,29 @@
+﻿id,cita,anio,tipo,n_sujetos,url,evidence_id_app
+norsk2015,"Norsk et al., J Physiol 593(3):573-584 (CARD, ISS)",2015,articulo,8,https://pmc.ncbi.nlm.nih.gov/articles/PMC4324706/,
+aha2019,"Fu, Levine et al., Circulation 2019 (AHA), Impact of Prolonged Spaceflight on Orthostatic Tolerance During Ambulation, and Blood Pressure Profiles in Astronauts",2019,articulo,12,https://neurosciencenews.com/fainting-astronauts-exercise-14528/,
+fraser2011,"Fraser, Greaves, Blaber et al., IAC-11 (CCISS, ISS 55-199 d)",2011,conferencia,7,https://iafastro.directory/iac/archive/browse/IAC-11/A1/2/9471/,
+hughson2012,"Hughson et al., J Appl Physiol 2012, Cardiovascular regulation during long-duration spaceflights to the ISS",2012,articulo,6,https://www.eurekalert.org/news-releases/850481,
+shuttle24h,"Holter y presion 24 h en astronautas del Transbordador (resumen en scite, J.B. Charles)",1996,articulo,,https://scite.ai/authors/john-b-charles-W8zrrg,
+hrv2013,Holter 24 h y variabilidad de FC en 8 astronautas de la ISS (PMC3628896),2013,articulo,8,https://pmc.ncbi.nlm.nih.gov/articles/PMC3628896,
+stahn2017,"Stahn et al., Sci Rep 7:16180, Increased core body temperature in astronauts during long-duration space missions",2017,articulo,11,https://pmc.ncbi.nlm.nih.gov/articles/PMC5701078,
+barger2014,"Barger et al., Lancet Neurol 13:904-912 (sueno en Transbordador e ISS)",2014,articulo,85,https://www.news-medical.net/news/20140810/Space-missions-affect-sleep-patterns-in-astronauts.aspx,sleep2014
+lang2004,"Lang et al., J Bone Miner Res 19(6):1006-1012 (DXA/QCT, ISS 4-6 meses)",2004,articulo,14,https://pubmed.ncbi.nlm.nih.gov/15125798/,
+sibonga2013,"Sibonga, Curr Osteoporos Rep 11:92-98",2013,articulo,,https://springerlink.bibliotecabuap.elogim.com/content/pdf/10.1007/s11914-013-0136-5.pdf,
+nasaBoneEvidence2017,NASA HRP Evidence Report: Risk of Bone Fracture due to Spaceflight-induced Changes to Bone,2017,reporte_nasa,,https://ntrs.nasa.gov/api/citations/20170004597/downloads/20170004597.pdf,boneLoss
+trappe2009,"Trappe et al., J Appl Physiol 106(4):1159-1168 (musculo, ISS 6 meses)",2009,articulo,9,https://epublications.marquette.edu/bio_fac/24/,muscle6months
+laurens2019,"Laurens et al., Front Physiol 10:321 (revision balance energetico; cita Zwart 2014 y Matsumoto 2011)",2019,articulo,,https://pmc.ncbi.nlm.nih.gov/articles/PMC6449861,
+smith2005,"Smith, Zwart et al., estado nutricional tras vuelo largo en la ISS",2005,articulo,,https://data.zhenzhi.com/details/1/886246903,
+trudel2022,"Trudel et al., Nature Medicine 2022, Hemolysis contributes to anemia during long-duration space flight",2022,articulo,14,https://ohri.ca/newsroom/story/view/1428?l=en,
+crewdose2024,Normas de dosis de radiacion para tripulantes de la ISS por agencia (PMC10919966),2024,articulo,,https://pmc.ncbi.nlm.nih.gov/articles/PMC10919966,
+cucinotta2008,"Cucinotta et al., Radiat Res 170:127-138 (dosimetria de organos, ISS)",2008,articulo,19,https://bioone.org/journals/radiation-research/volume-170/issue-1/RR1330.1/Physical-and-Biological-Organ-Dosimetry-Analysis-for-International-Space-Station/10.1667/RR1330.1.full,
+twins2019,"Garrett-Bakelman et al., Science 364:eaau8650 (NASA Twins Study)",2019,articulo,1,https://pmc.ncbi.nlm.nih.gov/articles/PMC7580864,
+i4_2024,"Molecular and physiological changes in the SpaceX Inspiration4 civilian crew, Nature 632:1155-1164",2024,articulo,4,https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997,
+penn_i4,"Penn Medicine, primer estudio de una tripulacion civil (Inspiration4)",2024,nota_prensa,4,https://www.pennmedicine.org/news/first-study-of-civilian-space-crew-charts-course-for-research-as-commercial-flight-heats-up,
+sans,"NASA clinical update on SANS, 2023; NASA-led review, 2025",2023,reporte_nasa,,https://ntrs.nasa.gov/citations/20220014606,sans
+herpes2019,"Mehta, Crucian et al., Frontiers in Microbiology, 2019",2019,articulo,,https://public-pages-files-2025.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2019.00016/text,herpes2019
+orthostatic,"NASA NTRS 20080043912, post-spaceflight orthostatic intolerance",2008,reporte_nasa,,https://ntrs.nasa.gov/citations/20080043912,orthostatic
+jugular2019,"Marshall-Goebel et al., JAMA Network Open, 2019",2019,articulo,11,https://scholarlycommons.henryford.com/surgery_articles/390,jugular2019
+co2Law2014,"Law et al., J Occup Environ Med, 2014",2014,articulo,,https://ohsonline.com/articles/2014/05/12/study-indicates-co2-may-cause-astronauts-headaches.aspx,co2Law2014
+fieldTest,NASA Field Test and Functional Task Test studies,,reporte_nasa,,https://www.nasa.gov/humans-in-space/walk-the-line-nasa-studies-physical-performance-after-spaceflight,fieldTest
+exerciseLoading,"NASA NTRS 20110015001, on-orbit exercise loading",2011,reporte_nasa,,https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20110015001.pdf,exerciseLoading
+nasaStd3001Radiation,NASA-STD-3001 Vol. 1; NASA OCHMO Radiation Protection Technical Brief,,reporte_nasa,,https://www.nasa.gov/sites/default/files/atoms/files/radiation_protection_technical_brief_ochmo.pdf,nasaStd3001Radiation

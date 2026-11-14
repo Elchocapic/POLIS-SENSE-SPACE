@@ -1,0 +1,14 @@
+﻿indicador_id,valor_tierra,de_entre_sujetos,valor_vuelo_objetivo,forma,tasa_por_mes,tasa_unidad,dias_hasta_estable,fuente_id,origen,nota
+fc_nocturna,55.5,7.0,55.7,escalon,,,,fraser2011,medido,Sin cambio real; usar la línea base de cada persona.
+fc_diurna,71.0,13.0,71.0,escalon,,,,fraser2011,medido,Valor en vuelo asumido igual a Tierra (Hughson 2012: FC sin cambio).
+pas_24h,120.0,10.0,106.0,escalon,,,7.0,aha2019,medido,días_hasta_estable es supuesto: el desplazamiento de fluidos ocurre en los primeros días.
+pad_24h,,,,escalon,,,,aha2019,medido,Sin cambio: mantener la línea base.
+dip_nocturno_pa,8.0,3.0,8.0,escalon,,,,norsk2015,medido,La bajada nocturna se mantiene.
+temp_central_reposo,37.0,,38.0,gradual,,,75.0,stahn2017,medido,"Rampa gradual ~2,5 meses; un umbral fijo de fiebre en 38 °C daría falsos positivos."
+sueno_duracion,6.5,,6.09,escalon,,,,barger2014,medido,"Valor de Tierra = período de entrenamiento (<6,5 h)."
+dmo_columna,0.0,,,lineal,-0.9,%/mes,,lang2004,medido,
+dmo_cadera,0.0,,,lineal,-1.45,%/mes,,lang2004,medido,
+musculo_pantorrilla_vol,0.0,,-13.0,lineal,-2.17,%/mes,,trappe2009,supuesto,Solo se midió pre/post (6 meses); la tasa lineal 13%/6 es un supuesto.
+masa_corporal,0.0,,,lineal,-0.73,%/mes,,laurens2019,medido,"Derivado de -2,4% por 100 días (Matsumoto 2011)."
+volumen_plasmatico,0.0,,-10.0,escalon,,,3.0,trudel2022,supuesto,días_hasta_estable es supuesto ('al llegar al espacio').
+radiacion_tasa,0.35,,,escalon,,,,crewdose2024,medido,"Rango 0,2-0,5 mSv/día; 0,35 es el punto medio."

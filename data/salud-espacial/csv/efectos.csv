@@ -1,0 +1,50 @@
+﻿id,indicador_id,mision,duracion_dias,fase,valor_pre,de_pre,valor_vuelo,de_vuelo,valor_post,de_post,cambio,cambio_min,cambio_max,cambio_unidad,tendencia,dias_hasta_efecto,n,fuente_id,hallazgo
+1,fc_nocturna,ISS larga duración,55-199,vuelo,55.5,7.0,55.7,8.0,,,0.2,,,lpm,sin_cambio,,7,fraser2011,"FC nocturna igual que en Tierra (55,5±7 vs 55,7±8 lpm en vuelo)."
+2,fc_diurna,ISS larga duración,55-199,pre_vuelo,71.0,13.0,,,,,,,,lpm,sin_cambio,,7,fraser2011,"FC en actividad diaria en Tierra: mañana 71,0±13, tarde 71,5±9, noche 72,8±10 lpm (referencia pre-vuelo)."
+3,fc_24h,ISS larga duración,85-192,vuelo,,,,,,,,,,,sin_cambio,,8,norsk2015,FC y catecolaminas sin cambio durante meses en la ISS.
+4,fc_24h,ISS larga duración,52-199,vuelo,,,,,,,,,,,sin_cambio,,6,hughson2012,"FC, presión y baroreflejo sin cambio de pre-vuelo a vuelo."
+5,fc_24h,ISS larga duración,52-199,post_vuelo,,,,,,,,,,,sube,,6,hughson2012,Tras el vuelo la FC y el gasto cardíaco suben ligeramente.
+6,fc_24h,Transbordador,corta,vuelo,,,,,,,,,,,baja,,,shuttle24h,"En vuelos cortos bajan FC, presión diastólica, su variabilidad y las extrasístoles ventriculares."
+7,fc_24h,Inspiration4,3,vuelo,,,,,,,,,,,baja,,4,penn_i4,Cambios cardiovasculares modestos: el corazón late más lento en microgravedad.
+8,vfc,ISS larga duración,corta y larga,post_vuelo,,,,,,,,,,,variable,5-30 post,8,hrv2013,5 días tras el regreso la regulación autonómica de la FC sigue alterada; al mes se recupera casi por completo.
+9,pas_24h,ISS larga duración,~180,vuelo,120.0,10.0,106.0,9.0,122.0,13.0,-14.0,,,mmHg,baja,,12,aha2019,"PAS 24 h: 120±10 antes, 106±9 en vuelo, 122±13 al aterrizar."
+10,pad_24h,ISS larga duración,~180,vuelo,,,,,,,,,,,sin_cambio,,12,aha2019,PAD sin cambio durante ni después del vuelo.
+11,pam_24h,ISS larga duración,85-192,vuelo,,,,,,,-9.0,-10.0,-8.0,mmHg,baja,,8,norsk2015,Presión ambulatoria 24 h baja 8-10 mmHg por caída de 39% en la resistencia vascular sistémica.
+12,dip_nocturno_pa,ISS larga duración,85-192,vuelo,,,8.0,3.0,,,,,,mmHg,sin_cambio,,8,norsk2015,La caída nocturna de presión (8±3 mmHg) se mantiene en el espacio.
+13,resistencia_vascular,ISS larga duración,85-192,vuelo,,,,,,,-39.0,,,%,baja,,8,norsk2015,Resistencia vascular sistémica -39%.
+14,volumen_sistolico,ISS larga duración,85-192,vuelo,,,,,,,35.0,25.0,45.0,%,sube,,8,norsk2015,Volumen sistólico +35±10%.
+15,gasto_cardiaco,ISS larga duración,85-192,vuelo,,,,,,,41.0,32.0,50.0,%,sube,,8,norsk2015,Gasto cardíaco +41±9%.
+16,baroreflejo,ISS larga duración,52-199,post_vuelo,,,,,,,-33.0,,,%,baja,,6,hughson2012,"Respuesta del baroreflejo cae ~1/3 tras el vuelo, solo sentado."
+17,tolerancia_ortostatica,ISS larga duración,~180,post_vuelo,,,,,,,,,,,sin_cambio,,12,aha2019,"Con ejercicio en vuelo y fluidos IV al aterrizar, ninguno tuvo hipotensión ortostática en actividades diarias."
+18,tolerancia_ortostatica,Transbordador,corta,post_vuelo,,,,,,,,20.0,30.0,% tripulantes,baja,,,orthostatic,Hipotensión y presíncope en 20-30% de astronautas al regresar.
+19,flujo_yugular,ISS larga duración,~50,vuelo,,,,,,,,,,,variable,~50,11,jugular2019,6 de 11 tripulantes con flujo yugular estancado o invertido ~día 50; uno con trombo.
+20,temp_central_reposo,ISS larga duración,larga,vuelo,37.0,,38.0,,,,1.0,,,°C,sube,~75,11,stahn2017,"Aumento de ~1 °C en reposo que se desarrolla gradualmente en 2,5 meses, hasta ~38 °C; ligado a IL-1ra."
+21,temp_central_ejercicio,ISS larga duración,larga,vuelo,,,40.0,,,,,,,°C,sube,,11,stahn2017,En ejercicio la temperatura central sube más y más rápido que en Tierra; a menudo supera 40 °C.
+22,sueno_duracion,ISS,larga,vuelo,,,6.09,,,,-2.41,,,h vs programado,baja,,21,barger2014,"Promedio 6,09 h/noche en la ISS (5,96 en Transbordador) aunque se programan 8,5 h."
+23,sueno_duracion,Entrenamiento,~90 d antes,pre_vuelo,6.5,,,,,,,,,h,baja,,85,barger2014,"~3 meses antes del vuelo ya dormían menos de 6,5 h/noche."
+24,sueno_noches_7h,ISS,larga,vuelo,,,24.0,,50.0,,,,,%,baja,,21,barger2014,24% de noches con >=7 h en la ISS (12% en Transbordador) vs 50% y 42% tras la misión.
+25,sueno_medicacion,ISS,larga,vuelo,,,75.0,,,,,,,% tripulantes,sube,,85,barger2014,75% de tripulantes de la ISS y 78% del Transbordador usaron somníferos en algún momento.
+26,dmo_columna,ISS larga duración,120-180,vuelo,,,,,,,-0.9,,,%/mes,baja,,14,lang2004,"aBMD columna -0,9%/mes."
+27,dmo_cadera,ISS larga duración,120-180,vuelo,,,,,,,-1.45,-1.5,-1.4,%/mes,baja,,14,lang2004,"aBMD cadera -1,4 a -1,5%/mes."
+28,dmo_cadera_trabecular,ISS larga duración,120-180,vuelo,,,,,,,-2.45,-2.7,-2.2,%/mes,baja,,14,lang2004,"vBMD trabecular de cadera -2,2 a -2,7%/mes."
+29,dmo_calcaneo,ISS larga duración,120-180,vuelo,,,,,,,-0.4,,,%/mes,baja,,14,lang2004,"Calcáneo -0,4%/mes."
+30,dmo_cadera,ISS larga duración,~180,post_vuelo,,,,,,,-1.25,-1.5,-1.0,%/mes,baja,,,nasaBoneEvidence2017,"Pérdida promedio de 1-1,5%/mes en sitios de carga; gran variación entre sitios y tripulantes."
+31,dmo_cadera,ISS larga duración,~180,post_vuelo,,,,,,,,,-10.0,%,baja,,,sibonga2013,Algunos astronautas pierden >10% en cadera y columna tras 6 meses.
+32,musculo_pantorrilla_vol,ISS larga duración,~180,post_vuelo,,,,,,,-13.0,-15.0,-11.0,%,baja,,9,trappe2009,"Volumen de pantorrilla -13±2% (sóleo -15%, gastrocnemio -10%)."
+33,musculo_potencia,ISS larga duración,~180,post_vuelo,,,,,,,-32.0,,,%,baja,,9,trappe2009,Potencia máxima -32% tras el vuelo.
+34,masa_corporal,ISS larga duración,larga,vuelo,,,,,,,-3.5,-5.0,-2.0,%,baja,,,laurens2019,En la ISS reciente se pierde 2-5% de la masa inicial (Zwart 2014).
+35,masa_corporal,619 misiones,varias,vuelo,,,,,,,-2.4,,,% por 100 dias,baja,,,laurens2019,"Modelo lineal sobre 619 misiones: -2,4% por cada 100 días (Matsumoto 2011)."
+36,ingesta_energia,ISS larga duración,larga,vuelo,,,80.0,,,,,,,%,baja,,,smith2005,Los tripulantes consumen en promedio 80% de la energía recomendada.
+37,ejercicio_carga,ISS larga duración,larga,vuelo,,,43.0,,,,,,,min/dia,baja,,,exerciseLoading,"Carga real promedio 43 min/día frente a 146,8 min asignados."
+38,volumen_plasmatico,ISS larga duración,larga,vuelo,,,,,,,-10.0,,,%,baja,primeros días,,trudel2022,Se pierde ~10% del líquido de los vasos sanguíneos al llegar al espacio.
+39,hemolisis,ISS larga duración,~180,vuelo,,,,,,,54.0,,,%,sube,,14,trudel2022,54% más destrucción de glóbulos rojos (3 vs 2 millones/s) durante toda la misión.
+40,hemolisis,ISS larga duración,~180,post_vuelo,,,,,,,30.0,,,%,sube,,14,trudel2022,Un año después sigue 30% sobre el nivel pre-vuelo; glóbulos rojos normales a los 3-4 meses.
+41,anemia_aterrizaje,ISS larga duración,~180,post_vuelo,,,,,5.0,,,,,de 13,sube,,13,trudel2022,5 de 13 astronautas con anemia diagnosticable al aterrizar.
+42,radiacion_tasa,ISS,-,vuelo,,,,,,,,0.2,0.5,mSv/dia,sube,,,crewdose2024,"Dosis efectiva ~0,2 a ~0,5 mSv/día o más."
+43,radiacion_mision,ISS,~180,vuelo,,,72.0,,,,,,,mSv,sube,,19,cucinotta2008,Dosis efectiva media de 72 mSv por misión de ~6 meses.
+44,radiacion_limite,-,carrera,vuelo,,,600.0,,,,,,,mSv,sin_cambio,,,nasaStd3001Radiation,Límite de carrera 600 mSv; 250 mSv por evento solar de partículas.
+45,sans,ISS larga duración,larga,vuelo,,,66.0,,,,,,,% tripulantes,sube,,,sans,~66% de astronautas de larga duración muestran signos tempranos de SANS.
+46,herpes_reactivacion,ISS,larga,vuelo,,,61.0,,,,,,,% tripulantes,sube,,,herpes2019,61% de astronautas de la ISS eliminan herpesvirus reactivados; pocos con síntomas.
+47,co2_cefalea,ISS,-,vuelo,,,,,,,2.0,,,odds ratio por mmHg,sube,,,co2Law2014,Cada 1 mmHg de CO2 duplica la probabilidad de cefalea; <=4 mmHg reduce a la mitad el riesgo semanal.
+48,funcion_sensoriomotora,ISS larga duración,larga,post_vuelo,,,,,,,48.0,,,% mas tiempo,baja,1-7 post,,fieldTest,Un día tras aterrizar el circuito funcional tarda 48% más; déficits hasta una semana.
+49,masa_corporal_twins,ISS larga duración,340,vuelo,,,,,,,,,,,variable,,1,twins2019,"Baja masa corporal, distensión carotídea y mayor grosor íntima-media, cambios oculares, de expresión génica y cognitivos; la mayoría vuelve a niveles pre-vuelo."
