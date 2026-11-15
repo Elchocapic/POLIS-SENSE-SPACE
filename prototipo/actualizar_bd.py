@@ -5,6 +5,8 @@
 
 Lee data/salud-espacial/astronaut_health.json, guarda una versión compacta en
 prototipo/plantilla.html (donde está /*BD*/) y escribe prototipo/index.html.
+También mete los registros reales de data/monitoreo-real/ (donde está /*REAL*/),
+que alimentan la pestaña "Datos reales".
 El resultado es un solo archivo que funciona sin conexión.
 """
 import json
@@ -14,6 +16,8 @@ RAIZ = pathlib.Path(__file__).resolve().parent.parent
 BD_JSON = RAIZ / "data" / "salud-espacial" / "astronaut_health.json"
 PLANTILLA = RAIZ / "prototipo" / "plantilla.html"
 SALIDA = RAIZ / "prototipo" / "index.html"
+REAL_JSON = RAIZ / "data" / "monitoreo-real" / "alertas_v2.json"
+SOMA_JSON = RAIZ / "data" / "monitoreo-real" / "evidencia_soma.json"
 
 EFECTO = ["indicador_id", "mision", "duracion_dias", "fase", "valor_pre", "valor_vuelo", "valor_post",
           "cambio", "cambio_min", "cambio_max", "cambio_unidad", "tendencia", "n", "fuente_id", "hallazgo"]
@@ -36,5 +40,38 @@ html = PLANTILLA.read_text(encoding="utf-8")
 if "/*BD*/" not in html:
     raise SystemExit("La plantilla no tiene el marcador /*BD*/")
 codigo = "const BD = " + json.dumps(bd, ensure_ascii=False, separators=(",", ":")) + ";"
-SALIDA.write_text(html.replace("/*BD*/", codigo), encoding="utf-8")
-print("prototipo/index.html actualizado:", len(bd["efectos"]), "hallazgos,", len(bd["fuentes"]), "fuentes")
+
+
+def datos_reales():
+    """Compacta alertas_v2.json: una serie por tripulante y variable, [día, valor, estado]."""
+    filas = json.loads(REAL_JSON.read_text(encoding="utf-8"))
+    dias = sorted({f["dia"] for f in filas})
+    pos = {d: i for i, d in enumerate(dias)}
+    estado = {"normal": 0, "vigilancia": 1, "alerta": 2}
+    lado = {"pulso_reposo": "ambos", "carga_cardiaca": "alto", "inquietud": "alto"}
+    variables, trip, dolor = {}, {}, {}
+    for f in filas:
+        k, p = f["variable"], f["astronauta"]
+        variables.setdefault(k, {"nombre": f["nombre"], "unidad": f["unidad"], "zona": f["zona_cuerpo"],
+                                 "lado": lado.get(k, "bajo")})
+        s = trip.setdefault(p, {}).setdefault(k, {"m": f["media"], "li": f["limite_inferior"],
+                                                   "ls": f["limite_superior"], "b": 0, "d": []})
+        s["b"] += f["fase"] == "linea_base"
+        s["d"].append([pos[f["dia"]], f["valor"], estado[f["estado"]]])
+        if f.get("zonas_dolor"):
+            dolor.setdefault(p, {})[pos[f["dia"]]] = f["zonas_dolor"]
+    for p in trip.values():
+        for s in p.values():
+            s["d"].sort()
+    soma = [{k: e[k] for k in ("id", "zona_cuerpo", "variables_relacionadas", "hallazgo", "cita", "anio", "url")}
+            for e in json.loads(SOMA_JSON.read_text(encoding="utf-8"))]
+    return {"dias": dias, "vars": variables, "trip": trip, "dolor": dolor, "soma": soma}, len(filas)
+
+
+if "/*REAL*/" not in html:
+    raise SystemExit("La plantilla no tiene el marcador /*REAL*/")
+real, n_real = datos_reales()
+codigo_real = "const REAL = " + json.dumps(real, ensure_ascii=False, separators=(",", ":")) + ";"
+SALIDA.write_text(html.replace("/*BD*/", codigo).replace("/*REAL*/", codigo_real), encoding="utf-8")
+print("prototipo/index.html actualizado:", len(bd["efectos"]), "hallazgos,", len(bd["fuentes"]), "fuentes,",
+      n_real, "registros reales de", len(real["trip"]), "tripulantes")

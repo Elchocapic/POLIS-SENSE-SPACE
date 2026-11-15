@@ -17,10 +17,20 @@ Abre `index.html` en el navegador (doble clic). No necesita servidor ni internet
 - **Radiación**: tasa diaria y límite de carrera de la base.
 - **Pestaña Datos del vuelo**: los 49 hallazgos, filtrables por sistema, con su fuente.
 
+## Pestaña Datos reales
+
+Usa `data/monitoreo-real/alertas_v2.json`: 5 personas reales (P01–P05), 151 días y 12 variables, cada una
+comparada con el rango normal de esa persona. Con la barra de día se recorre el registro; los botones de
+**Casos** saltan a los días más útiles para la demo. Cada alerta trae zona en el mapa, causa probable
+(reglas simples sobre coincidencias entre variables), dato del vuelo, checklist y pasos.
+
+Son datos de personas en Tierra (PMData), no de astronautas. Detalles en `data/monitoreo-real/README.md`.
+
 ## Editar
 
 - La página se edita en `plantilla.html` (no en `index.html`, que se genera).
 - Los datos se editan en `data/salud-espacial/build_db.py`.
+- Los registros reales se regeneran con `data/monitoreo-real/kpi_extra.py`.
 
 Después de cualquier cambio:
 

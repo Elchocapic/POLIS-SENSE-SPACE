@@ -119,6 +119,15 @@ hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
 .ef .trend{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .ef .trend.up{color:var(--crit)} .ef .trend.down{color:var(--warn)} .ef .trend.eq{color:var(--ok)}
 .ef p,.ef .src{grid-column:1/-1}
+.rz{fill:var(--idle);stroke:var(--panel);stroke-width:3;transition:fill .2s}
+.rz.s0{fill:var(--ok)} .rz.s1{fill:var(--warn)} .rz.s2{fill:var(--crit)}
+.gridR{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:980px){.gridR{grid-template-columns:1fr}}
+.dayrow{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.dayrow input[type=range]{flex:1;min-width:200px;accent-color:var(--accent)}
+.dayrow strong{font-variant-numeric:tabular-nums}
+.tcard.s1{border-left:5px solid var(--warn)} .tcard.s2{border-left:5px solid var(--crit)}
+.tcard .head{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .tag{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 </style>
 </head>
@@ -132,9 +141,9 @@ hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
     <span id="estado" class="pill">Sin novedades</span>
   </header>
 
-  <div class="notice">Prototipo con datos simulados o ingresados a mano. No es un dispositivo médico. Los cambios propios del vuelo (presión, temperatura, sueño, hueso, músculo, radiación) siguen valores publicados de estudios en la ISS (pestaña <em>Datos del vuelo</em>). La tripulación es ficticia y los pasos y materiales de los procedimientos son de ejemplo: deben reemplazarse por protocolos citados.</div>
+  <div class="notice">Prototipo con datos simulados o ingresados a mano. No es un dispositivo médico. Los cambios propios del vuelo (presión, temperatura, sueño, hueso, músculo, radiación) siguen valores publicados de estudios en la ISS (pestaña <em>Datos del vuelo</em>). La pestaña <em>Datos reales</em> usa registros de reloj y autorreporte de 5 personas en Tierra (PMData), no de astronautas. En las demás pestañas la tripulación es ficticia. Los pasos y materiales de los procedimientos son de ejemplo: deben reemplazarse por protocolos citados.</div>
 
-  <div class="row" role="group" aria-label="Tripulación"><span class="rowlabel">Tripulante</span><span id="crew" class="row"></span></div>
+  <div class="row" id="rowCrew" role="group" aria-label="Tripulación"><span class="rowlabel">Tripulante</span><span id="crew" class="row"></span></div>
   <div class="row" id="dias" role="group" aria-label="Día de misión">
     <span class="rowlabel">Día de misión</span>
     <button type="button" class="chip" data-d="14">14</button>
@@ -159,6 +168,7 @@ hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
     <button type="button" role="tab" data-t="chequeo">Chequeo diario</button>
     <button type="button" role="tab" data-t="asis">Asistente</button>
     <button type="button" role="tab" data-t="datos">Datos del vuelo</button>
+    <button type="button" role="tab" data-t="real">Datos reales</button>
   </div>
 
   <!-- MI ESTADO -->
@@ -253,6 +263,56 @@ hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
       <div id="efectos" class="stack"></div>
     </section>
   </div>
+
+  <!-- DATOS REALES -->
+  <div class="stack" id="v-real" hidden>
+    <section class="panel">
+      <h2>Monitoreo con datos reales</h2>
+      <p class="sub">Cinco personas con reloj y autorreporte diario durante 151 días (PMData). Cada valor se compara con el rango normal de esa persona, calculado con sus primeros 21 registros. Sirve para probar la detección con datos que no inventamos.</p>
+      <div class="row" role="group" aria-label="Tripulante real"><span class="rowlabel">Tripulante</span><span id="rcrew" class="row"></span></div>
+      <div class="dayrow">
+        <span class="rowlabel">Día</span>
+        <button type="button" class="chip" id="rprev" aria-label="Día anterior">◀</button>
+        <input type="range" id="rdia" min="0" max="150" step="1" aria-label="Día del registro">
+        <button type="button" class="chip" id="rnext" aria-label="Día siguiente">▶</button>
+        <strong id="rfecha"></strong>
+      </div>
+      <div class="row" id="rcasos" role="group" aria-label="Casos para la demo"><span class="rowlabel">Casos</span></div>
+    </section>
+    <div class="gridR">
+      <section class="panel" aria-label="Mapa corporal con datos reales">
+        <h2>Mapa corporal</h2>
+        <svg class="body" viewBox="0 0 200 400" role="img" aria-label="Zonas del cuerpo afectadas ese día" id="rmapa">
+          <circle class="rz" data-z="cabeza" cx="100" cy="36" r="28"/>
+          <rect class="rz" data-z="torax" x="64" y="70" width="72" height="72" rx="12"/>
+          <rect class="rz" data-z="abdomen" x="67" y="145" width="66" height="58" rx="10"/>
+          <rect class="rz" data-z="brazoD" x="33" y="74" width="26" height="130" rx="13"/>
+          <rect class="rz" data-z="brazoI" x="141" y="74" width="26" height="130" rx="13"/>
+          <rect class="rz" data-z="piernaD" x="68" y="207" width="30" height="180" rx="14"/>
+          <rect class="rz" data-z="piernaI" x="102" y="207" width="30" height="180" rx="14"/>
+        </svg>
+        <div class="legend">
+          <span><i style="background:var(--ok)"></i>Normal</span>
+          <span><i style="background:var(--warn)"></i>Vigilar</span>
+          <span><i style="background:var(--crit)"></i>Grave</span>
+        </div>
+        <p class="sub" id="rzonas"></p>
+      </section>
+      <section class="panel" aria-label="Qué hacer con datos reales">
+        <h2>Qué hacer</h2>
+        <div id="ralertas" class="stack"></div>
+      </section>
+    </div>
+    <section class="panel">
+      <h2>Lecturas del día</h2>
+      <p class="sub">La franja es el rango normal de esa persona y la línea, sus últimos 30 registros.</p>
+      <div class="cards" id="rcards"></div>
+    </section>
+    <section class="panel">
+      <h2>Fuentes de estos datos</h2>
+      <div id="rfuentes" class="stack"></div>
+    </section>
+  </div>
 </div>
 
 <script>
@@ -260,6 +320,7 @@ hr{border:0;border-top:1px solid var(--line);margin:2px 0;width:100%}
 // 0. BASE DE DATOS (generada desde data/salud-espacial/build_db.py del repositorio)
 // =====================================================================
 /*BD*/
+/*REAL*/
 const IND = Object.fromEntries(BD.indicadores.map(i => [i.id, i]));
 const FUE = Object.fromEntries(BD.fuentes.map(f => [f.id, f]));
 const PAR = Object.fromEntries(BD.parametros.map(p => [p.indicador_id, p]));
@@ -402,6 +463,18 @@ const PROC = {
     pasos:()=>['Ve al refugio: la zona con más blindaje de la nave.','Suspende las actividades fuera del refugio.','Lee tu dosímetro personal cada hora y regístralo.','Permanece en el refugio hasta que la dosis vuelva a su valor habitual.'],
     escalar:'Informa a control de misión de la dosis recibida. Contacta al médico de vuelo si hay náuseas o vómito.',
     items:()=>['Dosímetro personal','Agua y comida para 24 horas','Botiquín','Registro de dosis'] },
+  pulso:{ titulo:'Pulso fuera de tu rango', claves:'pulso corazon latidos palpitaciones taquicardia frecuencia cardiaca alto alta acelerado rapido',
+    pasos:()=>['Repite la medición tras 10 minutos de reposo, sentado y sin hablar.','Registra temperatura, saturación de oxígeno y respiración.','Hidrátate y evita el ejercicio intenso hoy.','Revisa cómo dormiste y cuánto ejercicio hiciste los últimos 2 días.','Vuelve a medir mañana al despertar.'],
+    escalar:'Contacta al médico de vuelo si persiste 2 días o hay palpitaciones, mareo, dolor en el pecho o falta de aire.',
+    items:()=>['Oxímetro de pulso','Termómetro','Tensiómetro','Bolsa de bebida','Registro de ejercicio y sueño'] },
+  fatiga:{ titulo:'Fatiga o baja disposición', claves:'fatiga agotado agotamiento energia disposicion debil flojo rendimiento',
+    pasos:()=>['Reduce la intensidad del ejercicio de hoy.','Completa las comidas y la hidratación del plan.','Haz el test de atención antes de una tarea crítica.','Acuéstate a la hora programada.','Repite el chequeo mañana.'],
+    escalar:'Contacta al médico de vuelo si dura 3 días o más, o si se suma fiebre o pulso fuera de tu rango.',
+    items:()=>['Plan de ejercicio del día','Bolsa de bebida','Ración completa del día','Registro de sueño'] },
+  muscular:{ titulo:'Dolor muscular', claves:'muscular musculo agujetas adolorido sobrecarga calambre estirar',
+    pasos:()=>['Baja la carga de ejercicio sobre la zona señalada.','Estira la zona con suavidad de 5 a 10 minutos.','Si el dolor es reciente, aplica frío 15 minutos, envuelto en tela.','Registra el dolor de nuevo mañana.'],
+    escalar:'Contacta al médico de vuelo si el dolor es intenso, dura más de 3 días, o hay inflamación o pérdida de movilidad.',
+    items:()=>['Compresa fría','Banda elástica para estirar','Plan de ejercicio ajustado','Analgésico del botiquín (con autorización médica)'] },
   dolor:{ titulo:'Dolor localizado', claves:'dolor duele molestia pecho abdomen estomago cabeza',
     pasos:()=>['Describe el dolor: cuándo empezó, tipo e intensidad.','Registra todos los signos vitales ahora.','Repite el registro en 1 hora.'],
     escalar:'Contacta al médico de vuelo si el dolor aumenta o aparecen otros síntomas. Dolor en el pecho: contacta de inmediato.',
@@ -682,7 +755,130 @@ function render(){
 
   $('pvtRes').textContent = `Último resultado de ${c.nombre}: ${c.pvt} ms (su base: ${c.rt} ms).`;
   if (S.tab === 'datos') datosVuelo();
+  for (const id of ['rowCrew', 'dias', 'scen']) $(id).hidden = S.tab === 'real';
+  if (S.tab === 'real') renderReal();
 }
+
+// =====================================================================
+// 6. DATOS REALES (PMData): detección con línea base personal y causa probable
+// =====================================================================
+const RZ = {corazon:['torax'], cabeza:['cabeza'], musculos:EXTREMIDAD};
+const RDOLOR = {pierna_izquierda:['piernaI'], pierna_derecha:['piernaD'], brazo_izquierdo:['brazoI'], brazo_derecho:['brazoD'], pelvis:['abdomen'], tronco:['torax','abdomen'], cabeza:['cabeza']};
+const RNOMBRE = {pierna_izquierda:'pierna izquierda', pierna_derecha:'pierna derecha', brazo_izquierdo:'brazo izquierdo', brazo_derecho:'brazo derecho', pelvis:'pelvis', tronco:'tronco', cabeza:'cabeza'};
+const RGRUPOS = [
+  {id:'pulso',  proc:'pulso',    titulo:'Pulso fuera de tu rango',   vars:['pulso_reposo','carga_cardiaca','recuperacion_nocturna']},
+  {id:'sueno',  proc:'sueno',    titulo:'Sueño fuera de tu rango',   vars:['sueno','horas_sueno','sueno_profundo','inquietud']},
+  {id:'animo',  proc:'animo',    titulo:'Ánimo bajo o estrés alto',  vars:['animo','estres']},
+  {id:'fatiga', proc:'fatiga',   titulo:'Fatiga o baja disposición', vars:['fatiga','disposicion']},
+  {id:'dolor',  proc:'muscular', titulo:'Dolor muscular',            vars:['dolor']},
+];
+const RCASOS = [['P04','2020-03-02','P04 · cinco variables a la vez'], ['P04','2020-01-06','P04 · inicio del desajuste'], ['P04','2020-02-04','P04 · pulso, sueño y dolor'], ['P01','2020-02-07','P01 · dolor intenso'], ['P05','2019-12-05','P05 · pulso, ánimo y fatiga']];
+const RTRIP = Object.keys(REAL.trip);
+S.real = {p:'P04', i:REAL.dias.indexOf('2020-03-02')};
+
+/** Registro de una variable en un día: {v, e, base} o null si ese día no hay dato. */
+function rdato(p, k, i){
+  const s = REAL.trip[p][k]; if (!s) return null;
+  const j = s.d.findIndex(x => x[0] === i); if (j < 0) return null;
+  return {v:s.d[j][1], e:s.d[j][2], base:j < s.b, j};
+}
+const rnum = n => coma(n, Number.isInteger(n) ? 0 : 1);
+function rrango(k, s){
+  const lado = REAL.vars[k].lado;
+  return lado === 'ambos' ? `tu rango ${rnum(s.li)} a ${rnum(s.ls)}` : lado === 'alto' ? `tu máximo ${rnum(s.ls)}` : `tu mínimo ${rnum(s.li)}`;
+}
+/** Días seguidos (registros) fuera de lo normal hasta el día i. */
+function rracha(p, k, i){
+  const s = REAL.trip[p][k]; let j = s.d.findIndex(x => x[0] === i), n = 0;
+  for (; j >= 0 && s.d[j][2] > 0; j--) n++;
+  return n;
+}
+function evaluarReal(p, i){
+  const est = k => rdato(p, k, i)?.e ?? 0;
+  const malSueno = RGRUPOS[1].vars.some(k => est(k) > 0);
+  const carga = REAL.trip[p].carga_cardiaca;
+  const cargaReciente = [i, i-1, i-2].map(d => rdato(p, 'carga_cardiaca', d)?.v ?? 0);
+  const cargaAlta = Math.max(...cargaReciente) > Math.max(1.5 * carga.m, carga.m + 15);
+  const txtCarga = `en los últimos 3 días hubo uno con ${rnum(Math.max(...cargaReciente))} minutos de pulso sobre 120 lpm (tu media diaria: ${rnum(carga.m)})`;
+  const a = [];
+  for (const g of RGRUPOS){
+    const fuera = g.vars.map(k => [k, rdato(p, k, i)]).filter(([, r]) => r && r.e > 0);
+    if (!fuera.length) continue;
+    const sev = Math.max(...fuera.map(([, r]) => r.e));
+    const porque = fuera.map(([k, r]) => `${REAL.vars[k].nombre} ${rnum(r.v)} ${REAL.vars[k].unidad} (${rrango(k, REAL.trip[p][k])})`);
+    let zonas = [...new Set(fuera.flatMap(([k]) => RZ[REAL.vars[k].zona]))], causa;
+    if (g.id === 'dolor'){
+      const z = REAL.dolor[p]?.[i] ?? [];
+      if (z.length){ zonas = [...new Set(z.flatMap(x => RDOLOR[x] ?? []))]; porque.push('zona reportada: ' + z.map(x => RNOMBRE[x] ?? x).join(', ')); }
+      causa = cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin ejercicio intenso reciente en los datos del reloj. Vigila si se repite en la misma zona.';
+    } else if (g.id === 'pulso'){
+      const dias = rracha(p, 'pulso_reposo', i);
+      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango el mismo día.'
+        : cargaAlta ? `Probable carga física: ${txtCarga}.`
+        : dias >= 5 ? `Tendencia sostenida: ${dias} registros seguidos fuera de tu promedio, no es un mal día aislado. Compatible con fatiga acumulada, desajuste de horario o inicio de enfermedad; mide la temperatura para distinguir.`
+        : 'Sin causa clara con los datos del reloj. Repite la medición y revisa temperatura y ambiente de cabina.';
+    } else if (g.id === 'sueno'){
+      causa = (est('animo') > 0 || est('estres') > 0) ? 'Coincide con ánimo bajo o estrés alto el mismo día: atiende ambos.'
+        : cargaAlta ? `Coincide con carga física alta: ${txtCarga}.`
+        : 'Conductual o ambiental: el pulso y el ánimo están en tu rango. Revisa horario, luz y ruido.';
+    } else if (g.id === 'animo'){
+      causa = 'Conductual: es frecuente en aislamiento y confinamiento prolongados.' + (malSueno ? ' Coincide con sueño fuera de tu rango.' : '');
+    } else {
+      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango.' : cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin causa clara todavía. Revisa sueño, alimentación y carga de trabajo.';
+    }
+    const ev = REAL.soma.find(e => e.variables_relacionadas.some(k => g.vars.includes(k)));
+    const pr = PROC[g.proc];
+    a.push({id:'real-'+g.id, sev, zonas, titulo:g.titulo, porque, causa, dato: g.id === 'sueno' ? dato('sueno_duracion', 'barger2014') : ev ? `${esc(ev.hallazgo)} (${enlace(ev)})` : '',
+      pasos:pr.pasos(), items:pr.items(), escalar:pr.escalar});
+  }
+  return a.sort((x, y) => y.sev - x.sev);
+}
+function chispaReal(s, j){
+  const tramo = s.d.slice(Math.max(0, j - 29), j + 1).map(x => x[1]);
+  if (tramo.length < 2) return '';
+  const lo = REAL.vars[s.k].lado === 'alto' ? Math.min(...tramo) : s.li, hi = REAL.vars[s.k].lado === 'bajo' ? Math.max(...tramo, s.m) : s.ls;
+  return chispa(tramo, lo, hi, (hi - lo) / 6 || 1);
+}
+function renderReal(){
+  const R = S.real, fecha = REAL.dias[R.i], alertas = evaluarReal(R.p, R.i);
+  $('rcrew').innerHTML = RTRIP.map(p => { const al = evaluarReal(p, R.i), m = al.length ? al[0].sev : 0;
+    return `<button type="button" class="crew" data-p="${p}" aria-pressed="${p===R.p}"><span class="dot s${m}"></span><span>${p}<small>${SEV[m]}</small></span></button>`; }).join('');
+  $('rdia').value = R.i;
+  const enBase = Object.keys(REAL.vars).every(k => { const r = rdato(R.p, k, R.i); return !r || r.base; });
+  $('rfecha').textContent = `Día ${R.i + 1} de ${REAL.dias.length} · ${fecha}${enBase ? ' · línea base' : ''}`;
+  if (!$('rcasos').dataset.listo){ $('rcasos').dataset.listo = 1;
+    $('rcasos').insertAdjacentHTML('beforeend', RCASOS.map(([p, d, t]) => `<button type="button" class="chip" data-p="${p}" data-d="${d}">${t}</button>`).join('')); }
+  document.querySelectorAll('#rcasos button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === R.p && b.dataset.d === fecha)));
+
+  const max = alertas.length ? alertas[0].sev : 0;
+  $('estado').className = 'pill s' + max;
+  $('estado').textContent = `${R.p}: ` + (max === 0 ? 'sin novedades' : `${alertas.length} ${alertas.length===1?'alerta':'alertas'} · ${SEV[max]}`);
+  const sevZona = {}; for (const z of TODAS) sevZona[z] = 0;
+  for (const a of alertas) for (const z of a.zonas) sevZona[z] = Math.max(sevZona[z], a.sev);
+  document.querySelectorAll('#rmapa .rz').forEach(el => el.setAttribute('class', 'rz s' + sevZona[el.dataset.z]));
+  const tocadas = TODAS.filter(z => sevZona[z] > 0);
+  $('rzonas').textContent = tocadas.length ? 'Zonas afectadas: ' + tocadas.map(z => `${ZONAS[z].toLowerCase()} (${SEV[sevZona[z]].toLowerCase()})`).join(', ') + '.' : 'Ninguna zona fuera de lo normal este día.';
+  $('ralertas').innerHTML = alertas.length ? alertas.map(a => tarjeta(a, false)).join('')
+    : `<div class="empty">${enBase ? 'Este día todavía es parte de la línea base: se usa para calcular el rango normal y no genera alertas.' : 'Todas las lecturas de este día están dentro del rango normal de ' + R.p + '.'}</div>`;
+
+  $('rcards').innerHTML = Object.keys(REAL.vars).map(k => {
+    const v = REAL.vars[k], s = REAL.trip[R.p][k], r = rdato(R.p, k, R.i);
+    if (!r) return `<div class="tcard"><span class="sub">${esc(v.nombre)}</span><span class="val"><small>sin dato este día</small></span></div>`;
+    return `<div class="tcard s${r.e}"><div class="head"><span class="sub">${esc(v.nombre)}</span><span class="pill s${r.e}">${r.base ? 'Línea base' : SEV[r.e]}</span></div>
+      <span class="val">${rnum(r.v)} <small>${esc(v.unidad)} · ${rrango(k, s)}</small></span>${chispaReal({...s, k}, r.j)}</div>`;
+  }).join('');
+  if (!$('rfuentes').dataset.listo){ $('rfuentes').dataset.listo = 1;
+    const citas = [...new Map(REAL.soma.map(e => [e.url, e])).values()];
+    $('rfuentes').innerHTML = `<p><strong>Registros diarios:</strong> PMData (Simula), 5 de sus participantes, 1 nov 2019 a 30 mar 2020. Thambawita et al., <a href="https://doi.org/10.1145/3339825.3394926" target="_blank" rel="noopener">PMData: a sports logging dataset</a>, MMSys 2020. Licencia CC BY-NC 4.0: uso no comercial.</p>
+      <p><strong>Hallazgos en astronautas</strong> (línea "Dato del vuelo" de cada alerta): ${citas.map(e => `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.cita)}</a>`).join(' · ')}</p>
+      <p class="src">Método, variables y límites: <code>data/monitoreo-real/</code> en el repositorio del equipo. Las causas probables salen de reglas simples sobre coincidencias entre variables; son hipótesis, no diagnósticos.</p>`; }
+}
+function irReal(p, i){ S.real = {p, i:Math.min(REAL.dias.length - 1, Math.max(0, i))}; S.checks = {}; render(); }
+$('rcrew').addEventListener('click', e => { const b = e.target.closest('button'); if (b) irReal(b.dataset.p, S.real.i); });
+$('rcasos').addEventListener('click', e => { const b = e.target.closest('button'); if (b) irReal(b.dataset.p, REAL.dias.indexOf(b.dataset.d)); });
+$('rdia').addEventListener('input', e => irReal(S.real.p, +e.target.value));
+$('rprev').addEventListener('click', () => irReal(S.real.p, S.real.i - 1));
+$('rnext').addEventListener('click', () => irReal(S.real.p, S.real.i + 1));
 
 // Test de atención: 5 intentos de tiempo de reacción
 const T = {n:0, tiempos:[], t0:0, timer:null, fase:'idle'};
