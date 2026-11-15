@@ -48,6 +48,10 @@ Luma tiene tres piezas y cada una tiene respaldo:
 | Oído | Dictado del artefacto | Reconocimiento de voz del navegador (Chrome o Edge, con internet) o teclado |
 | Voz | Voz del artefacto | Síntesis de voz del navegador |
 
+En el sitio público (GitHub Pages) no hay Claude: si `luma-config.js` tiene la dirección del
+intermediario de `servidor-luma/`, Luma conversa con un modelo abierto gratuito; si está vacía, queda en
+modo a bordo.
+
 - Las emergencias (no responde, dolor de pecho, atragantamiento, sangrado, convulsión, alergia grave,
   quemadura, emergencia de la nave, golpe en la cabeza, ideas de hacerse daño) se detectan siempre en la
   página, sin esperar al modelo, y muestran primeros auxilios y a quién avisar.
