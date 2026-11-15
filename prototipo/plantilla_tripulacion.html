@@ -1101,12 +1101,12 @@ async function enviar(q){
     } catch (e){
       // La IA falló: se dice por qué, y esta respuesta sale del modo sin conexión para no dejar al astronauta sin nada
       clearTimeout(reloj); LUMA.msgs.pop(); LUMA.ocupado = false; orbe(''); $('lumaEstado').textContent = ESTADO;
-      const c = e && e.code, motivo = lento ? 'la respuesta tardó más de 45 segundos' : c === 'not_granted' ? 'no hay permiso para usar la IA en esta página' : c === 'rate_limited' ? 'se alcanzó el límite de consultas; espera un minuto' : 'no se pudo contactar con la IA' + (c ? ` (${c})` : '');
+      const c = e && e.code, motivo = lento ? 'la respuesta tardó más de 45 segundos' : c === 'not_granted' ? 'no hay permiso para usar la IA en esta página' : c === 'rate_limited' ? 'se alcanzó el límite de consultas; espera un minuto' : 'no se pudo contactar con la IA' + (c ? ` (${c}${e.detalle ? ': ' + String(e.detalle).slice(0, 220) : ''})` : '');
       if (c === 'not_granted' || c === 'rate_limited'){ LUMA.sample = null; LUMA.caida = motivo; modo(); if (c === 'rate_limited') setTimeout(reconectar, 60000); }
       LUMA.msgs.push({de:'luma', aviso:true, html:`<p>Perdí la conexión con la IA: ${esc(motivo)}. Te respondo con lo que tengo cargado${LUMA.sample ? '; el siguiente mensaje lo vuelvo a intentar con la IA' : ' hasta que pulses Reconectar'}.</p>`});
     }
   }
-  let h = /^(hola|buenas|buenos dias|hey|que tal)\b/.test(f) ? `<p>Hola, ${S.p}. Aquí estoy. ¿Cómo te sientes hoy?</p>`
+  let h = /^(hola|buenas|buenos dias|hey|que tal)\b/.test(f) && f.trim().length < 22 ? `<p>Hola, ${S.p}. Aquí estoy. ¿Cómo te sientes hoy?</p>`
     : /gracias/.test(f) ? '<p>Para eso estoy. Si algo cambia, dímelo.</p>'
     : /quien eres|que eres|como te llamas|tu nombre/.test(f) ? '<p>Soy Luma, tu acompañante de salud a bordo. Miro tus registros cada día, te aviso si algo se sale de lo normal y te ayudo a decidir qué hacer.</p>'
     : /que dia|cuantos dias|dia de mision|cuanto llevamos/.test(f) ? `<p>Es el día ${diaMision()} de la misión.${diaMision() <= 3 ? ' Todavía estás en la fase de adaptación: mareo, congestión y dolor de espalda son esperables.' : diaMision() > 30 ? ' A estas alturas lo que más hay que cuidar es el ejercicio, el sueño, la visión y el ánimo.' : ''}</p>`
@@ -1142,7 +1142,7 @@ function iaRemota(url){
     catch (e) { throw {code:'red'}; }
     let j = {}; try { j = await r.json(); } catch (e) {}
     if (r.status === 429) throw {code:'rate_limited'};
-    if (!r.ok || !j.text) throw {code:j.error || 'servidor'};
+    if (!r.ok || !j.text) throw {code:j.error || 'servidor', detalle:[j.estado, j.mensaje].filter(Boolean).join(' ')};
     return {text:j.text};
   };
 }
