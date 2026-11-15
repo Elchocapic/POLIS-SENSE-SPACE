@@ -1,0 +1,106 @@
+{
+  "repository": "https://github.com/makehumancommunity/makehuman",
+  "commit": "a8bc2d54ff0ac92e78ff71431b1023eda42bf482",
+  "retrieved": "2026-11-15",
+  "files": [
+    {
+      "path": "makehuman/data/3dobjs/base.obj",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/3dobjs/base.obj",
+      "bytes": 1749303,
+      "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c"
+    },
+    {
+      "path": "LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/LICENSE.md",
+      "bytes": 3598,
+      "sha256": "edd99571ca62698f78c943fd4fffb159a413c315fa0d4819d3cec5cadaf8b4f1"
+    },
+    {
+      "path": "LICENSE.ASSETS.md",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/LICENSE.ASSETS.md",
+      "bytes": 6962,
+      "sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c"
+    }
+  ],
+  "assets_used": [
+    {
+      "path": "makehuman/data/rigs/default.mhskel",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default.mhskel",
+      "bytes": 117790,
+      "sha256": "99f179bce0aa850b45d4191a1d0d234c5851f881c057439470ded3bddf729a24"
+    },
+    {
+      "path": "makehuman/data/rigs/default_weights.mhw",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/rigs/default_weights.mhw",
+      "bytes": 897521,
+      "sha256": "0f3641d651ae3d00ad6b4ccee43142edb109d3bd909d27d9e4139ef1beed8625"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/caucasian-male-young.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-young.target",
+      "bytes": 396479,
+      "sha256": "70e228ba7164737dae664454394536fc5935fa48d333c1a97d77e2dc6eacc5f5"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/asian-male-young.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-young.target",
+      "bytes": 421040,
+      "sha256": "ed2e8c191cb6b87b4a2d97c80486acb2604fa549316c7aa2a738a5d5a14334dc"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/african-male-young.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-male-young.target",
+      "bytes": 406170,
+      "sha256": "894abc1fbb3d28543a51fef16f89d5d4bdf9aa2e1534413339811a3d47818b7d"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+      "bytes": 147110,
+      "sha256": "c171ff9cc95e96273beb3e3b1969a01988c2d4982ebc6fe04bf81cf72ee3b295"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/proportions/male-young-maxmuscle-averageweight-idealproportions.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/proportions/male-young-maxmuscle-averageweight-idealproportions.target",
+      "bytes": 164317,
+      "sha256": "d9452857903d18a2100ca26105d5a61083e7064fbe16f035863446728755ec20"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-minweight.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-minweight.target",
+      "bytes": 150179,
+      "sha256": "5873f11edc96fde72a79ec35fa1d292a6a1a594b5eadfd82d59faf48834561de"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/proportions/male-young-maxmuscle-minweight-idealproportions.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/proportions/male-young-maxmuscle-minweight-idealproportions.target",
+      "bytes": 164317,
+      "sha256": "d9452857903d18a2100ca26105d5a61083e7064fbe16f035863446728755ec20"
+    },
+    {
+      "path": "makehuman/data/targets/torso/torso-muscle-pectoral-incr.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/torso/torso-muscle-pectoral-incr.target",
+      "bytes": 17400,
+      "sha256": "0299c687b73a5e217d00273da99acb8a983c8a83640177062fdc27d20bdce77b"
+    },
+    {
+      "path": "makehuman/data/targets/torso/torso-muscle-dorsi-incr.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/torso/torso-muscle-dorsi-incr.target",
+      "bytes": 18435,
+      "sha256": "a9eb27874c600716c4ac058caf922671c6556427f00373d0d31c7615d31ded56"
+    },
+    {
+      "path": "makehuman/data/targets/stomach/stomach-tone-incr.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/stomach/stomach-tone-incr.target",
+      "bytes": 3949,
+      "sha256": "0fc4629f4f38b7c83dadc3a1a650f0db6e8c50f974ff57eb920d4881cadcf0d9"
+    },
+    {
+      "path": "makehuman/data/targets/hip/hip-scale-horiz-decr.target",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/hip/hip-scale-horiz-decr.target",
+      "bytes": 32914,
+      "sha256": "b841b486b0f404249d47e0076c31f95c33e358f1cc45e47b499484c84b901330"
+    }
+  ],
+  "reference_images_note": "The three user-supplied images and Cults URL served only as visual references. No Cults geometry was used."
+}

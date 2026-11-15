@@ -1,0 +1,61 @@
+{
+  "height_metres": 1.78,
+  "target_stack": [
+    [
+      "caucasian-male-young.target",
+      0.7
+    ],
+    [
+      "asian-male-young.target",
+      0.15
+    ],
+    [
+      "african-male-young.target",
+      0.15
+    ],
+    [
+      "universal-male-young-maxmuscle-averageweight.target",
+      0.7
+    ],
+    [
+      "universal-male-young-maxmuscle-minweight.target",
+      0.3
+    ],
+    [
+      "male-young-maxmuscle-averageweight-idealproportions.target",
+      0.315
+    ],
+    [
+      "male-young-maxmuscle-minweight-idealproportions.target",
+      0.135
+    ],
+    [
+      "torso-muscle-pectoral-incr.target",
+      0.28
+    ],
+    [
+      "torso-muscle-dorsi-incr.target",
+      0.18
+    ],
+    [
+      "stomach-tone-incr.target",
+      0.45
+    ],
+    [
+      "hip-scale-horiz-decr.target",
+      0.08
+    ]
+  ],
+  "arm_abduction_degrees": 22,
+  "leg_spread_degrees": 1.5,
+  "mesh_vertices_before_export": 54046,
+  "bones": 163,
+  "integrated_eye_surfaces": 2,
+  "reference_images": [
+    "image(20261115-153132).png",
+    "image(20261115-153306).png",
+    "image(20261115-153325).png"
+  ],
+  "reference_page": "https://cults3d.com/es/modelo-3d/variado/i-elcabezon22222",
+  "reference_page_license": "Not verified; no Cults geometry downloaded or incorporated. Images used as visual references only."
+}

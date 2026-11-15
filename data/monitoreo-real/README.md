@@ -60,6 +60,36 @@ y autorreporte (dataset PMData), no astronautas: sirven para probar la detecció
 - Donde un valor negativo no existe, el límite inferior se recorta a 0. En esos casos no puede haber
   alerta, solo vigilancia (p. ej. sueño profundo de P01 y P02).
 
+## Pronóstico para mañana (`pronostico.json`)
+
+`entrenar_pronostico.py` entrena cuatro regresiones logísticas con los 151 días de las cinco personas. Cada
+una estima la probabilidad de que mañana haya dolor muscular, pulso fuera de rango, sueño fuera de rango o
+fatiga. Usa las 12 lecturas de hoy respecto a la media personal, la carga física de los últimos días, lo
+que ya pasa hoy, y la costumbre de cada persona (con qué frecuencia le pasa y en qué día de la semana),
+calculada solo con su pasado. La página aplica los mismos pesos; la diferencia con el entrenamiento es menor
+que 0,0001 en 60 casos de prueba.
+
+Validación hacia adelante en el tiempo (entrena con el primer 60 % de cada persona, prueba con el resto):
+
+| Qué predice | AUC | AUC de "mañana igual que hoy" | AUC con una persona nueva | Avisos correctos | Casos avisados |
+|---|---|---|---|---|---|
+| Dolor muscular | 0,81 | 0,68 | 0,73 | 61 % de 31 | 34 % de 55 |
+| Pulso fuera de rango | 0,97 | 0,94 | 0,95 | 95 % de 80 | 86 % de 88 |
+| Sueño fuera de rango | 0,73 | 0,67 | 0,81 | 32 % de 41 | 42 % de 31 |
+| Fatiga | 0,81 | 0,66 | 0,71 | 53 % de 32 | 42 % de 40 |
+
+Límites: son cinco personas, así que buena parte del acierto viene de conocer la costumbre de cada una. El
+pulso casi no mejora a "mañana igual que hoy" porque sus alertas duran muchos días. Las probabilidades que
+muestra la página para estos 151 días salen del modelo entrenado con esos mismos días; las cifras de la tabla
+son las que valen para días nuevos.
+
+Los consejos de "Para adelantarse" se apoyan en tres hechos publicados: el dolor muscular tras un esfuerzo
+no habitual alcanza su máximo entre 24 y 72 horas después (revisión "Advances in Delayed-Onset Muscle Soreness", 2018,
+https://pubmed.ncbi.nlm.nih.gov/30537791/); dormir mal aumenta la sensibilidad al dolor al día siguiente
+(Krause et al., J. Neurosci. 2019, https://pmc.ncbi.nlm.nih.gov/articles/PMC6433768); y el pulso en reposo
+sube con una infección, pero también con mal sueño, estrés o entrenamiento fuerte, por lo que se interpreta
+como patrón de varios días.
+
 ## Volver a generar
 
 Los datos crudos de PMData (unos 500 MB de pulso cada 5 s) no están en el repositorio. Se descargan de
@@ -68,6 +98,7 @@ https://datasets.simula.no/pmdata/ y se dejan en una carpeta con `P01/` … `P05
 
 ```bash
 python data/monitoreo-real/kpi_extra.py <carpeta PMData> data/monitoreo-real
+python data/monitoreo-real/entrenar_pronostico.py      # necesita scikit-learn
 python prototipo/actualizar_bd.py
 ```
 

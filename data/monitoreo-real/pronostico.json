@@ -1,0 +1,578 @@
+{
+ "objetivos": {
+  "dolor": {
+   "b": -3.508,
+   "w": {
+    "z_pulso_reposo": -0.0144,
+    "z_sueno": 0.0058,
+    "z_animo": 0.0006,
+    "z_estres": 0.0986,
+    "z_fatiga": -0.007,
+    "z_carga_cardiaca": 0.261,
+    "z_recuperacion_nocturna": 0.1028,
+    "z_sueno_profundo": 0.0969,
+    "z_inquietud": 0.1898,
+    "z_horas_sueno": -0.1023,
+    "z_disposicion": -0.026,
+    "z_dolor": -0.0459,
+    "carga3": 0.4384,
+    "carga_ayer": -0.0025,
+    "sueno3": 0.2114,
+    "dolor_hoy": 0.3812,
+    "dolor_ayer": -0.1269,
+    "pulso_fuera": 0.2303,
+    "sueno_fuera": 0.2513,
+    "fatiga_baja": -0.4116,
+    "tasa_dolor": 5.1339,
+    "sem_dolor": 0.8774
+   },
+   "n": 574,
+   "frecuencia": 0.242,
+   "frecuencia_por_persona": {
+    "P01": 0.438,
+    "P02": 0.082,
+    "P03": 0.045,
+    "P04": 0.462,
+    "P05": 0.015
+   },
+   "auc_tiempo": 0.807,
+   "auc_tiempo_igual_que_hoy": 0.679,
+   "auc_otra_persona": 0.733,
+   "auc_tiempo_por_persona": {
+    "P01": 0.76,
+    "P02": 0.52,
+    "P03": 1.0,
+    "P04": 0.57,
+    "P05": NaN
+   },
+   "auc_casos_nuevos": 0.834,
+   "casos_nuevos": 28,
+   "avisos_correctos": 0.613,
+   "avisos": 31,
+   "casos_detectados": 0.345,
+   "casos": 55,
+   "n_prueba": 229
+  },
+  "pulso": {
+   "b": -3.7781,
+   "w": {
+    "z_pulso_reposo": 0.905,
+    "z_sueno": -0.2909,
+    "z_animo": -0.1476,
+    "z_estres": -0.0241,
+    "z_fatiga": 0.0542,
+    "z_carga_cardiaca": -0.0499,
+    "z_recuperacion_nocturna": -0.4674,
+    "z_sueno_profundo": -0.0294,
+    "z_inquietud": -0.0271,
+    "z_horas_sueno": 0.0642,
+    "z_disposicion": 0.0017,
+    "z_dolor": 0.1965,
+    "carga3": 0.0656,
+    "carga_ayer": 0.2483,
+    "sueno3": 0.3658,
+    "dolor_hoy": -0.2942,
+    "dolor_ayer": 0.2349,
+    "pulso_fuera": 3.9961,
+    "sueno_fuera": 0.256,
+    "fatiga_baja": -0.3326,
+    "tasa_pulso": 4.0438,
+    "sem_pulso": -0.2998
+   },
+   "n": 610,
+   "frecuencia": 0.238,
+   "frecuencia_por_persona": {
+    "P01": 0.04,
+    "P02": 0.065,
+    "P03": 0.0,
+    "P04": 0.525,
+    "P05": 0.491
+   },
+   "auc_tiempo": 0.966,
+   "auc_tiempo_igual_que_hoy": 0.939,
+   "auc_otra_persona": 0.955,
+   "auc_tiempo_por_persona": {
+    "P01": 0.89,
+    "P02": 0.92,
+    "P03": NaN,
+    "P04": 0.96,
+    "P05": 1.0
+   },
+   "auc_casos_nuevos": 0.75,
+   "casos_nuevos": 9,
+   "avisos_correctos": 0.95,
+   "avisos": 80,
+   "casos_detectados": 0.864,
+   "casos": 88,
+   "n_prueba": 244
+  },
+  "sueno": {
+   "b": -3.1997,
+   "w": {
+    "z_pulso_reposo": -0.0502,
+    "z_sueno": 0.6461,
+    "z_animo": 0.0701,
+    "z_estres": 0.0453,
+    "z_fatiga": 0.0057,
+    "z_carga_cardiaca": 0.2237,
+    "z_recuperacion_nocturna": -0.228,
+    "z_sueno_profundo": -0.1904,
+    "z_inquietud": 0.4271,
+    "z_horas_sueno": -0.1491,
+    "z_disposicion": -0.0261,
+    "z_dolor": 0.0437,
+    "carga3": -0.03,
+    "carga_ayer": 0.1138,
+    "sueno3": -0.3535,
+    "dolor_hoy": -0.3104,
+    "dolor_ayer": 0.6221,
+    "pulso_fuera": 0.4798,
+    "sueno_fuera": 2.6279,
+    "fatiga_baja": -0.218,
+    "tasa_sueno": 3.6467,
+    "sem_sueno": -0.0747
+   },
+   "n": 610,
+   "frecuencia": 0.136,
+   "frecuencia_por_persona": {
+    "P01": 0.101,
+    "P02": 0.152,
+    "P03": 0.029,
+    "P04": 0.288,
+    "P05": 0.043
+   },
+   "auc_tiempo": 0.726,
+   "auc_tiempo_igual_que_hoy": 0.672,
+   "auc_otra_persona": 0.811,
+   "auc_tiempo_por_persona": {
+    "P01": 0.57,
+    "P02": 0.87,
+    "P03": 0.35,
+    "P04": 0.62,
+    "P05": 0.53
+   },
+   "auc_casos_nuevos": 0.596,
+   "casos_nuevos": 18,
+   "avisos_correctos": 0.317,
+   "avisos": 41,
+   "casos_detectados": 0.419,
+   "casos": 31,
+   "n_prueba": 244
+  },
+  "fatiga": {
+   "b": -3.1331,
+   "w": {
+    "z_pulso_reposo": -0.169,
+    "z_sueno": 0.1388,
+    "z_animo": -0.1568,
+    "z_estres": -0.0854,
+    "z_fatiga": -0.1842,
+    "z_carga_cardiaca": 0.2767,
+    "z_recuperacion_nocturna": 0.0339,
+    "z_sueno_profundo": 0.0078,
+    "z_inquietud": 0.1863,
+    "z_horas_sueno": -0.1979,
+    "z_disposicion": 0.1696,
+    "z_dolor": 0.2225,
+    "carga3": 0.1546,
+    "carga_ayer": 0.083,
+    "sueno3": 0.1447,
+    "dolor_hoy": 0.7447,
+    "dolor_ayer": 0.1946,
+    "pulso_fuera": -0.3878,
+    "sueno_fuera": 0.678,
+    "fatiga_baja": 0.32,
+    "tasa_fatiga": 3.4396,
+    "sem_fatiga": 1.4482
+   },
+   "n": 574,
+   "frecuencia": 0.254,
+   "frecuencia_por_persona": {
+    "P01": 0.423,
+    "P02": 0.021,
+    "P03": 0.076,
+    "P04": 0.357,
+    "P05": 0.229
+   },
+   "auc_tiempo": 0.811,
+   "auc_tiempo_igual_que_hoy": 0.657,
+   "auc_otra_persona": 0.71,
+   "auc_tiempo_por_persona": {
+    "P01": 0.78,
+    "P02": NaN,
+    "P03": 0.88,
+    "P04": 0.56,
+    "P05": 0.56
+   },
+   "auc_casos_nuevos": 0.777,
+   "casos_nuevos": 23,
+   "avisos_correctos": 0.531,
+   "avisos": 32,
+   "casos_detectados": 0.425,
+   "casos": 40,
+   "n_prueba": 229
+  }
+ },
+ "pruebas": [
+  {
+   "obj": "dolor",
+   "p": "P01",
+   "i": 51,
+   "pr": 0.2806
+  },
+  {
+   "obj": "dolor",
+   "p": "P01",
+   "i": 77,
+   "pr": 0.6546
+  },
+  {
+   "obj": "dolor",
+   "p": "P01",
+   "i": 148,
+   "pr": 0.1756
+  },
+  {
+   "obj": "dolor",
+   "p": "P02",
+   "i": 51,
+   "pr": 0.0643
+  },
+  {
+   "obj": "dolor",
+   "p": "P02",
+   "i": 76,
+   "pr": 0.0672
+  },
+  {
+   "obj": "dolor",
+   "p": "P02",
+   "i": 148,
+   "pr": 0.0657
+  },
+  {
+   "obj": "dolor",
+   "p": "P03",
+   "i": 57,
+   "pr": 0.0139
+  },
+  {
+   "obj": "dolor",
+   "p": "P03",
+   "i": 75,
+   "pr": 0.0734
+  },
+  {
+   "obj": "dolor",
+   "p": "P03",
+   "i": 143,
+   "pr": 0.0129
+  },
+  {
+   "obj": "dolor",
+   "p": "P04",
+   "i": 48,
+   "pr": 0.5031
+  },
+  {
+   "obj": "dolor",
+   "p": "P04",
+   "i": 73,
+   "pr": 0.1658
+  },
+  {
+   "obj": "dolor",
+   "p": "P04",
+   "i": 148,
+   "pr": 0.5005
+  },
+  {
+   "obj": "dolor",
+   "p": "P05",
+   "i": 48,
+   "pr": 0.028
+  },
+  {
+   "obj": "dolor",
+   "p": "P05",
+   "i": 71,
+   "pr": 0.035
+  },
+  {
+   "obj": "dolor",
+   "p": "P05",
+   "i": 148,
+   "pr": 0.038
+  },
+  {
+   "obj": "pulso",
+   "p": "P01",
+   "i": 49,
+   "pr": 0.0301
+  },
+  {
+   "obj": "pulso",
+   "p": "P01",
+   "i": 74,
+   "pr": 0.0121
+  },
+  {
+   "obj": "pulso",
+   "p": "P01",
+   "i": 148,
+   "pr": 0.0118
+  },
+  {
+   "obj": "pulso",
+   "p": "P02",
+   "i": 52,
+   "pr": 0.0386
+  },
+  {
+   "obj": "pulso",
+   "p": "P02",
+   "i": 76,
+   "pr": 0.0066
+  },
+  {
+   "obj": "pulso",
+   "p": "P02",
+   "i": 148,
+   "pr": 0.6072
+  },
+  {
+   "obj": "pulso",
+   "p": "P03",
+   "i": 68,
+   "pr": 0.0177
+  },
+  {
+   "obj": "pulso",
+   "p": "P03",
+   "i": 81,
+   "pr": 0.0053
+  },
+  {
+   "obj": "pulso",
+   "p": "P03",
+   "i": 143,
+   "pr": 0.0016
+  },
+  {
+   "obj": "pulso",
+   "p": "P04",
+   "i": 53,
+   "pr": 0.1005
+  },
+  {
+   "obj": "pulso",
+   "p": "P04",
+   "i": 78,
+   "pr": 0.0016
+  },
+  {
+   "obj": "pulso",
+   "p": "P04",
+   "i": 148,
+   "pr": 0.9747
+  },
+  {
+   "obj": "pulso",
+   "p": "P05",
+   "i": 44,
+   "pr": 0.9627
+  },
+  {
+   "obj": "pulso",
+   "p": "P05",
+   "i": 65,
+   "pr": 0.9672
+  },
+  {
+   "obj": "pulso",
+   "p": "P05",
+   "i": 148,
+   "pr": 0.9862
+  },
+  {
+   "obj": "sueno",
+   "p": "P01",
+   "i": 49,
+   "pr": 0.0262
+  },
+  {
+   "obj": "sueno",
+   "p": "P01",
+   "i": 74,
+   "pr": 0.1479
+  },
+  {
+   "obj": "sueno",
+   "p": "P01",
+   "i": 148,
+   "pr": 0.0505
+  },
+  {
+   "obj": "sueno",
+   "p": "P02",
+   "i": 52,
+   "pr": 0.0189
+  },
+  {
+   "obj": "sueno",
+   "p": "P02",
+   "i": 76,
+   "pr": 0.3951
+  },
+  {
+   "obj": "sueno",
+   "p": "P02",
+   "i": 148,
+   "pr": 0.3802
+  },
+  {
+   "obj": "sueno",
+   "p": "P03",
+   "i": 68,
+   "pr": 0.0206
+  },
+  {
+   "obj": "sueno",
+   "p": "P03",
+   "i": 81,
+   "pr": 0.0187
+  },
+  {
+   "obj": "sueno",
+   "p": "P03",
+   "i": 143,
+   "pr": 0.0246
+  },
+  {
+   "obj": "sueno",
+   "p": "P04",
+   "i": 53,
+   "pr": 0.0604
+  },
+  {
+   "obj": "sueno",
+   "p": "P04",
+   "i": 78,
+   "pr": 0.109
+  },
+  {
+   "obj": "sueno",
+   "p": "P04",
+   "i": 148,
+   "pr": 0.1398
+  },
+  {
+   "obj": "sueno",
+   "p": "P05",
+   "i": 44,
+   "pr": 0.0087
+  },
+  {
+   "obj": "sueno",
+   "p": "P05",
+   "i": 65,
+   "pr": 0.0892
+  },
+  {
+   "obj": "sueno",
+   "p": "P05",
+   "i": 148,
+   "pr": 0.0406
+  },
+  {
+   "obj": "fatiga",
+   "p": "P01",
+   "i": 51,
+   "pr": 0.4313
+  },
+  {
+   "obj": "fatiga",
+   "p": "P01",
+   "i": 77,
+   "pr": 0.4726
+  },
+  {
+   "obj": "fatiga",
+   "p": "P01",
+   "i": 148,
+   "pr": 0.2295
+  },
+  {
+   "obj": "fatiga",
+   "p": "P02",
+   "i": 51,
+   "pr": 0.0544
+  },
+  {
+   "obj": "fatiga",
+   "p": "P02",
+   "i": 76,
+   "pr": 0.1006
+  },
+  {
+   "obj": "fatiga",
+   "p": "P02",
+   "i": 148,
+   "pr": 0.042
+  },
+  {
+   "obj": "fatiga",
+   "p": "P03",
+   "i": 57,
+   "pr": 0.0379
+  },
+  {
+   "obj": "fatiga",
+   "p": "P03",
+   "i": 75,
+   "pr": 0.0745
+  },
+  {
+   "obj": "fatiga",
+   "p": "P03",
+   "i": 143,
+   "pr": 0.0568
+  },
+  {
+   "obj": "fatiga",
+   "p": "P04",
+   "i": 48,
+   "pr": 0.3443
+  },
+  {
+   "obj": "fatiga",
+   "p": "P04",
+   "i": 73,
+   "pr": 0.5558
+  },
+  {
+   "obj": "fatiga",
+   "p": "P04",
+   "i": 148,
+   "pr": 0.139
+  },
+  {
+   "obj": "fatiga",
+   "p": "P05",
+   "i": 48,
+   "pr": 0.0722
+  },
+  {
+   "obj": "fatiga",
+   "p": "P05",
+   "i": 71,
+   "pr": 0.0537
+  },
+  {
+   "obj": "fatiga",
+   "p": "P05",
+   "i": 148,
+   "pr": 0.0441
+  }
+ ]
+}
