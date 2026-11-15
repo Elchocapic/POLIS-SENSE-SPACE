@@ -1,0 +1,170 @@
+[
+ {
+  "id": "SOMA-01",
+  "zona_cuerpo": "corazon",
+  "variables_relacionadas": [
+   "pulso_reposo",
+   "carga_cardiaca",
+   "recuperacion_nocturna"
+  ],
+  "hallazgo": "El pulso y su variabilidad cambiaron entre las fases de la misión, pero distinto en cada tripulante: solo uno tuvo el pulso más bajo en vuelo. Tras el regreso, las medidas cardiovasculares no diferían de las previas al vuelo.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-02",
+  "zona_cuerpo": "corazon",
+  "variables_relacionadas": [
+   "pulso_reposo"
+  ],
+  "hallazgo": "Dos de los cuatro tripulantes tuvieron el pulso más alto después del vuelo que antes.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-03",
+  "zona_cuerpo": "corazon",
+  "variables_relacionadas": [],
+  "hallazgo": "En tres de los cuatro tripulantes, más CO₂ en la cabina se asoció con mayor variabilidad del pulso durante el vuelo.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-04",
+  "zona_cuerpo": "cabeza",
+  "variables_relacionadas": [
+   "fatiga",
+   "disposicion"
+  ],
+  "hallazgo": "El rendimiento cognitivo casi no cambió en vuelo, pero la tripulación fue más lenta en cuatro pruebas, entre ellas las de atención sostenida, memoria de trabajo y velocidad sensoriomotora. Parte del efecto se debió a un solo tripulante.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-05",
+  "zona_cuerpo": "cabeza",
+  "variables_relacionadas": [
+   "animo",
+   "estres"
+  ],
+  "hallazgo": "El ánimo y el estado de alerta en vuelo no difirieron de los previos. La tripulación reportó estrés moderado y carga de trabajo alta, parecidos a los de misiones de 6 meses en la ISS.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-06",
+  "zona_cuerpo": "cabeza",
+  "variables_relacionadas": [],
+  "hallazgo": "Dos de los cuatro tripulantes tuvieron mareo espacial, dentro del 50 % a 67 % reportado en vuelos cortos.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-07",
+  "zona_cuerpo": "cabeza",
+  "variables_relacionadas": [],
+  "hallazgo": "El vuelo produjo cambios neurovestibulares, medidos como desalineación ocular.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ },
+ {
+  "id": "SOMA-08",
+  "zona_cuerpo": "cabeza",
+  "variables_relacionadas": [],
+  "hallazgo": "La proteína BDNF, asociada al cerebro, bajó en sangre el día después del aterrizaje y volvió a la línea base a los 45 y 82 días.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-09",
+  "zona_cuerpo": "general",
+  "variables_relacionadas": [
+   "dolor"
+  ],
+  "hallazgo": "Las citoquinas IL-6, IL-10 y CCL2 aumentaron tras el vuelo; aumentos parecidos se han visto en tripulaciones de misiones de más de 6 meses.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-10",
+  "zona_cuerpo": "general",
+  "variables_relacionadas": [],
+  "hallazgo": "La longitud promedio de los telómeros aumentó entre 17 % y 22 % durante los 3 días de vuelo.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-11",
+  "zona_cuerpo": "general",
+  "variables_relacionadas": [],
+  "hallazgo": "Las células inmunes cambiaron su expresión génica: 552 genes en linfocitos T CD4+ y 608 en CD8+; los monocitos tuvieron la mayor alteración de cromatina.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-12",
+  "zona_cuerpo": "piel",
+  "variables_relacionadas": [],
+  "hallazgo": "Las biopsias de piel mostraron cambios de expresión génica tras el vuelo, entre ellos en la señalización JAK–STAT y en firmas de melanocitos.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-13",
+  "zona_cuerpo": "general",
+  "variables_relacionadas": [],
+  "hallazgo": "Más del 95 % de los marcadores medidos volvió a la línea base en los meses posteriores a la misión.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Overbey EG, Kim J, Tierney BT, et al. The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. Nature 632, 1145–1154 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07639-y",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/"
+ },
+ {
+  "id": "SOMA-14",
+  "zona_cuerpo": "general",
+  "variables_relacionadas": [],
+  "hallazgo": "Casi todos los cambios observados dejaron de diferir de la línea base tras el regreso; los autores concluyen que las misiones cortas no suponen un riesgo significativo para la salud.",
+  "mision": "SpaceX Inspiration4 (4 tripulantes civiles, 3 días en órbita, 2021)",
+  "cita": "Jones CW, Overbey EG, Lacombe J, et al. Molecular and physiological changes in the SpaceX Inspiration4 civilian crew. Nature 632, 1155–1164 (2024).",
+  "anio": 2024,
+  "doi": "10.1038/s41586-024-07648-x",
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11357997/"
+ }
+]

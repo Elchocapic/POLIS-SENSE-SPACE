@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POLIS SENSE SPACE · Tripulación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+ * Interfaz guiada por AURORA (libro de procedimientos de a bordo: reglas en vez de tarjetas, esquinas
+ * rectas, etiquetas condensadas, números en monoespaciada). La paleta cambia a cielo profundo:
+ * índigo de noche orbital, texto luz de estrella y verde aurora solo en la marca, la selección y el foco.
+ * El color fuerte queda reservado para los niveles de alerta. Las fuentes cargan si hay conexión;
+ * sin conexión la página usa las del sistema.
+ */
+:root{
+  --bg:#070b1a; --surface:#0c1330; --raised:#121b3f; --rule:#222d58; --rule-strong:#3b4985;
+  --text:#e9edfb; --muted:#9aa6cc; --faint:#7481ab; --brand:#7de3d0;
+  --ok:#74d6a4; --watch:#f2c14e; --critical:#ff6f61; --info:#8ab6ff;
+  --body-a:#33427c; --body-b:#1d2853;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --cond:'IBM Plex Sans Condensed','Barlow Condensed','Arial Narrow','IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Consolas,'Courier New',monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(1px 1px at 12% 18%, #ffffff66 50%, transparent 51%),
+    radial-gradient(1px 1px at 31% 62%, #ffffff40 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 9%, #ffffff55 50%, transparent 51%),
+    radial-gradient(1px 1px at 77% 41%, #ffffff40 50%, transparent 51%),
+    radial-gradient(1px 1px at 91% 77%, #ffffff50 50%, transparent 51%),
+    radial-gradient(1px 1px at 44% 88%, #ffffff35 50%, transparent 51%),
+    radial-gradient(900px 500px at 85% -10%, #1a2a6055, transparent 70%),
+    var(--bg);
+  background-attachment:fixed}
+h1,h2,h3{margin:0;font-family:var(--cond);font-weight:600;line-height:1.2}
+h2{font-size:1.05rem;text-transform:uppercase;letter-spacing:.06em}
+p{margin:.4rem 0}
+a{color:var(--text);text-decoration-color:var(--faint);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--brand)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.muted{color:var(--muted)} .small{font-size:.84rem} .mono{font-family:var(--mono)}
+.label{font-family:var(--cond);font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--rule-strong);border-radius:0;background:transparent;padding:.5rem 1rem;font-family:var(--cond);font-weight:600;letter-spacing:.04em}
+button:hover{border-color:var(--text)}
+select,input[type=text]{background:var(--surface);border:1px solid var(--rule-strong);border-radius:0;padding:.45rem .6rem;min-width:0}
+input[type=range]{accent-color:var(--brand);width:100%}
+
+.app{max-width:1280px;margin:0 auto;padding:0 20px 56px}
+.topbar{display:flex;align-items:center;flex-wrap:wrap;gap:1.2rem;padding:1rem 0;border-bottom:2px solid var(--text)}
+.brand{display:flex;align-items:center;gap:.7rem;margin-right:auto}
+.brand svg{width:32px;height:32px;flex:none}
+.brand strong{display:block;font-family:var(--cond);font-size:1rem;font-weight:600;letter-spacing:.22em}
+.brand small{display:block;font-size:.76rem;color:var(--muted)}
+.badge{font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--watch);border:1px solid var(--watch);padding:.12rem .45rem}
+
+.mission-bar{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:.4rem 2rem;padding:1.1rem 0 1rem;border-bottom:1px solid var(--rule)}
+.field label{display:block;margin-bottom:.25rem}
+.dayline{display:flex;align-items:center;gap:.6rem}
+.dayline button{padding:.3rem .7rem}
+.field select{width:100%}
+.readouts{grid-column:1/-1;display:flex;flex-wrap:wrap;margin:.6rem 0 0;border-top:1px solid var(--rule)}
+.readouts div{padding:.5rem 1.6rem 0 0;margin-right:1.6rem;border-right:1px solid var(--rule)}
+.readouts div:last-child{border-right:0}
+.readouts dt{font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.readouts dd{margin:0;font-family:var(--mono);font-size:1rem}
+.readouts dd.high{color:var(--critical)} .readouts dd.mid{color:var(--watch)}
+
+.tabs{display:flex;border-bottom:1px solid var(--rule);overflow-x:auto}
+.tabs [role=tab]{border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:.75rem 1.1rem .65rem;color:var(--muted);font-size:.84rem;text-transform:uppercase;letter-spacing:.09em;white-space:nowrap}
+.tabs [role=tab]:hover{color:var(--text)}
+.tabs [role=tab][aria-selected=true]{color:var(--text);border-bottom-color:var(--brand)}
+.panel{padding-top:1.4rem}
+
+/* Tripulación: cinco fichas en fila; la elegida abre su expediente debajo */
+.crew-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:2px solid var(--text)}
+.crew-tab{text-align:left;border:0;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:.8rem .9rem .9rem;display:flex;flex-direction:column;gap:.35rem;font-family:var(--sans);font-weight:400;letter-spacing:0}
+.crew-tab:last-child{border-right:0}
+.crew-tab{min-width:0}
+.crew-tab .pill{align-self:flex-start;max-width:100%;white-space:normal;line-height:1.25;overflow-wrap:anywhere}
+.crew-tab:hover{background:var(--surface)}
+.crew-tab[aria-pressed=true]{background:var(--raised);box-shadow:inset 0 3px 0 var(--brand)}
+.crew-tab b{font-family:var(--cond);font-size:1.25rem;font-weight:600}
+.crew-tab .mini{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.pill{display:inline-block;align-self:flex-start;font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule-strong);padding:.08rem .45rem;white-space:nowrap}
+.pill.s0{color:var(--ok);border-color:#2f6a55} .pill.base{color:var(--info);border-color:#35508f}
+.pill.s1{color:var(--watch);border-color:var(--watch)}
+.pill.s2{color:var(--bg);background:var(--critical);border-color:var(--critical)}
+
+.dossier{padding-top:1.3rem}
+.dossier>*{min-width:0}
+.dossier-head{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.dossier-head h2{text-transform:none;letter-spacing:0;font-size:1.7rem}
+.section-title{font-family:var(--cond);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:1.4rem 0 .4rem;padding-bottom:.3rem;border-bottom:1px solid var(--rule)}
+
+.vitals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;border-top:1px solid var(--rule)}
+.vitals>div{padding:.5rem .8rem .55rem 0;border-bottom:1px solid var(--rule);min-width:0}
+.vitals dt{font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;gap:.4rem}
+.vitals dt i{font-style:normal;font-family:var(--cond);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.vitals dd{margin:0;font-family:var(--mono);font-size:1.2rem;font-weight:500}
+.vitals dd small{font-family:var(--sans);font-size:.72rem;font-weight:400;color:var(--faint)}
+.vitals .rng{font-size:.74rem;color:var(--faint)}
+.vitals svg{display:block;width:100%;height:30px;margin-top:.2rem}
+.vitals .s1 dd,.vitals .s1 dt i{color:var(--watch)} .vitals .s2 dd,.vitals .s2 dt i{color:var(--critical)}
+.vitals .nd dd{color:var(--faint);font-size:.9rem}
+
+.alerts{list-style:none;margin:0;padding:0}
+.alert{padding:.9rem 0 1rem .9rem;border-bottom:1px solid var(--rule);border-left:3px solid var(--watch)}
+.alert.s2{border-left-color:var(--critical)}
+.alert-head{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.alert-head strong{font-family:var(--cond);font-size:1.15rem;font-weight:600}
+.alert p{margin:.45rem 0;max-width:72ch}
+.alert .label{margin-right:.45rem}
+.alert h4{margin:.9rem 0 .3rem;font-family:var(--cond);font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.alert ol{margin:0;padding-left:1.3rem;max-width:72ch}
+.alert ol li{padding:.12rem 0}
+.poss{width:100%;max-width:72ch;border-collapse:collapse;font-size:.9rem}
+.poss td{padding:.28rem .6rem .28rem 0;border-bottom:1px dotted var(--rule-strong);vertical-align:top}
+.poss td:last-child{white-space:nowrap;text-align:right;padding-right:0;font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.poss .si{color:var(--watch)} .poss .no{color:var(--faint)} .poss .nd{color:var(--info)}
+.chk{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.2rem 1rem;max-width:72ch}
+.chk label{display:flex;gap:.5rem;align-items:flex-start;cursor:pointer}
+.chk input{margin-top:.28rem;accent-color:var(--brand)}
+.ready{color:var(--text)}
+details{margin:.5rem 0 0;font-size:.86rem}
+summary{cursor:pointer;color:var(--muted)}
+.sources{margin:.3rem 0;padding-left:1.1rem;color:var(--muted)}
+.calm{padding:.9rem 0;color:var(--muted);border-bottom:1px solid var(--rule)}
+
+/* Cuerpo en 3D */
+.cuerpo{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:0 2.2rem;align-items:start;margin-top:1rem;border:1px solid var(--rule);
+  background:radial-gradient(420px 420px at 220px 42%, #1b2a6466, transparent 70%), var(--surface);padding:1rem}
+.cuerpo>*{min-width:0}
+.escena{position:relative}
+#gl{display:block;width:100%;aspect-ratio:3/4;cursor:grab;touch-action:pan-y;outline-offset:-2px}
+#gl.arrastra{cursor:grabbing}
+.vistas{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.5rem}
+.vistas button{font-family:var(--sans);font-weight:400;letter-spacing:0;font-size:.82rem;padding:.25rem .65rem}
+.tip{position:absolute;z-index:2;max-width:250px;pointer-events:none;background:#050816f2;border:1px solid var(--rule-strong);padding:.5rem .65rem;font-size:.84rem;line-height:1.4}
+.tip b{display:block;font-family:var(--cond);font-size:1rem;font-weight:600;margin-bottom:.15rem}
+.tip span{display:block;margin-top:.2rem}
+.tip i,.tipos i,.zlist i{display:inline-block;width:10px;height:10px;margin-right:.4rem;vertical-align:-1px}
+.tipos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.3rem 1rem;font-size:.86rem;color:var(--muted)}
+.raya{background:repeating-linear-gradient(135deg,var(--watch) 0 2px,transparent 2px 5px)}
+svg.human{display:block;width:100%;max-width:290px;margin:0 auto;height:auto}
+.orbit{fill:none;stroke:var(--rule);stroke-width:1}
+.bz{fill:url(#piel);stroke:url(#piel);stroke-width:.9;stroke-linejoin:round}
+.bz.s1{fill:url(#vig);stroke:var(--watch)} .bz.s2{fill:url(#grave);stroke:var(--critical)}
+.bz.pred{stroke:var(--watch);stroke-width:1.6;stroke-dasharray:4 4}
+.anat{fill:none;stroke:#070b1a;stroke-opacity:.42;stroke-width:1;stroke-linecap:round;pointer-events:none}
+.zlist{list-style:none;margin:.7rem 0 0;padding:0;border-top:1px solid var(--rule)}
+.zlist small{display:block}
+.zlist li{display:flex;justify-content:space-between;gap:.6rem;padding:.35rem 0;border-bottom:1px solid var(--rule);font-size:.9rem}
+.zlist span:last-child{font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.zlist .s1 span:last-child{color:var(--watch)} .zlist .s2 span:last-child{color:var(--critical)}
+
+/* Asistente y pronóstico */
+.asis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:0 2.2rem;align-items:start;padding-top:1.3rem}
+.asis>*{min-width:0}
+.charla{border:1px solid var(--rule);background:var(--surface);padding:1rem 1.1rem}
+.luma-head{display:flex;flex-wrap:wrap;align-items:center;gap:.9rem;padding-bottom:.8rem;border-bottom:1px solid var(--rule)}
+.luma-head h2{text-transform:none;letter-spacing:0;font-size:1.5rem}
+.luma-head .pill{margin-left:auto;color:var(--muted)}
+.luma-head .pill.caida{color:var(--watch);border-color:var(--watch)}
+#reconectar{font-family:var(--sans);font-weight:400;letter-spacing:0;font-size:.84rem;padding:.25rem .65rem}
+.msg.aviso .txt{border-left-color:var(--watch);color:var(--muted);font-size:.9rem}
+/* Luma: tres anillos de aurora que respiran; más rápido al escuchar o hablar */
+.orbe{position:relative;width:54px;height:54px;flex:none}
+.orbe i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--brand);opacity:.9}
+.orbe i:nth-child(2){inset:9px;border-color:#9a86ff;opacity:.8}
+.orbe i:nth-child(3){inset:18px;border:0;background:radial-gradient(circle at 35% 30%,#e9edfb,var(--brand) 55%,#2a6a8a);opacity:1}
+.orbe.vivo i:nth-child(1){animation:onda 1.5s ease-in-out infinite}
+.orbe.vivo i:nth-child(2){animation:onda 1.5s ease-in-out .25s infinite}
+.orbe.oye i{border-color:var(--watch)}
+@keyframes onda{50%{transform:scale(1.16);opacity:.35}}
+@media (prefers-reduced-motion:reduce){.orbe.vivo i{animation:none}}
+.chat{display:flex;flex-direction:column;gap:.8rem;min-height:240px;max-height:56vh;overflow-y:auto;padding:1rem 0}
+.msg{max-width:74ch}
+.msg .quien{font-family:var(--cond);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.msg.tu{align-self:flex-end;text-align:right}
+.msg.tu .txt{display:inline-block;text-align:left;background:var(--raised);padding:.45rem .7rem}
+.msg.luma .txt{border-left:3px solid var(--brand);padding:.1rem 0 .1rem .8rem}
+.msg.urg .txt{border-left-color:var(--critical)}
+.msg .txt p{margin:.35rem 0} .msg .txt ol,.msg .txt ul{margin:.2rem 0;padding-left:1.3rem}
+.msg .txt h4{margin:.7rem 0 .2rem;font-family:var(--cond);font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.msg.urg .txt>strong:first-child{color:var(--critical);font-family:var(--cond);font-size:1.1rem}
+.opciones{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;font-size:.88rem;color:var(--muted)}
+.opciones button{font-family:var(--sans);font-weight:400;letter-spacing:0;font-size:.84rem;padding:.25rem .65rem}
+.opciones input{accent-color:var(--brand)}
+#mic[aria-pressed=true]{background:var(--watch);color:var(--bg);border-color:var(--watch)}
+.ask{display:flex;gap:.5rem}
+.ask input{flex:1}
+button.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0}
+.chips button{font-family:var(--sans);font-weight:400;letter-spacing:0;font-size:.86rem;padding:.3rem .7rem;text-align:left}
+.fc{padding:1rem 0 1.1rem;border-bottom:1px solid var(--rule)}
+.fc-head{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}
+.fc-head strong{font-family:var(--cond);font-size:1.15rem;font-weight:600}
+.fc-head .pct{font-family:var(--mono);font-size:1.5rem;font-weight:500;margin-left:auto}
+.fc.n1 .pct{color:var(--watch)} .fc.n2 .pct{color:var(--critical)}
+.meter{position:relative;height:8px;background:var(--raised);margin:.5rem 0 .6rem}
+.meter i{position:absolute;left:0;top:0;bottom:0;background:var(--brand)}
+.fc.n1 .meter i{background:var(--watch)} .fc.n2 .meter i{background:var(--critical)}
+.meter b{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--text)}
+.fc p,.fc ol,.fc ul{max-width:72ch}
+.fc ol,.fc ul{margin:.2rem 0;padding-left:1.3rem}
+.fc h4,.resp h4{margin:.8rem 0 .25rem;font-family:var(--cond);font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mini-fc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--rule)}
+.mini-fc div{padding:.5rem .8rem .6rem 0;border-bottom:1px solid var(--rule)}
+.mini-fc dt{font-size:.78rem;color:var(--muted)}
+.mini-fc dd{margin:0;font-family:var(--mono);font-size:1.2rem}
+.mini-fc .n1 dd{color:var(--watch)} .mini-fc .n2 dd{color:var(--critical)}
+.mini-fc small{font-family:var(--sans);font-size:.72rem;color:var(--faint)}
+button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weight:400;letter-spacing:0;text-decoration:underline;text-decoration-color:var(--faint);text-underline-offset:3px}
+.resp{border-left:3px solid var(--brand);padding:.2rem 0 .2rem .9rem;margin-top:.4rem}
+.resp p{margin:.4rem 0} .resp ol,.resp ul{margin:.2rem 0;padding-left:1.3rem}
+.src{font-size:.84rem;color:var(--muted)}
+.pie{margin:2.2rem 0 0;padding-top:.8rem;border-top:1px solid var(--rule);font-size:.84rem;color:var(--faint)}
+
+@media (max-width:980px){
+  .mission-bar{grid-template-columns:1fr}
+  .asis,.cuerpo{grid-template-columns:1fr}
+  .escena{max-width:380px;margin:0 auto;width:100%}
+  .lado{margin-top:1rem}
+  .asis aside{margin-top:1.4rem}
+  .mini-fc{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .crew-strip{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="6" fill="#e9edfb"/><ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="#7de3d0" stroke-width="1.6" transform="rotate(-24 16 16)"/><circle cx="27.6" cy="10.4" r="1.7" fill="#7de3d0"/></svg>
+      <div><strong>POLIS SENSE SPACE</strong><small>Monitoreo de salud de la tripulación</small></div>
+    </div>
+    <span class="badge">Datos reales en Tierra · prototipo</span>
+  </header>
+
+  <section class="mission-bar" aria-label="Día del registro">
+    <div class="field">
+      <label class="label" for="dia">Día <span id="diaTxt" class="mono" style="letter-spacing:0;text-transform:none;color:var(--text)"></span></label>
+      <div class="dayline">
+        <button type="button" id="prev" aria-label="Día anterior">◀</button>
+        <input type="range" id="dia" min="0" max="150" step="1">
+        <button type="button" id="next" aria-label="Día siguiente">▶</button>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label" for="caso">Ir a un caso</label>
+      <select id="caso"></select>
+    </div>
+    <dl class="readouts" id="readouts"></dl>
+  </section>
+
+  <div role="tablist" aria-label="Secciones" class="tabs" id="tabs">
+    <button type="button" role="tab" data-t="crew">Tripulación</button>
+    <button type="button" role="tab" data-t="asis">Luma</button>
+  </div>
+
+  <main class="panel">
+    <!-- TRIPULACIÓN -->
+    <div id="v-crew">
+      <div class="crew-strip" id="crew" role="group" aria-label="Tripulación"></div>
+      <div class="dossier">
+        <header class="dossier-head">
+          <div><h2 id="nombre"></h2><p class="muted" id="resumen" style="margin:0"></p></div>
+          <span id="estado" class="pill s0"></span>
+        </header>
+        <section class="cuerpo" aria-label="Cuerpo en 3D con las zonas afectadas">
+          <div class="escena" id="escena">
+            <canvas id="gl" tabindex="0" aria-label="Cuerpo en 3D. Arrastra o usa las flechas izquierda y derecha para girarlo."></canvas>
+            <div id="tip" class="tip" hidden></div>
+            <svg class="human" id="plano" hidden viewBox="0 0 240 560" role="img" aria-labelledby="humanT">
+            <title id="humanT">Silueta del cuerpo con las zonas afectadas ese día</title>
+            <defs>
+              <linearGradient id="piel" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="560"><stop offset="0" stop-color="#4658a0"/><stop offset="1" stop-color="#222e62"/></linearGradient>
+              <linearGradient id="grave" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="560"><stop offset="0" stop-color="#ff8375"/><stop offset="1" stop-color="#e2544a"/></linearGradient>
+              <linearGradient id="vig" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="560"><stop offset="0" stop-color="#f7cf6c"/><stop offset="1" stop-color="#d9a52f"/></linearGradient>
+            </defs>
+            <ellipse class="orbit" cx="120" cy="270" rx="112" ry="262"/>
+            <ellipse class="orbit" cx="120" cy="270" rx="150" ry="70" transform="rotate(-18 120 270)" stroke-dasharray="2 6"/>
+            <!-- Vista frontal: el lado derecho de la persona queda a la izquierda de la pantalla -->
+            <path class="bz" data-z="torax" d="M103 87 C94 92 82 96 69 99 C78 114 84 136 85 154 C85 171 86 186 89 200 C101 207 139 207 151 200 C154 186 155 171 155 154 C156 136 162 114 171 99 C158 96 146 92 137 87 C128 91 112 91 103 87 Z"/>
+            <path class="bz" data-z="abdomen" d="M89 200 C101 207 139 207 151 200 C153 214 156 229 160 244 C163 255 166 266 166 277 C150 281 134 289 120 300 C106 289 90 281 74 277 C74 266 77 255 80 244 C84 229 87 214 89 200 Z"/>
+            <path class="bz" data-z="brazoD" d="M69 99 C59 100 51 107 49 121 C47 141 47 160 46 179 C45 197 43 212 41 227 C38 249 35 271 33 293 C31 301 27 310 27 320 C27 326 28 332 31 337 C33 341 37 343 40 341 C42 344 46 342 47 337 C49 328 50 316 52 300 C56 276 61 254 64 232 C67 212 77 181 85 154 C84 136 78 114 69 99 Z"/>
+            <path class="bz" data-z="brazoI" d="M171 99 C181 100 189 107 191 121 C193 141 193 160 194 179 C195 197 197 212 199 227 C202 249 205 271 207 293 C209 301 213 310 213 320 C213 326 212 332 209 337 C207 341 203 343 200 341 C198 344 194 342 193 337 C191 328 190 316 188 300 C184 276 179 254 176 232 C173 212 163 181 155 154 C156 136 162 114 171 99 Z"/>
+            <path class="bz" data-z="piernaD" d="M74 277 C90 281 106 289 120 300 C120 323 118 347 115 370 C113 385 111 395 110 406 C110 417 114 432 113 448 C112 470 107 492 105 510 C104 518 105 524 107 531 C109 539 105 546 97 547 C89 548 77 548 72 543 C68 538 76 529 81 520 C85 510 85 500 83 486 C81 468 74 452 74 436 C74 422 79 412 79 400 C79 380 70 350 70 327 C70 307 72 291 74 277 Z"/>
+            <path class="bz" data-z="piernaI" d="M166 277 C150 281 134 289 120 300 C120 323 122 347 125 370 C127 385 129 395 130 406 C130 417 126 432 127 448 C128 470 133 492 135 510 C136 518 135 524 133 531 C131 539 135 546 143 547 C151 548 163 548 168 543 C172 538 164 529 159 520 C155 510 155 500 157 486 C159 468 166 452 166 436 C166 422 161 412 161 400 C161 380 170 350 170 327 C170 307 168 291 166 277 Z"/>
+            <path class="bz" data-z="cabeza" d="M120 10 C136 10 145 24 144 41 C147 41 148 46 147 50 C146 55 143 57 141 57 C139 64 135 70 130 74 C130 80 132 84 137 87 C128 91 112 91 103 87 C108 84 110 80 110 74 C105 70 101 64 99 57 C97 57 94 55 93 50 C92 46 93 41 96 41 C95 24 104 10 120 10 Z"/>
+            <!-- Trazos anatómicos: clavículas, pecho, costado, ombligo, rodillas, codos -->
+            <path class="anat" d="M111 95 C103 98 93 99 83 101 M129 95 C137 98 147 99 157 101"/>
+            <path class="anat" d="M90 140 C97 151 110 153 118 146 M150 140 C143 151 130 153 122 146 M120 112 L120 150"/>
+            <path class="anat" d="M110 168 C113 170 117 171 120 171 C123 171 127 170 130 168 M112 186 C115 188 125 188 128 186"/>
+            <path class="anat" d="M97 214 C100 232 100 250 97 268 M143 214 C140 232 140 250 143 268"/>
+            <path class="anat" d="M118.500 236 C118.500 240 121.500 240 121.500 236"/>
+            <path class="anat" d="M84 394 C88 404 100 405 105 396 M156 394 C152 404 140 405 135 396"/>
+            <path class="anat" d="M52 224 C55 229 60 230 63 227 M188 224 C185 229 180 230 177 227"/>
+            <path class="anat" d="M109 73 C113 79 127 79 131 73"/>
+            
+          </svg>
+            <div class="vistas" id="vistas" role="group" aria-label="Vista del cuerpo">
+              <button type="button" data-yaw="0">Frente</button><button type="button" data-yaw="-90">Lado derecho</button><button type="button" data-yaw="180">Espalda</button><button type="button" data-yaw="90">Lado izquierdo</button>
+            </div>
+          </div>
+          <div class="lado">
+            <h3 class="section-title" style="margin-top:0">Zonas afectadas</h3>
+            <p class="small muted" id="ayuda3d">Arrastra el cuerpo para girarlo. Pasa el mouse por una zona, o tócala, para ver qué tiene.</p>
+            <ul class="zlist" id="zlist"></ul>
+            <h3 class="section-title">Qué significa cada color</h3>
+            <ul class="tipos" id="tipos"></ul>
+          </div>
+        </section>
+        <h3 class="section-title">Lecturas del día</h3>
+        <dl class="vitals" id="vitals"></dl>
+        <h3 class="section-title">Alertas</h3>
+        <div id="alertas"></div>
+        <h3 class="section-title">Pronóstico para mañana</h3>
+        <div id="manana"></div>
+      </div>
+    </div>
+
+    <!-- ASISTENTE -->
+    <div id="v-asis" hidden>
+      <div class="crew-strip" id="acrew" role="group" aria-label="Astronauta para el asistente"></div>
+      <div class="asis">
+        <section class="charla" aria-label="Conversación con Luma">
+          <header class="luma-head">
+            <div class="orbe" id="orbe" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div><h2>Luma</h2><p class="muted" id="lumaEstado" style="margin:0">Tu acompañante de salud a bordo</p></div>
+            <span class="pill" id="lumaModo"></span><button type="button" id="reconectar" hidden>Reconectar</button>
+          </header>
+          <div id="chat" class="chat" role="log" aria-live="polite"></div>
+          <form class="ask" id="askForm">
+            <button type="button" id="mic" hidden aria-pressed="false">Hablar</button>
+            <input type="text" id="q" aria-label="Mensaje para Luma" placeholder="Escribe o pulsa Hablar: «me duele la espalda»" autocomplete="off">
+            <button type="submit" class="primary">Enviar</button>
+          </form>
+          <div class="chips" id="sugs"><button type="button">¿Cómo estoy hoy?</button><button type="button">¿Me va a doler algo mañana?</button><button type="button">Tengo náuseas y mareo</button><button type="button">Me duele la espalda</button><button type="button">No puedo dormir</button><button type="button">Me siento solo</button><button type="button">Mi compañero no responde</button></div>
+          <div class="opciones">
+            <label id="vozCaja" hidden><input type="checkbox" id="vozOn" checked> Responder en voz alta</label>
+            <button type="button" id="callar" hidden>Callar</button>
+            <button type="button" id="nueva">Nueva conversación</button>
+          </div>
+          <p class="src" id="lumaNota"></p>
+        </section>
+        <aside>
+          <header class="dossier-head"><div><h2 id="pTitulo" style="font-size:1.25rem"></h2><p class="muted small" id="pIntro" style="margin:0"></p></div></header>
+          <div id="pronos"></div>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <p class="pie">Prototipo, no es un dispositivo médico. Las causas y los pronósticos son estimaciones a partir de los registros, no diagnósticos.</p>
+</div>
+
+<script>
+/*REAL*/
+/*MODELO*/
+/*MALLA*/
+/*HECHOS*/
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const coma = (n, d=1) => n.toFixed(d).replace('.', ',');
+const signo = (n, d=1) => (n > 0 ? '+' : n < 0 ? '−' : '') + coma(Math.abs(n), d);
+const num = n => coma(n, Number.isInteger(n) ? 0 : 1);
+
+// Procedimientos y asistente: se copian de plantilla.html al generar la página, para no mantenerlos dos veces.
+/*PROC*/
+
+const SEV = ['Normal', 'Vigilar', 'Grave'];
+const ZONAS = {cabeza:'Cabeza', torax:'Tórax', abdomen:'Abdomen', pelvis:'Cadera y pelvis', brazoD:'Brazo derecho', brazoI:'Brazo izquierdo', piernaD:'Pierna derecha', piernaI:'Pierna izquierda'};
+const RZ = {corazon:['torax'], cabeza:['cabeza'], musculos:[]};
+const RDOLOR = {pierna_izquierda:['piernaI'], pierna_derecha:['piernaD'], brazo_izquierdo:['brazoI'], brazo_derecho:['brazoD'], pelvis:['pelvis'], tronco:['torax','abdomen'], cabeza:['cabeza']};
+const RNOMBRE = {pierna_izquierda:'pierna izquierda', pierna_derecha:'pierna derecha', brazo_izquierdo:'brazo izquierdo', brazo_derecho:'brazo derecho', pelvis:'pelvis', tronco:'tronco', cabeza:'cabeza'};
+const GRUPOS = [
+  {id:'pulso',  proc:'pulso',    titulo:'Pulso fuera de tu rango',   vars:['pulso_reposo','carga_cardiaca','recuperacion_nocturna']},
+  {id:'sueno',  proc:'sueno',    titulo:'Sueño fuera de tu rango',   vars:['sueno','horas_sueno','sueno_profundo','inquietud']},
+  {id:'animo',  proc:'animo',    titulo:'Ánimo bajo o estrés alto',  vars:['animo','estres']},
+  {id:'fatiga', proc:'fatiga',   titulo:'Fatiga o baja disposición', vars:['fatiga','disposicion']},
+  {id:'dolor',  proc:'muscular', titulo:'Dolor muscular',            vars:['dolor']},
+];
+const CASOS = [['P04','2020-03-02','P04, cinco variables a la vez'], ['P04','2020-01-06','P04, inicio del desajuste de horario'], ['P04','2020-02-04','P04, pulso, sueño y dolor'], ['P01','2020-02-07','P01, dolor intenso en piernas y pelvis'], ['P05','2019-12-05','P05, pulso, ánimo y fatiga'], ['P02','2019-11-10','P02, línea base (sin alertas)']];
+const TRIP = Object.keys(REAL.trip);
+const S = {p:'P04', i:REAL.dias.indexOf('2020-03-02'), tab:'crew', checks:{}};
+
+for (const p of TRIP) for (const k in REAL.trip[p]){ const s = REAL.trip[p][k]; s.pos = new Map(s.d.map((x, j) => [x[0], j])); }
+function reg(p, k, i){
+  const s = REAL.trip[p][k]; if (!s) return null;
+  const j = s.pos.get(i); if (j === undefined) return null;
+  return {v:s.d[j][1], e:s.d[j][2], base:j < s.b, j};
+}
+function rango(k, s){
+  const lado = REAL.vars[k].lado;
+  return lado === 'ambos' ? `${num(s.li)} a ${num(s.ls)}` : lado === 'alto' ? `hasta ${num(s.ls)}` : `desde ${num(s.li)}`;
+}
+function racha(p, k, i){ const s = REAL.trip[p][k]; let j = s.pos.get(i) ?? -1, n = 0; for (; j >= 0 && s.d[j][2] > 0; j--) n++; return n; }
+
+const fueraGrupo = (p, g, i) => g.vars.some(k => (reg(p, k, i)?.e ?? 0) > 0);
+const malSuenoEn = (p, i) => fueraGrupo(p, GRUPOS[1], i);
+function cargaEn(p, i){
+  const c = REAL.trip[p].carga_cardiaca, max = Math.max(...[i, i-1, i-2].map(d => reg(p, 'carga_cardiaca', d)?.v ?? 0));
+  return {max, media:c.m, alta:max > Math.max(1.5 * c.m, c.m + 15)};
+}
+// Episodios: días seguidos con el mismo sistema fuera de lo normal, para cada astronauta
+const EPIS = Object.fromEntries(GRUPOS.map(g => [g.id, TRIP.flatMap(p => { const out = []; let ini = -1;
+  for (let i = 0; i <= REAL.dias.length; i++){ const f = i < REAL.dias.length && fueraGrupo(p, g, i);
+    if (f && ini < 0) ini = i; if (!f && ini >= 0){ out.push({p, ini, fin:i - 1}); ini = -1; } }
+  return out; })]));
+/** Resumen de los episodios parecidos que ya terminaron antes de este día, en toda la tripulación. */
+function similares(p, gid, i){
+  const eps = EPIS[gid].filter(e => e.fin < i), n = eps.length;
+  if (!n) return 'Es el primer episodio de este tipo en los registros de la tripulación.';
+  const dur = eps.map(e => e.fin - e.ini + 1).sort((a, b) => a - b), med = dur[dur.length >> 1], max = dur[dur.length - 1];
+  const propios = eps.filter(e => e.p === p).length;
+  const conSueno = eps.filter(e => malSuenoEn(e.p, e.ini)).length, conCarga = eps.filter(e => cargaEn(e.p, e.ini).alta).length;
+  const cortos = eps.filter(e => e.fin - e.ini + 1 <= 2).length;
+  const veces = (k, de) => `${k} de ${de}`;
+  let t = `${n} ${n === 1 ? 'episodio parecido' : 'episodios parecidos'} antes de este día en la tripulación, ${propios ? propios + ' de ellos de este astronauta' : 'ninguno de este astronauta'}. `;
+  t += `${veces(cortos, n)} se resolvieron en 2 días o menos; la duración típica fue de ${med} ${med === 1 ? 'día' : 'días'} y el más largo duró ${max}. `;
+  const f = []; if (gid !== 'sueno' && conSueno) f.push(`mal sueño en ${veces(conSueno, n)}`); if (conCarga) f.push(`carga física alta en ${veces(conCarga, n)}`);
+  t += f.length ? `Al empezar había ${f.join(' y ')}. ` : 'Al empezar no había mal sueño ni carga física alta. ';
+  return t + 'Los registros no guardan qué hizo cada persona, así que no se sabe qué los resolvió.';
+}
+
+/** Alertas del día agrupadas por sistema, con causa probable y las demás posibilidades que los datos apoyan o no. */
+function evaluar(p, i){
+  const est = k => reg(p, k, i)?.e ?? 0;
+  const malSueno = GRUPOS[1].vars.some(k => est(k) > 0);
+  const animoBajo = est('animo') > 0 || est('estres') > 0;
+  const conDolor = est('dolor') > 0;
+  const carga = REAL.trip[p].carga_cardiaca;
+  const cargaMax = Math.max(...[i, i-1, i-2].map(d => reg(p, 'carga_cardiaca', d)?.v ?? 0));
+  const cargaAlta = cargaMax > Math.max(1.5 * carga.m, carga.m + 15);
+  const txtCarga = `en los últimos 3 días hubo uno con ${num(cargaMax)} minutos de pulso sobre 120 lpm (tu media diaria: ${num(carga.m)})`;
+  const dias = racha(p, 'pulso_reposo', i);
+  const H = {   // hipótesis reutilizables: [texto, veredicto]; true = los datos la apoyan, false = no, null = no hay dato
+    sueno:['Mal sueño la noche anterior', malSueno],
+    carga:['Carga física alta en los últimos 3 días', cargaAlta],
+    animo:['Ánimo bajo o estrés alto el mismo día', animoBajo],
+    dolor:['Dolor muscular el mismo día', conDolor],
+    racha:['Tendencia de varios días (fatiga acumulada o desajuste de horario)', dias >= 5],
+    fiebre:['Inicio de infección o fiebre', null, 'mide la temperatura'],
+    agua:['Deshidratación', null, 'revisa cuánto bebiste'],
+    co2:['CO₂ alto en la cabina', null, 'revisa el medidor'],
+    cabina:['Ruido, luz o temperatura de la cabina', null, 'revisa el ambiente'],
+    trabajo:['Carga de trabajo o aislamiento', null, 'coméntalo con la tripulación'],
+    comida:['Alimentación o hidratación incompletas', null, 'revisa el registro de comidas'],
+    lesion:['Lesión y no solo sobrecarga', null, 'revisa inflamación y movilidad'],
+  };
+  const a = [];
+  for (const g of GRUPOS){
+    const fuera = g.vars.map(k => [k, reg(p, k, i)]).filter(([, r]) => r && r.e > 0);
+    if (!fuera.length) continue;
+    const sev = Math.max(...fuera.map(([, r]) => r.e));
+    const porque = fuera.map(([k, r]) => { const u = REAL.vars[k].unidad; return `${REAL.vars[k].nombre}: ${num(r.v)}${/\d/.test(u) ? '' : ' ' + u}, y tu rango normal va ${rango(k, REAL.trip[p][k])}`; });
+    let zonas = [...new Set(fuera.flatMap(([k]) => RZ[REAL.vars[k].zona]))], causa, pos, zonaTxt = '';
+    if (g.id === 'pulso'){
+      if (dias >= 2) porque.push(`${dias} registros seguidos con el pulso fuera de lo normal`);
+      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango el mismo día.'
+        : cargaAlta ? `Probable carga física: ${txtCarga}.`
+        : dias >= 5 ? `Tendencia sostenida, no un mal día aislado. Es compatible con fatiga acumulada, desajuste de horario o inicio de enfermedad; la temperatura ayuda a distinguir.`
+        : 'Sin causa clara con los datos del reloj. Repite la medición y revisa temperatura y ambiente de cabina.';
+      pos = [H.sueno, H.carga, H.racha, H.fiebre, H.agua, H.co2];
+    } else if (g.id === 'sueno'){
+      causa = animoBajo ? 'Coincide con ánimo bajo o estrés alto el mismo día: atiende ambos.'
+        : cargaAlta ? `Coincide con carga física alta: ${txtCarga}.`
+        : 'Conductual o ambiental: el pulso y el ánimo están en tu rango. Revisa horario, luz y ruido.';
+      pos = [H.animo, H.carga, H.dolor, H.cabina];
+    } else if (g.id === 'animo'){
+      causa = 'Conductual: es frecuente en aislamiento y confinamiento prolongados.' + (malSueno ? ' Coincide con sueño fuera de tu rango.' : '');
+      pos = [H.sueno, H.dolor, H.carga, H.trabajo];
+    } else if (g.id === 'fatiga'){
+      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango.' : cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin causa clara todavía. Revisa sueño, alimentación y carga de trabajo.';
+      pos = [H.sueno, H.carga, H.dolor, H.comida];
+      zonaTxt = 'General, sin zona localizada';
+    } else {
+      const z = REAL.dolor[p]?.[i] ?? [];
+      if (z.length){ zonas = [...new Set(z.flatMap(x => RDOLOR[x] ?? []))]; zonaTxt = z.map(x => RNOMBRE[x] ?? x).join(', '); porque.push('zona que reportó: ' + zonaTxt); }
+      causa = cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin ejercicio intenso reciente en los datos del reloj. Vigila si se repite en la misma zona.';
+      pos = [H.carga, H.sueno, H.lesion];
+    }
+    const pr = PROC[g.proc];
+    a.push({id:g.id, sev, zonas, zonaTxt, titulo:g.titulo, porque, causa, pos, similares:similares(p, g.id, i), pasos:pr.pasos(), items:pr.items(), escalar:pr.escalar});
+  }
+  return a.sort((x, y) => y.sev - x.sev);
+}
+
+function chispa(s, k, j){
+  const t = s.d.slice(Math.max(0, j - 29), j + 1).map(x => x[1]); if (t.length < 2) return '';
+  const W = 200, H = 30, p = 3, lado = REAL.vars[k].lado;
+  const lo = lado === 'alto' ? Math.min(...t) : s.li, hi = lado === 'bajo' ? Math.max(...t, s.m) : s.ls;
+  const mn = Math.min(lo, ...t), mx = Math.max(hi, ...t), sp = (mx - mn) || 1;
+  const x = i => p + i * (W - 2*p) / (t.length - 1), y = v => H - p - (v - mn) / sp * (H - 2*p);
+  const e = s.d[j][2], col = e === 2 ? 'var(--critical)' : e === 1 ? 'var(--watch)' : 'var(--brand)';
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Últimos ${t.length} registros"><rect x="0" y="${y(hi).toFixed(1)}" width="${W}" height="${Math.max(1, y(lo) - y(hi)).toFixed(1)}" fill="#22306a"/><polyline points="${t.map((v, i) => x(i).toFixed(1) + ',' + y(v).toFixed(1)).join(' ')}" fill="none" stroke="#c9d3f5" stroke-width="1.3" vector-effect="non-scaling-stroke"/><circle cx="${x(t.length-1).toFixed(1)}" cy="${y(t[t.length-1]).toFixed(1)}" r="2.6" fill="${col}"/></svg>`;
+}
+
+const VEREDICTO = v => v === true ? ['si', 'Los datos lo apoyan'] : v === false ? ['no', 'Los datos no lo apoyan'] : ['nd', 'Sin dato'];
+function tarjeta(a){
+  const ids = a.items.map((_, i) => `chk-${a.id}-${i}`), listos = ids.filter(id => S.checks[id]).length;
+  return `<li class="alert s${a.sev}">
+    <div class="alert-head"><span class="pill s${a.sev}">${SEV[a.sev]}</span><strong>${a.titulo}</strong></div>
+    <p><span class="label">Por qué salta</span>${esc(a.porque.join('; '))}.</p>
+    <p><span class="label">Causa probable</span>${esc(a.causa)}</p>
+    <h4>Otras posibilidades</h4>
+    <table class="poss"><tbody>${a.pos.map(([t, v, c]) => { const [cls, txt] = VEREDICTO(v); return `<tr><td>${esc(t)}${v === null && c ? `<span class="muted">: ${esc(c)}</span>` : ''}</td><td class="${cls}">${txt}</td></tr>`; }).join('')}</tbody></table>
+<h4>Casos similares</h4><p>${esc(a.similares)}</p>
+    <h4>Reúne antes de empezar <span class="ready mono">${listos}/${ids.length}</span></h4>
+    <ul class="chk">${a.items.map((it, i) => `<li><label for="${ids[i]}"><input type="checkbox" id="${ids[i]}"${S.checks[ids[i]] ? ' checked' : ''}>${esc(it)}</label></li>`).join('')}</ul>
+    <h4>Haz ahora</h4><ol>${a.pasos.map(p => `<li>${esc(p)}</li>`).join('')}</ol>
+    <p><span class="label">Cuándo escalar</span>${esc(a.escalar)}</p>
+  </li>`;
+}
+
+
+// Color por tipo de problema; la intensidad indica la gravedad (grave = color pleno y latido)
+const TIPOS = {
+  dolor:{nombre:'Dolor muscular', color:'#ff6f61'}, pulso:{nombre:'Pulso y corazón', color:'#ff5fa8'}, sueno:{nombre:'Sueño', color:'#9a86ff'},
+  animo:{nombre:'Ánimo y estrés', color:'#ffa94d'}, fatiga:{nombre:'Fatiga, todo el cuerpo', color:'#4fc3f7'},
+};
+const rgb = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16) / 255);
+function textoZona(z, parte){
+  const d = S.info?.[z]; if (!d) return '';
+  const l = d.tipos.map(t => `<span><i style="background:${TIPOS[t.t].color}"></i>${esc(TIPOS[t.t].nombre.split(',')[0])} · ${SEV[t.sev].toLowerCase()}<br>${esc(t.det)}</span>`);
+  if (d.pred) l.push(`<span><i class="raya"></i>Posible dolor mañana: ${d.pred} %</span>`);
+  return `<b>${esc(parte ?? ZONAS[z])}</b>${l.join('') || '<span class="muted">Sin novedades</span>'}`;
+}
+
+// =====================================================================
+// Cuerpo en 3D: modelo humano (recursos de MakeHuman, CC0) dibujado con WebGL, sin librerías.
+// Cada vértice trae su parte del cuerpo, sacada del hueso que más pesa en él; el sombreador la convierte
+// en zona y color, y la misma regla sirve para saber qué parte hay bajo el cursor.
+// =====================================================================
+const ORDEN = ['cabeza', 'torax', 'abdomen', 'pelvis', 'brazoD', 'brazoI', 'piernaD', 'piernaI'];
+// Partes del cuerpo que distingue el modelo, para el aviso al pasar el mouse: [de frente, de espalda]
+const PARTES = [['Cabeza'], ['Cuello', 'Nuca'], ['Pecho', 'Espalda alta'], ['Abdomen', 'Espalda baja'], ['Cadera y pelvis', 'Glúteos'], ['Muslo'], ['Pierna', 'Pantorrilla'], ['Pie'], ['Brazo'], ['Antebrazo'], ['Mano']];
+function nombreParte(h){ const n = PARTES[h.sub][h.frente ? 0 : 1] ?? PARTES[h.sub][0];
+  return h.sub < 5 ? n : `${n} ${/^(Mano|Pierna|Pantorrilla)$/.test(n) ? (h.z % 2 ? 'izquierda' : 'derecha') : (h.z % 2 ? 'izquierdo' : 'derecho')}`; }
+const CUERPO = (() => {
+  const cv = $('gl'), gl = cv.getContext('webgl', {antialias:true, alpha:true});
+  if (!gl || typeof MALLA === 'undefined'){ cv.hidden = true; $('vistas').hidden = true; $('plano').removeAttribute('hidden'); $('ayuda3d').textContent = 'Este navegador no puede mostrar el cuerpo en 3D; se muestra la vista plana.'; return null; }
+  const bytes = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+  const q = new Int16Array(bytes(MALLA.v).buffer), idx = new Uint16Array(bytes(MALLA.f).buffer);
+  const pos = Float32Array.from(q, v => v / MALLA.escala), nor = new Float32Array(pos.length), partes = bytes(MALLA.z);
+  for (let f = 0; f < idx.length; f += 3){            // normales suaves: suma de las normales de las caras
+    const [a, b, c] = [idx[f] * 3, idx[f+1] * 3, idx[f+2] * 3];
+    const ux = pos[b]-pos[a], uy = pos[b+1]-pos[a+1], uz = pos[b+2]-pos[a+2], vx = pos[c]-pos[a], vy = pos[c+1]-pos[a+1], vz = pos[c+2]-pos[a+2];
+    const n = [uy*vz - uz*vy, uz*vx - ux*vz, ux*vy - uy*vx];
+    for (const k of [a, b, c]){ nor[k] += n[0]; nor[k+1] += n[1]; nor[k+2] += n[2]; }
+  }
+  const VS = `attribute vec3 aPos, aNor; attribute vec2 aParte; uniform mat4 uMVP; uniform mat3 uRot; varying vec3 vPos, vNor; varying vec2 vParte; varying float vFrente;
+    void main(){ vPos = aPos; vParte = aParte; vec3 n = normalize(aNor); vFrente = n.z; vNor = uRot * n; gl_Position = uMVP * vec4(aPos, 1.); }`;
+  const FS = `precision mediump float;
+    varying vec3 vPos, vNor; varying vec2 vParte; varying float vFrente;
+    uniform vec3 uC1[8], uC2[8]; uniform float uK[8], uModo[8]; uniform float uT, uPick, uSobre, uAlto;
+    void main(){
+      // Parte del cuerpo: viene del hueso dominante de cada vértice (ver generar_malla.py). a = tronco y pierna, b = brazo
+      float a = floor(vParte.x + .5), b = floor(vParte.y + .5), lado = vPos.x > 0. ? 1. : 0.;
+      float sub = b > .5 ? 7. + b : a;
+      float z = b > .5 ? 4. + lado : a < 1.5 ? 0. : a < 4.5 ? a - 1. : 6. + lado;
+      if (uPick > .5){ gl_FragColor = vec4((z + 1.) / 255., (sub + 1.) / 255., vFrente > -.15 ? 1. : 0., 1.); return; }
+      vec3 c1 = vec3(0.), c2 = vec3(0.); float k = 0., modo = 0.;
+      for (int i = 0; i < 8; i++) if (float(i) == z){ c1 = uC1[i]; c2 = uC2[i]; k = uK[i]; modo = uModo[i]; }
+      vec3 base = mix(vec3(.15, .20, .42), vec3(.33, .41, .74), smoothstep(0., uAlto, vPos.y));
+      vec3 col = mix(base, c1, k);
+      float u = (vPos.x + vPos.y) * 10.;
+      if (modo > .5 && modo < 1.5) col = mix(base, fract(u * 1.7) < .5 ? c1 : c2, k);
+      if (modo > 1.5 && fract(u * 2.4) < .24) col = mix(col, c2, .85);
+      vec3 n = normalize(vNor);
+      float luz = max(dot(n, normalize(vec3(.35, .55, .76))), 0.), relleno = max(dot(n, normalize(vec3(-.6, .1, .5))), 0.);
+      float borde = pow(1. - max(n.z, 0.), 2.6);
+      float late = k > .9 ? 1. + .10 * sin(uT * 4.) : 1.;
+      vec3 c = col * (.34 + .70 * luz + .22 * relleno) * late + mix(vec3(.49, .89, .82), col, step(.01, k)) * borde * .42;
+      if (z == uSobre) c += .13;
+      gl_FragColor = vec4(c, 1.);
+    }`;
+  const sh = (tipo, src) => { const o = gl.createShader(tipo); gl.shaderSource(o, src); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
+  const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+  const buf = (datos, attr) => { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, datos, gl.STATIC_DRAW); const l = gl.getAttribLocation(pr, attr); gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, 3, gl.FLOAT, false, 0, 0); };
+  buf(pos, 'aPos'); buf(nor, 'aNor');
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
+  const U = n => gl.getUniformLocation(pr, n);
+  gl.uniform1f(U('uAlto'), MALLA.alto);
+  { const bz = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, bz); gl.bufferData(gl.ARRAY_BUFFER, partes, gl.STATIC_DRAW);
+    const l = gl.getAttribLocation(pr, 'aParte'); gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, 2, gl.UNSIGNED_BYTE, false, 0, 0); }
+  gl.enable(gl.DEPTH_TEST); gl.clearColor(0, 0, 0, 0);
+  // Segundo lienzo, fuera de pantalla, donde cada zona se pinta con su número: sirve para saber qué hay bajo el cursor
+  const fb = gl.createFramebuffer(), tex = gl.createTexture(), rb = gl.createRenderbuffer();
+  let yaw = 0, pitch = 0.06, meta = null, sobre = -1, W = 0, H = 0;
+  function medir(){
+    const d = Math.min(2, window.devicePixelRatio || 1), w = Math.round(cv.clientWidth * d), h = Math.round(cv.clientHeight * d);
+    if (!w || !h || (w === W && h === H)) return; W = cv.width = w; H = cv.height = h;
+    gl.bindTexture(gl.TEXTURE_2D, tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, W, H, 0, gl.RGBA, gl.UNSIGNED_BYTE, null); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.bindRenderbuffer(gl.RENDERBUFFER, rb); gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, W, H);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0); gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, rb);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+  function matrices(){
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cx = Math.cos(pitch), sx = Math.sin(pitch);
+    const R = [cy, sx*sy, -cx*sy,  0, cx, sx,  sy, -sx*cy, cx*cy];            // rotación Y y luego X, por columnas
+    const f = 1 / Math.tan(0.21), asp = W / H, n = 2, l = 8, dist = 4.7, cyo = MALLA.alto / 2;
+    const M = new Float32Array(16);                                              // perspectiva * traslación * rotación * centrado
+    const T = [-(R[3] * cyo), -(R[4] * cyo), -(R[5] * cyo) - dist];
+    const V = [R[0], R[1], R[2], 0, R[3], R[4], R[5], 0, R[6], R[7], R[8], 0, T[0], T[1], T[2], 1];
+    const P = [f / asp, 0, 0, 0, 0, f, 0, 0, 0, 0, (l + n) / (n - l), -1, 0, 0, 2 * l * n / (n - l), 0];
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++){ let v = 0; for (let k = 0; k < 4; k++) v += P[k * 4 + r] * V[c * 4 + k]; M[c * 4 + r] = v; }
+    return {M, R:new Float32Array(R)};
+  }
+  function dibuja(pick){
+    medir(); if (!W) return;
+    const {M, R} = matrices();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, pick ? fb : null); gl.viewport(0, 0, W, H); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.uniformMatrix4fv(U('uMVP'), false, M); gl.uniformMatrix3fv(U('uRot'), false, R);
+    gl.uniform1f(U('uPick'), pick ? 1 : 0); gl.uniform1f(U('uT'), performance.now() / 1000); gl.uniform1f(U('uSobre'), sobre);
+    gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+  }
+  function zonaEn(x, y){
+    dibuja(true); const px = new Uint8Array(4), r = cv.getBoundingClientRect();
+    gl.readPixels(Math.floor((x - r.left) / r.width * W), Math.floor((1 - (y - r.top) / r.height) * H), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null); return px[3] ? {z:px[0] - 1, sub:px[1] - 1, frente:px[2] > 127} : null;
+  }
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let late = false;
+  (function ciclo(){ if (meta !== null){ const d = meta - yaw; if (Math.abs(d) < 0.01){ yaw = meta; meta = null; } else yaw += d * 0.18; }
+    if (!cv.hidden && cv.clientWidth) dibuja(false); requestAnimationFrame(ciclo); })();
+  // Interacción: arrastrar gira, pasar por encima o tocar dice qué tiene la zona
+  const tip = $('tip'); let arr = null, movio = false;
+  function muestra(e){
+    const h = zonaEn(e.clientX, e.clientY); sobre = h ? h.z : -1;
+    if (!h){ tip.hidden = true; return; }
+    tip.innerHTML = textoZona(ORDEN[h.z], nombreParte(h)); tip.hidden = false;
+    const r = $('escena').getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    tip.style.left = Math.max(0, Math.min(r.width - tip.offsetWidth, x + 14)) + 'px'; tip.style.top = Math.max(0, y - tip.offsetHeight - 10) + 'px';
+  }
+  cv.addEventListener('pointerdown', e => { arr = {x:e.clientX, y:e.clientY, yaw, pitch}; movio = false; meta = null; cv.setPointerCapture(e.pointerId); cv.classList.add('arrastra'); });
+  cv.addEventListener('pointermove', e => {
+    if (arr){ const dx = e.clientX - arr.x, dy = e.clientY - arr.y; if (Math.abs(dx) + Math.abs(dy) > 4) movio = true;
+      if (movio){ yaw = arr.yaw + dx * 0.011; pitch = Math.max(-0.45, Math.min(0.45, arr.pitch + dy * 0.006)); tip.hidden = true; sobre = -1; return; } }
+    if (e.pointerType === 'mouse') muestra(e);
+  });
+  cv.addEventListener('pointerup', e => { cv.classList.remove('arrastra'); if (arr && !movio) muestra(e); arr = null; });
+  cv.addEventListener('pointercancel', () => { arr = null; cv.classList.remove('arrastra'); });
+  cv.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && !arr){ tip.hidden = true; sobre = -1; } });
+  cv.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){ yaw += e.key === 'ArrowLeft' ? -0.26 : 0.26; meta = null; e.preventDefault(); e.stopPropagation(); } });
+  $('vistas').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+    const fin = +b.dataset.yaw * Math.PI / 180, vuelta = 2 * Math.PI; meta = fin + Math.round((yaw - fin) / vuelta) * vuelta; if (quieto){ yaw = meta; meta = null; } });
+  return {
+    /** Pasa al sombreador el color de cada zona: sólido (un tipo), bandas (dos tipos) o rayado fino (posible mañana). */
+    pinta(info){
+      const c1 = new Float32Array(24), c2 = new Float32Array(24), k = new Float32Array(8), modo = new Float32Array(8);
+      ORDEN.forEach((z, n) => { const d = info[z], loc = d.tipos.filter(t => !t.general).sort((a, b) => b.sev - a.sev), gen = d.tipos.find(t => t.general);
+        const distintos = [...new Map(loc.map(t => [t.t, t])).values()];
+        if (distintos.length){ c1.set(rgb(TIPOS[distintos[0].t].color), n * 3); k[n] = distintos[0].sev === 2 ? 1 : 0.62;
+          if (distintos.length > 1){ c2.set(rgb(TIPOS[distintos[1].t].color), n * 3); modo[n] = 1; } }
+        else if (gen){ c1.set(rgb(TIPOS[gen.t].color), n * 3); k[n] = gen.sev === 2 ? 0.5 : 0.34; }
+        if (d.pred && !distintos.length){ c2.set(rgb('#f2c14e'), n * 3); modo[n] = 2; } });
+      gl.uniform3fv(U('uC1[0]'), c1); gl.uniform3fv(U('uC2[0]'), c2); gl.uniform1fv(U('uK[0]'), k); gl.uniform1fv(U('uModo[0]'), modo);
+      tip.hidden = true; sobre = -1;
+    },
+    gira(a){ yaw = a; meta = null; }, zonaEn, get yaw(){ return yaw; },
+  };
+})();
+$('tipos').innerHTML = Object.values(TIPOS).map(t => `<li><i style="background:${t.color}"></i>${t.nombre}</li>`).join('')
+  + '<li><i style="background:linear-gradient(135deg,#ff6f61 50%,#9a86ff 50%)"></i>Bandas: dos problemas en la misma zona</li><li><i class="raya"></i>Rayado fino: posible dolor mañana</li><li>Color pleno y con latido: grave. Color suave: vigilar.</li>';
+
+function render(){
+  const fecha = REAL.dias[S.i], porTrip = Object.fromEntries(TRIP.map(p => [p, evaluar(p, S.i)])), alertas = porTrip[S.p];
+  const sevDe = p => porTrip[p].length ? porTrip[p][0].sev : 0;
+  const hay = p => Object.keys(REAL.vars).some(k => reg(p, k, S.i));
+  const enBase = p => hay(p) && Object.keys(REAL.vars).every(k => { const r = reg(p, k, S.i); return !r || r.base; });
+
+  // Barra de misión
+  $('dia').value = S.i; $('diaTxt').textContent = `${S.i + 1} de ${REAL.dias.length} · ${fecha}`;
+  const caso = CASOS.findIndex(([p, d]) => p === S.p && d === fecha); $('caso').value = caso < 0 ? '' : String(caso);
+  const graves = TRIP.filter(p => sevDe(p) === 2), vig = TRIP.filter(p => sevDe(p) === 1);
+  $('readouts').innerHTML = `<div><dt>En alerta</dt><dd class="${graves.length ? 'high' : ''}">${graves.length ? graves.join(' ') : 'ninguno'}</dd></div>
+    <div><dt>En vigilancia</dt><dd class="${vig.length ? 'mid' : ''}">${vig.length ? vig.join(' ') : 'ninguno'}</dd></div>
+    <div><dt>Fase</dt><dd>${TRIP.filter(hay).every(enBase) ? 'línea base' : 'monitoreo'}</dd></div>
+    <div><dt>Registros del día</dt><dd>${TRIP.reduce((n, p) => n + Object.keys(REAL.vars).filter(k => reg(p, k, S.i)).length, 0)} de ${TRIP.length * Object.keys(REAL.vars).length}</dd></div>`;
+
+  // Pestañas
+  document.querySelectorAll('#tabs button').forEach(b => { b.setAttribute('aria-selected', String(b.dataset.t === S.tab)); $('v-' + b.dataset.t).hidden = b.dataset.t !== S.tab; });
+
+  // Fichas de tripulación
+  $('crew').innerHTML = TRIP.map(p => { const m = sevDe(p), pr = reg(p, 'pulso_reposo', S.i), su = reg(p, 'sueno', S.i), b = enBase(p);
+    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronauta</span><b>${p}</b>
+      <span class="pill ${b ? 'base' : 's' + m}"${hay(p) ? '' : ' style="color:var(--faint);border-color:var(--rule-strong)"'}>${!hay(p) ? 'Sin registros' : b ? 'Línea base' : m ? `${porTrip[p].length} ${porTrip[p].length === 1 ? 'alerta' : 'alertas'} · ${SEV[m]}` : 'Sin alertas'}</span>
+      <span class="mini">${pr ? num(pr.v) + ' lpm' : 'sin pulso'} · sueño ${su ? num(su.v) : '–'}</span></button>`; }).join('');
+
+  // Expediente del astronauta elegido
+  const m = sevDe(S.p), base = enBase(S.p);
+  $('nombre').textContent = 'Astronauta ' + S.p;
+  const conDato = Object.keys(REAL.vars).filter(k => reg(S.p, k, S.i)), fuera = conDato.filter(k => reg(S.p, k, S.i).e > 0);
+  $('resumen').textContent = !conDato.length ? 'Este día no hay registros de este astronauta.'
+    : base ? `Día de línea base: ${conDato.length} lecturas que se usan para calcular su rango normal.`
+    : `${conDato.length} lecturas este día, ${fuera.length} fuera de su rango normal.`;
+  $('estado').className = 'pill ' + (base ? 'base' : 's' + m);
+  $('estado').textContent = !conDato.length ? 'Sin registros' : base ? 'Línea base' : m ? SEV[m] : 'Sin alertas';
+
+  $('vitals').innerHTML = Object.keys(REAL.vars).map(k => {
+    const v = REAL.vars[k], s = REAL.trip[S.p][k], r = reg(S.p, k, S.i);
+    if (!r) return `<div class="nd"><dt>${esc(v.nombre)}</dt><dd>sin dato</dd></div>`;
+    return `<div class="s${r.e}"><dt><span>${esc(v.nombre)}</span><i>${r.base ? 'base' : r.e ? SEV[r.e] : ''}</i></dt>
+      <dd>${num(r.v)} <small>${esc(v.unidad)}</small></dd><span class="rng">normal: ${rango(k, s)}</span>${chispa(s, k, r.j)}</div>`;
+  }).join('');
+
+  $('alertas').innerHTML = alertas.length ? `<ul class="alerts">${alertas.map(tarjeta).join('')}</ul>`
+    : `<p class="calm">${base ? 'Todavía es línea base: estos días sirven para aprender su rango normal y no generan alertas.' : conDato.length ? 'Todas las lecturas de este día están dentro de su rango normal.' : 'Sin registros este día.'}</p>`;
+
+  const fc = conDato.length ? pronostico(S.p, S.i) : [];
+  $('manana').innerHTML = fc.length ? `<dl class="mini-fc">${fc.map(f => `<div class="n${f.nivel}"><dt>${f.titulo}</dt><dd>${pct(f.pr)} % <small>${NIVEL[f.nivel]}</small></dd></div>`).join('')}</dl>
+    <p class="small muted" style="margin-top:.6rem">Probabilidad de que mañana aparezca cada problema, estimada con los registros hasta hoy. <button type="button" class="link" id="verAsis">Ver motivos y cómo adelantarse</button></p>` : '<p class="calm">Sin registros este día, no hay pronóstico.</p>';
+
+  // Cuerpo: qué tiene cada zona, por tipo de problema
+  const info = {}; for (const z in ZONAS) info[z] = {tipos:[], pred:null};
+  for (const a of alertas) for (const z of (a.zonas.length ? a.zonas : Object.keys(ZONAS)))
+    info[z].tipos.push({t:a.id, sev:a.sev, general:!a.zonas.length, det:a.id === 'dolor' ? `Dolor ${num(reg(S.p, 'dolor', S.i).v)} en una escala de 1 a 5, donde 5 es sin dolor` : a.porque[0].split(', y tu rango')[0]});
+  const fd = fc.find(f => f.id === 'dolor'), posibles = fd && fd.nivel >= 1 ? [...new Set(fd.zonas.flatMap(z => RDOLOR[z.z] ?? []))] : [];
+  for (const z of posibles) if (!info[z].tipos.some(t => t.t === 'dolor')) info[z].pred = pct(fd.pr);
+  S.info = info;
+  if (CUERPO) CUERPO.pinta(info);
+  else document.querySelectorAll('.bz').forEach(el => { const zs = el.dataset.z === 'abdomen' ? ['abdomen', 'pelvis'] : [el.dataset.z], t = zs.flatMap(z => info[z].tipos).filter(x => !x.general), m = Math.max(0, ...t.map(x => x.sev)); el.setAttribute('class', 'bz s' + m + (!m && zs.some(z => info[z].pred) ? ' pred' : '')); });
+  const filas = Object.keys(ZONAS).filter(z => info[z].tipos.some(t => !t.general) || info[z].pred).map(z => { const t = info[z].tipos.filter(x => !x.general), m = Math.max(0, ...t.map(x => x.sev));
+    return `<li class="s${m}"><span>${ZONAS[z]}${t.map(x => `<small class="muted"><i style="background:${TIPOS[x.t].color}"></i>${esc(TIPOS[x.t].nombre)}: ${esc(x.det)}</small>`).join('')}${info[z].pred ? `<small class="muted"><i class="raya"></i>Posible dolor mañana, ${info[z].pred} %</small>` : ''}</span><span>${m ? SEV[m] : 'Mañana'}</span></li>`; });
+  const general = alertas.filter(a => !a.zonas.length);
+  $('zlist').innerHTML = filas.join('') + general.map(a => `<li class="s${a.sev}"><span>Todo el cuerpo<small class="muted"><i style="background:${TIPOS[a.id].color}"></i>${esc(a.titulo)}</small></span><span>${SEV[a.sev]}</span></li>`).join('')
+    || '<li><span class="muted">Ninguna zona fuera de lo normal este día.</span><span></span></li>';
+
+  renderAsistente(alertas);
+}
+
+function ir(p, i){ S.p = p; S.i = Math.min(REAL.dias.length - 1, Math.max(0, i)); S.checks = {}; render(); }
+$('caso').innerHTML = '<option value="">Elegir…</option>' + CASOS.map(([, d, t], n) => `<option value="${n}">${esc(t)} (${d})</option>`).join('');
+$('caso').addEventListener('change', e => { const c = CASOS[+e.target.value]; if (e.target.value !== '' && c) ir(c[0], REAL.dias.indexOf(c[1])); });
+$('dia').addEventListener('input', e => ir(S.p, +e.target.value));
+$('prev').addEventListener('click', () => ir(S.p, S.i - 1));
+$('next').addEventListener('click', () => ir(S.p, S.i + 1));
+$('crew').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ir(b.dataset.p, S.i); });
+$('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ S.tab = b.dataset.t; render(); } });
+$('acrew').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ir(b.dataset.p, S.i); });
+document.addEventListener('click', e => { if (e.target.id === 'verAsis'){ S.tab = 'asis'; render(); window.scrollTo({top:0}); } });
+document.addEventListener('change', e => { const t = e.target; if (t.type === 'checkbox' && t.id.startsWith('chk-')){ S.checks[t.id] = t.checked; render(); } });
+document.addEventListener('keydown', e => { if (S.tab !== 'crew' || /INPUT|SELECT|TEXTAREA|CANVAS/.test(e.target.tagName)) return; if (e.key === 'ArrowLeft') ir(S.p, S.i - 1); if (e.key === 'ArrowRight') ir(S.p, S.i + 1); });
+
+// =====================================================================
+// Pronóstico: cuatro regresiones logísticas entrenadas con los 151 días de los cinco astronautas
+// (data/monitoreo-real/entrenar_pronostico.py). Aquí solo se calculan las mismas variables y se aplican los pesos.
+// =====================================================================
+const NIVEL = ['bajo', 'medio', 'alto'];
+const VARS12 = Object.keys(REAL.vars), SUENO_V = GRUPOS[1].vars;
+const clip = x => Math.max(-4, Math.min(4, x));
+const DOW = REAL.dias.map(d => new Date(d + 'T00:00:00Z').getUTCDay());
+const zde = (p, k, i) => { const r = reg(p, k, i); if (!r) return null; const s = REAL.trip[p][k]; return (r.v - s.m) / Math.max(s.s, 1e-6); };
+const BAND = {   // ¿lo tiene ese día? null = ese día no hay dato para saberlo
+  dolor:(p, i) => { const r = reg(p, 'dolor', i); return r ? +(r.v <= 2) : null; },
+  pulso:(p, i) => { const r = reg(p, 'pulso_reposo', i); return r ? +(r.e > 0) : null; },
+  sueno:(p, i) => reg(p, 'sueno', i) ? +malSuenoEn(p, i) : null,
+  fatiga:(p, i) => { const r = reg(p, 'fatiga', i); return r ? +(r.v <= 2) : null; },
+};
+const media = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : 0;
+function variables(p, i, obj){
+  const x = {};
+  for (const k of VARS12) x['z_' + k] = clip(zde(p, k, i) ?? 0);
+  const c3 = [i-2, i-1, i].map(d => zde(p, 'carga_cardiaca', d)).filter(v => v !== null), s3 = [i-2, i-1, i].map(d => zde(p, 'sueno', d)).filter(v => v !== null);
+  x.carga3 = c3.length ? clip(Math.max(...c3)) : 0; x.sueno3 = s3.length ? clip(media(s3)) : 0;
+  x.carga_ayer = clip(zde(p, 'carga_cardiaca', i - 1) ?? 0);
+  x.dolor_hoy = BAND.dolor(p, i) ?? 0; x.dolor_ayer = BAND.dolor(p, i - 1) ?? 0;
+  x.pulso_fuera = BAND.pulso(p, i) ?? 0; x.sueno_fuera = +malSuenoEn(p, i); x.fatiga_baja = BAND.fatiga(p, i) ?? 0;
+  const hist = [], sem = [], w = (DOW[i] + 1) % 7;
+  for (let d = 0; d <= i; d++){ const b = BAND[obj](p, d); if (b === null) continue; hist.push(b); if (DOW[d] === w) sem.push(b); }
+  x['tasa_' + obj] = media(hist); x['sem_' + obj] = media(sem);
+  return x;
+}
+function probabilidad(p, i, obj){
+  const m = MODELO.objetivos[obj], x = variables(p, i, obj); let t = m.b;
+  for (const f in m.w) t += m.w[f] * (x[f] ?? 0);
+  return {pr:1 / (1 + Math.exp(-t)), x, m};
+}
+const OBJ = {
+  dolor:{titulo:'Dolor muscular', grupo:'dolor', adelantate:['Si hoy hubo ejercicio intenso, mañana haz una sesión suave: el dolor muscular suele crecer el primer día y alcanzar su máximo entre 24 y 72 horas después.','Sube la intensidad poco a poco; el dolor aparece sobre todo con esfuerzos a los que el músculo no está acostumbrado.','Cuida el sueño de esta noche: dormir mal aumenta la sensibilidad al dolor al día siguiente.','Deja a mano la compresa fría y la banda elástica.']},
+  pulso:{titulo:'Pulso fuera de rango', grupo:'pulso', adelantate:['Hidrátate y evita el ejercicio intenso mañana a primera hora.','Mide la temperatura al despertar: el pulso en reposo también sube cuando el cuerpo combate una infección.','No decidas por un solo día: mira si se repite varios días y si coincide con mal sueño, estrés o entrenamiento fuerte.','Vuelve a medir tras 10 minutos de reposo antes de registrar.']},
+  sueno:{titulo:'Sueño fuera de rango', grupo:'sueno', adelantate:['Respeta la hora de dormir programada y atenúa la luz una hora antes.','Evita la cafeína en las 6 horas previas.','Si hay dolor o estrés hoy, atiéndelo antes de acostarte.','Deja listos antifaz y tapones para los oídos.']},
+  fatiga:{titulo:'Fatiga', grupo:'fatiga', adelantate:['Baja la intensidad de la sesión de ejercicio de mañana.','Completa hoy las comidas y la hidratación del plan.','Programa las tareas críticas de mañana con doble verificación.','Acuéstate a la hora programada.']},
+};
+const RAZON = {dolor_hoy:'hoy ya hay dolor muscular', dolor_ayer:'ayer hubo dolor muscular', carga3:'carga física alta en los últimos 3 días', carga_ayer:'carga física alta ayer', sueno_fuera:'el sueño de hoy está fuera de rango', sueno3:'tres días de sueño por debajo de lo habitual', pulso_fuera:'el pulso de hoy está fuera de rango', fatiga_baja:'hoy reportaste fatiga'};
+function razones(f){
+  const out = [];
+  for (const k in f.m.w){ const c = f.m.w[k] * (f.x[k] ?? 0); if (c < 0.15 || k.startsWith('tasa_')) continue;
+    let t = RAZON[k];
+    if (!t && k.startsWith('sem_')) t = `suele pasarte ese día de la semana (${Math.round(f.x[k] * 100)} % de las veces)`;
+    if (!t && k.startsWith('z_')){ const v = REAL.vars[k.slice(2)]; t = `${v.nombre.replace(/ \(.*\)/, '').toLowerCase()} ${f.x[k] > 0 ? 'por encima' : 'por debajo'} de tu media hoy`; }
+    if (t) out.push([c, t]); }
+  return out.sort((a, b) => b[0] - a[0]).slice(0, 3).map(r => r[1]);
+}
+function zonasHabituales(p, i){
+  const n = {}; let tot = 0;
+  for (const d in REAL.dolor[p] ?? {}) if (+d <= i){ tot++; for (const z of REAL.dolor[p][d]) n[z] = (n[z] ?? 0) + 1; }
+  return Object.entries(n).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([z, k]) => ({z, pct:Math.round(k / tot * 100)}));
+}
+/** Pronóstico de mañana para un astronauta, ordenado de mayor a menor probabilidad. */
+function pronostico(p, i){
+  return Object.keys(OBJ).map(id => { const f = probabilidad(p, i, id), habitual = f.x['tasa_' + id];
+    return {id, ...OBJ[id], pr:f.pr, habitual, nivel:f.pr >= 0.5 ? 2 : f.pr >= 0.25 ? 1 : 0, razones:razones(f), m:f.m, zonas:id === 'dolor' ? zonasHabituales(p, i) : []};
+  }).sort((a, b) => b.pr - a.pr);
+}
+function acierto(m){ return `En pruebas con días que el modelo no había visto, ${Math.round(m.avisos_correctos * 100)} % de sus avisos fueron correctos y avisó a tiempo del ${Math.round(m.casos_detectados * 100)} % de los casos.`; }
+function bloquePronostico(f){
+  return `<article class="fc n${f.nivel}"><div class="fc-head"><span class="pill ${f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">Riesgo ${NIVEL[f.nivel]}</span><strong>${f.titulo}</strong><span class="pct">${pct(f.pr)} %</span></div>
+    <div class="meter" role="img" aria-label="Probabilidad ${pct(f.pr)} %, habitual ${Math.round(f.habitual * 100)} %"><i style="width:${(f.pr * 100).toFixed(1)}%"></i><b style="left:${(f.habitual * 100).toFixed(1)}%"></b></div>
+    <p class="small muted">La marca blanca es lo habitual en ti: te pasa ${Math.round(f.habitual * 100)} % de los días.</p>
+    ${f.razones.length ? `<h4>Por qué</h4><ul>${f.razones.map(r => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join('')}</ul>` : f.nivel ? '<h4>Por qué</h4><p>Sobre todo porque te pasa con frecuencia; hoy no hay una señal concreta.</p>' : ''}
+    ${f.zonas.length && f.nivel ? `<p><span class="label">Dónde suele ser</span> ${esc(f.zonas.map(z => `${RNOMBRE[z.z]} (${z.pct} %)`).join(', '))}</p>` : ''}
+    ${f.nivel ? `<h4>Para adelantarse</h4><ol>${f.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : ''}
+    <p class="src">${acierto(f.m)}</p></article>`;
+}
+function renderAsistente(alertas){
+  $('acrew').innerHTML = TRIP.map(p => { const hay = VARS12.some(k => reg(p, k, S.i)), f = hay ? pronostico(p, S.i)[0] : null;
+    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronauta</span><b>${p}</b>
+      <span class="pill ${!f ? '' : f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">${!f ? 'Sin registros' : f.nivel ? `${f.titulo} ${pct(f.pr)} %` : 'Riesgo bajo'}</span></button>`; }).join('');
+  const hay = VARS12.some(k => reg(S.p, k, S.i));
+  $('pTitulo').textContent = `Pronóstico para mañana · ${S.p}`;
+  if (LUMA.saludo !== S.p + S.i){ LUMA.saludo = S.p + S.i; iniciaChat(LUMA.msgs.length <= 1); }
+  $('pIntro').textContent = hay ? `Con los registros hasta el día ${S.i + 1} (${REAL.dias[S.i]}). Mañana es ${REAL.dias[S.i + 1] ?? 'el día siguiente al último registro'}.` : 'Este día no hay registros de este astronauta.';
+  $('pronos').innerHTML = hay ? pronostico(S.p, S.i).map(bloquePronostico).join('') : '<p class="calm">Elige otro día u otro astronauta.</p>';
+}
+
+// =====================================================================
+// Asistente: entiende la intención de la pregunta y responde con los registros, el pronóstico y los procedimientos
+// =====================================================================
+const TEMA = [['dolor', /dol|duel|muscul|agujet|piern|braz|espald/], ['pulso', /puls|corazon|latid|cardia|palpit/], ['sueno', /suen|dorm|insomn|descans/], ['fatiga', /fatig|cansa|agota|energ|dispos/], ['animo', /anim|estres|trist|ansie|nervio/]];
+const NO_DX = /(tengo una? (infeccion|fractura|enfermedad|tumor)|diagnos|que enfermedad|estoy enfermo|medicament|pastilla|dosis de|recet|debo tomar|que tomo|^\W*que tengo\W*$)/;
+const pct = x => Math.min(99, Math.max(1, Math.round(x * 100)));
+const temaDe = f => TEMA.find(([, re]) => re.test(f))?.[0];
+/** Respuesta sin conexión: registros, pronóstico, casos frecuentes en el espacio y procedimientos. Devuelve HTML o null. */
+function respuestaLocal(q){
+  const f = fold(q.slice(0, 300));
+  const cita = f.match(/\bp0?([1-5])\b/); if (cita){ S.p = 'P0' + cita[1]; render(); }
+  const p = S.p, i = S.i, alertas = evaluar(p, i), tema = temaDe(f), hay = VARS12.some(k => reg(p, k, i));
+  const caja = h => h;
+  if (NO_DX.test(f)) return caja('<p><strong>No puedo diagnosticar ni recetar.</strong> Puedo decirte qué lecturas están fuera de tu rango, qué puede venir mañana y qué procedimiento seguir. Para un diagnóstico o un medicamento, contacta al oficial médico o al médico de vuelo.</p>');
+  if (/tripul|quien|todos|equipo|cual astronauta/.test(f)){
+    const filas = TRIP.filter(x => VARS12.some(k => reg(x, k, i))).map(x => [x, pronostico(x, i)[0]]).sort((a, b) => b[1].pr - a[1].pr);
+    return caja(`<p>Riesgo más alto de cada astronauta para mañana:</p><ol>${filas.map(([x, r]) => `<li><strong>${x}</strong>: ${r.titulo.toLowerCase()}, ${pct(r.pr)} % (riesgo ${NIVEL[r.nivel]})</li>`).join('')}</ol><p>Quien más atención necesita es <strong>${filas[0][0]}</strong>.</p>`);
+  }
+  if (!hay) return caja(`<p>No hay registros de ${p} este día, así que no puedo estimar nada. Elige otro día.</p>`);
+  if (/manana|pronost|predic|predec|riesgo|va a doler|voy a|prevenir|evitar|adelant|antes de tiempo/.test(f)){
+    const fc = pronostico(p, i), sel = tema && OBJ[tema] ? fc.filter(x => x.id === tema) : fc;
+    const top = sel[0];
+    return caja(`<p>${tema && OBJ[tema] ? '' : `Lo más probable para ${p} mañana: `}<strong>${top.titulo.toLowerCase()}, ${pct(top.pr)} %</strong> (riesgo ${NIVEL[top.nivel]}; lo habitual en ${p} es ${Math.round(top.habitual * 100)} %).</p>
+      ${top.razones.length ? `<h4>Por qué</h4><ul>${top.razones.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
+      ${top.zonas.length && top.nivel ? `<p>Si aparece, suele ser en ${esc(top.zonas.map(z => RNOMBRE[z.z]).join(', '))}.</p>` : ''}
+      ${top.nivel ? `<h4>Para adelantarse</h4><ol>${top.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : '<p>No hace falta hacer nada especial; mantén la rutina.</p>'}
+      ${sel.length > 1 ? `<p class="src">Resto: ${sel.slice(1).map(x => `${x.titulo.toLowerCase()} ${pct(x.pr)} %`).join(', ')}.</p>` : ''}
+      <p class="src">${acierto(top.m)}</p>`);
+  }
+  if (/antes|similar|otras veces|historial|ha pasado|paso antes/.test(f)){
+    const a = (tema && alertas.find(x => x.id === tema)) || alertas[0];
+    return caja(a ? `<p><strong>${a.titulo}.</strong> ${esc(a.similares)}</p>` : `<p>Hoy ${p} no tiene alertas con las que comparar. ${tema && EPIS[tema] ? esc(similares(p, tema, i + 1)) : ''}</p>`);
+  }
+  if (/por que|porque|causa|motivo|a que se debe/.test(f)){
+    const a = (tema && alertas.find(x => x.id === tema)) || (!tema && alertas[0]);
+    if (!a) return caja(`<p>Hoy ${tema ? 'esa lectura está dentro del rango normal de ' + p : p + ' no tiene alertas'}, así que no hay nada que explicar.</p>`);
+    const si = a.pos.filter(x => x[1] === true).map(x => x[0].toLowerCase()), nd = a.pos.filter(x => x[1] === null);
+    return caja(`<p><strong>${a.titulo}.</strong> ${esc(a.porque.join('; '))}.</p><p>${esc(a.causa)}</p>
+      ${si.length ? `<p>Los datos apoyan: ${esc(si.join('; '))}.</p>` : ''}
+      ${nd.length ? `<h4>Para descartar lo que los registros no ven</h4><ul>${nd.map(x => `<li>${esc(x[0])}: ${esc(x[2])}.</li>`).join('')}</ul>` : ''}`);
+  }
+  if (/como esto|como esta|como me encuentro|como voy|resumen|mi estado|estado de hoy/.test(f) && !/que hago|que hacer/.test(f)){
+    const fc = pronostico(p, i)[0];
+    return caja(`<p>${alertas.length ? `Hoy ${p} tiene ${alertas.length} ${alertas.length === 1 ? 'alerta' : 'alertas'}:` : `Hoy todas las lecturas de ${p} están dentro de su rango normal.`}</p>
+      ${alertas.length ? `<ul>${alertas.map(a => `<li><strong>${a.titulo}</strong> (${SEV[a.sev].toLowerCase()}). ${esc(a.causa)}</li>`).join('')}</ul><p>Empieza por la primera: ${esc(alertas[0].pasos[0].toLowerCase())}</p>` : ''}
+      <p>Para mañana, lo más probable es ${fc.titulo.toLowerCase()} (${pct(fc.pr)} %, riesgo ${NIVEL[fc.nivel]}).</p>`);
+  }
+  const caso = SINTOMAS.find(c => c.re.test(f));
+  if (caso) return caja(tarjetaCaso(caso));
+  const r = responder(q);
+  if (r.tipo === 'proc' || tema){
+    const clave = r.tipo === 'proc' ? r.proc : GRUPOS.find(g => g.id === tema)?.proc, pr = PROC[clave], x = /pierna|pie|tobillo|rodilla/.test(f) ? 'pierna' : 'brazo';
+    if (pr) return caja(`<p><strong>${esc(pr.titulo)}</strong></p><h4>Reúne antes de empezar</h4><ul>${pr.items(x).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+      <h4>Haz ahora</h4><ol>${pr.pasos(x).map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">Cuándo escalar</span> ${esc(pr.escalar)}</p>`);
+  }
+  return null;
+}
+// =====================================================================
+// Luma: acompañante de salud por voz. Tres piezas, cada una con respaldo:
+//   cerebro: Claude (si la página está publicada como artefacto) o las reglas locales de arriba
+//   oído:    dictado del artefacto, o el reconocimiento de voz del navegador, o el teclado
+//   voz:     voz del artefacto, o la síntesis de voz del navegador
+// Las emergencias se detectan siempre aquí, sin esperar a ningún modelo.
+// =====================================================================
+const diaMision = () => S.i + 1;
+const CIERRE_URG = 'Avisa ya al oficial médico de la tripulación y a control de misión. Desde una estación en órbita baja se puede evacuar en horas; más lejos no, así que primero se actúa a bordo.';
+const URGENCIAS = [
+  {re:/no respira|no responde|inconscien|sin pulso|paro card|se desmayo|desmayad|no reacciona|no despierta/, t:'Persona que no responde',
+   pasos:['Pide ayuda en voz alta: oficial médico y control de misión.','Comprueba si respira y si reacciona al hablarle y tocarle el hombro.','Si no respira: sujétalo a una superficie firme, empieza compresiones en el centro del pecho y que alguien traiga el desfibrilador.','Enciende el desfibrilador y sigue sus instrucciones de voz.','No pares hasta que respire o te releven.']},
+  {re:/dolor (en el |de |del )?pecho|opresion en el pecho|me aprieta el pecho|infarto/, t:'Dolor en el pecho',
+   pasos:['Detén toda actividad y quédate en reposo, sujeto y cómodo.','Avisa de inmediato; no esperes a ver si se pasa.','Que alguien mida pulso, presión y oxígeno, y acerque el desfibrilador.','Anota la hora de inicio, si el dolor se extiende al brazo, la mandíbula o la espalda, y si hay sudor frío o falta de aire.']},
+  {re:/atragant|se ahoga|me ahogo|no puedo respirar|no puede respirar|falta de aire|asfixi/, t:'Dificultad grave para respirar',
+   pasos:['Si es un atragantamiento y no puede toser ni hablar: compresiones abdominales desde atrás, sujetándote tú a una estructura.','Si puede toser, que siga tosiendo; no le golpees la espalda.','Colócalo erguido, afloja la ropa y mide el oxígeno.','Revisa el aire de la cabina: CO₂, humo u olores. Si hay duda, mascarilla y cambio de módulo.']},
+  {re:/sangra mucho|hemorragia|no para de sangrar|sangrado abundante|corte profundo/, t:'Sangrado abundante',
+   pasos:['Ponte guantes y presiona fuerte y directo sobre la herida con gasas.','No retires las gasas empapadas: añade más encima.','Mantén la presión al menos 10 minutos sin mirar.','Recoge la sangre que flote con paños absorbentes, y vigila pulso y nivel de conciencia.']},
+  {re:/convuls|ataque epilep/, t:'Convulsión',
+   pasos:['Aparta objetos y sujeta suavemente a la persona para que no golpee nada; no la inmovilices con fuerza.','No metas nada en su boca.','Mira la hora: si dura más de 5 minutos o se repite, es más grave.','Cuando pare, comprueba que respira y quédate con ella.']},
+  {re:/alergia grave|anafil|se le hincha la (cara|lengua|garganta)|labios hinchados|garganta cerrada/, t:'Reacción alérgica grave',
+   pasos:['Avisa de inmediato: puede cerrar la vía aérea en minutos.','Que el oficial médico prepare el autoinyector del botiquín.','Mantén a la persona erguida si le cuesta respirar; mide oxígeno y pulso.','Aparta lo que la haya causado: alimento, medicamento o producto.']},
+  {re:/quemadura|me queme|se quemo|quimico en el ojo|liquido en el ojo|salpico en el ojo/, t:'Quemadura o químico en el ojo',
+   pasos:['Aparta la fuente de calor o el producto.','Quemadura: enfría con agua o paños húmedos 10 a 20 minutos; no revientes ampollas ni pongas cremas.','Ojo: enjuaga con el lavaojos al menos 15 minutos, con el párpado abierto.','Cubre con gasa estéril sin apretar.']},
+  {re:/humo|incendio|fuego|amoniaco|fuga de|despresuriz|perdida de presion|alarma de la nave|huele a quemado/, t:'Emergencia de la nave',
+   pasos:['Sigue el procedimiento de emergencia de la nave: es antes que cualquier atención médica.','Mascarilla puesta si hay humo, amoníaco u olor extraño.','Reúnete con la tripulación en el punto seguro y haz recuento.','Cuando el ambiente sea seguro, revisa a cada persona: respiración, ojos y piel.']},
+  {re:/golpe en la cabeza|se golpeo la cabeza|me golpee la cabeza|traumatismo/, t:'Golpe en la cabeza',
+   pasos:['Comprueba si está consciente y orientado: nombre, lugar, qué pasó.','Si perdió el conocimiento, vomita, está confuso o tiene pupilas distintas, es urgente.','Presiona con gasa si sangra; aplica frío envuelto en tela.','Vigílalo las siguientes horas y no lo dejes solo.']},
+  {re:/suicid|quitarme la vida|hacerme dano|no quiero vivir|matarme|desaparecer para siempre/, t:'No estás solo en esto', sinCierre:true,
+   pasos:['Gracias por decírmelo. Lo que sientes importa y merece atención ahora.','No te quedes a solas: busca a un compañero de la tripulación y díselo con estas mismas palabras.','Pide ya una conferencia privada con el médico de vuelo o el equipo de apoyo psicológico.','Mientras llega la ayuda, quédate donde haya gente y aleja lo que pueda hacerte daño.']},
+];
+// Casos frecuentes en el espacio. `espacio(d)` dice qué cambia según el día de misión; las cifras salen de HECHOS o de las fuentes del README.
+const SINTOMAS = [
+  {re:/nausea|mareo|mareado|vomit|ganas de devolver|\basco\b/, t:'Náuseas y mareo',
+   espacio:d => d <= 3 ? `Es el día ${d}: lo esperable. Entre 6 y 8 de cada 10 astronautas tienen mareo espacial en los primeros 2 o 3 días, y casi siempre se pasa antes de 72 horas.` : `Ya es el día ${d}. El mareo espacial suele pasar en los primeros 3 días, así que conviene buscar otra causa: CO₂ alto, deshidratación, una infección o un medicamento.`,
+   pasos:['Mueve la cabeza despacio y evita giros bruscos.','Fija la vista en una referencia estable, como un panel o la «pared» que uses de suelo.','Ten una bolsa a mano y bebe a sorbos pequeños.','Deja para después las tareas delicadas.','Si no cede, pide al oficial médico el tratamiento del botiquín.'],
+   escalar:'Avisa si vomitas todo lo que bebes más de 12 horas, si hay dolor de cabeza intenso o visión doble, o si empieza después de la primera semana.'},
+  {re:/espalda|lumbar|columna|cintura/, t:'Dolor de espalda',
+   espacio:d => d <= 5 ? `Muy frecuente al principio: la mitad de los astronautas lo tiene en los primeros días, casi siempre leve, porque la columna se estira sin gravedad.` : `En el día ${d} ya no es el dolor típico de adaptación; piensa en la carga de ejercicio, la postura al dormir o una sobrecarga.`,
+   pasos:['Lleva las rodillas al pecho, en posición fetal, unos minutos: es lo que más alivia.','Haz ejercicio suave en la cinta o la bicicleta.','Ajusta la sujeción del saco de dormir para descansar algo flexionado.','Anota del 1 al 10 cuánto duele y si cambia con la postura.'],
+   escalar:'Es urgente si el dolor baja por una pierna, hay adormecimiento, pérdida de fuerza o dificultad para orinar.'},
+  {re:/cabeza|cefalea|jaqueca|migran/, t:'Dolor de cabeza',
+   espacio:d => `En cabina lo primero es el aire: cada 1 mmHg más de CO₂ duplica la probabilidad de dolor de cabeza.${d <= 4 ? ' Además, en los primeros días los líquidos se desplazan hacia la cabeza y dan sensación de presión.' : ''}`,
+   pasos:['Mira el medidor de CO₂ y pásate a una zona bien ventilada.','Bebe agua: en órbita se bebe menos de lo necesario.','Descansa 20 minutos con poca luz.','Si has dormido poco, recupéralo esta noche.'],
+   escalar:'Es urgente si empieza de golpe y muy fuerte, o si viene con visión alterada, confusión, debilidad en un lado o fiebre.'},
+  {re:/congestion|nariz tapada|cara hinchada|sinus|moco/, t:'Congestión y cara hinchada',
+   espacio:d => `Sin gravedad los líquidos del cuerpo se van hacia la cabeza: cara hinchada y nariz tapada son habituales${d <= 7 ? ' en la primera semana' : ''} y no significan resfriado por sí solos.`,
+   pasos:['Hidrátate con normalidad.','Usa el lavado nasal salino del botiquín.','Duerme con la cabeza algo elevada respecto al flujo de aire.','Vigila si aparece fiebre o dolor de oído.'],
+   escalar:'Avisa si hay fiebre, dolor facial intenso o secreción con mal olor.'},
+  {re:/vision|veo borroso|\bvista\b|veo doble|\bojos?\b/, t:'Cambios en la visión',
+   espacio:d => `En misiones largas, cerca de 2 de cada 3 astronautas muestran signos tempranos del síndrome neuro-ocular del vuelo espacial.${d < 30 ? ' En el día ' + d + ' sería pronto para eso, así que hay que mirar otras causas.' : ''}`,
+   pasos:['Tapa un ojo y luego el otro: anota si el cambio es en uno o en los dos, de cerca o de lejos.','Si entró polvo o una partícula, enjuaga con el lavaojos; no te frotes.','Haz la prueba de visión de a bordo y guarda el resultado.','Repórtalo en el próximo contacto con el médico de vuelo.'],
+   escalar:'Es urgente si pierdes visión de golpe, ves destellos o una sombra, o hay dolor fuerte en el ojo.'},
+  {re:/dormir|insomnio|desvel|\bsueno\b|descansar|pesadilla/, t:'Problemas para dormir',
+   espacio:() => 'Dormir poco es lo normal en órbita, no un fallo tuyo: el promedio en la estación es de unas 6 horas por noche aunque se programen 8 y media, con 16 amaneceres al día.',
+   pasos:['Mantén la misma hora de acostarte y levantarte.','Antifaz y tapones; baja la luz una hora antes.','Nada de cafeína en las 6 horas previas.','Si hay dolor o preocupación, atiéndelo antes de acostarte.','Evita tareas críticas mañana si dormiste menos de 5 horas, o hazlas con doble verificación.'],
+   escalar:'Avisa si llevas 3 noches seguidas durmiendo menos de 5 horas.'},
+  {re:/fiebre|temperatura|escalofrio|garganta|\btos\b|resfri|gripe|infeccion/, t:'Fiebre o infección',
+   espacio:d => d > 60 ? `Ojo con el termómetro: tras unos 2 meses en órbita la temperatura en reposo puede estar hasta 1 °C más alta que en Tierra sin que haya infección.` : `En el día ${d} la temperatura en reposo todavía debería parecerse a la de Tierra, así que una subida cuenta.`,
+   pasos:['Mide la temperatura y repítela en 15 minutos.','Bebe líquidos y reduce el ejercicio.','Usa mascarilla y mantén distancia de la tripulación.','Anota otros síntomas: tos, dolor al orinar, heridas, dolor de oído.'],
+   escalar:'Avisa hoy mismo si pasa de 38,5 °C, dura más de 24 horas o viene con dificultad para respirar.'},
+  {re:/costado|rinon|orina con sangre|orinar|calculo|piedra/, t:'Dolor en el costado o al orinar',
+   espacio:() => 'En el espacio el hueso suelta calcio y se bebe poco, y eso favorece los cálculos en el riñón. Beber suficiente es la mejor prevención.',
+   pasos:['Bebe agua de forma constante durante el día.','Anota dónde duele, si va y viene, y el color de la orina.','Mide la temperatura.','Avisa al oficial médico: decidirá el tratamiento del botiquín.'],
+   escalar:'Es urgente si hay fiebre, vómitos, dolor que no cede o no puedes orinar.'},
+  {re:/piel|sarpullido|erupcion|picor|roncha|ampolla|herpes/, t:'Problemas de piel',
+   espacio:() => 'La piel se irrita con facilidad en cabina, y el estrés del vuelo reactiva virus dormidos: 6 de cada 10 astronautas los eliminan, aunque pocos tienen síntomas.',
+   pasos:['Limpia con una toallita húmeda y seca sin frotar.','No rasques ni revientes ampollas.','Toma una foto con fecha para el médico de vuelo.','Revisa si coincide con un producto, una prenda o un sensor nuevo.'],
+   escalar:'Avisa si se extiende rápido, duele, supura o aparece cerca del ojo.'},
+  {re:/(siento|estoy|encuentro|muy|tan) sol[oa]\b|soledad|trist|ansie|angust|extran|deprim|llor|miedo|nervios|agobi|estres/, t:'Ánimo, estrés y soledad', compania:true,
+   espacio:d => `Llevas ${d} ${d === 1 ? 'día' : 'días'} lejos de casa, en un espacio pequeño y con mucho trabajo. Sentirse así es frecuente en aislamiento, y decirlo es lo correcto.`,
+   pasos:['Cuéntame qué es lo que más pesa ahora: el cansancio, la gente o lo que dejaste en casa.','Haz una pausa de 10 minutos con respiración lenta: 4 segundos al inspirar, 6 al soltar.','Habla con un compañero de la tripulación hoy.','Programa una llamada con tu familia.','Pide una conferencia privada de apoyo psicológico si se repite.'],
+   escalar:'Avisa si dura más de una semana, si afecta al sueño o al trabajo, o si aparecen ideas de hacerte daño.'},
+  {re:/radiacion|tormenta solar|dosimetro|erupcion solar/, t:'Radiación',
+   espacio:() => 'La dosis habitual a bordo es de 0,2 a 0,5 mSv al día. En un evento solar el límite es de 250 mSv, y por eso se va al refugio.',
+   pasos:['Si hay aviso de tormenta solar, ve al refugio designado y quédate hasta que control de misión lo indique.','Lleva tu dosímetro y anota la lectura.','Bebe agua y descansa.','Reporta náuseas, cansancio extremo o enrojecimiento de la piel.'],
+   escalar:'Avisa de inmediato si hay náuseas o vómitos en las horas siguientes a un evento solar.'},
+  {re:/debil|flojo|sin fuerza|musculo|hueso|me canso|agotad|cansanci|fatiga/, t:'Debilidad y cansancio',
+   espacio:d => `Sin gravedad se pierde entre 1 y 1,5 % de hueso al mes en las zonas de carga, y músculo. Llevas ${d} días: el ejercicio diario es el tratamiento, y la tripulación suele hacer menos del asignado.`,
+   pasos:['Completa la sesión de ejercicio de hoy, aunque sea más suave.','Come la ración completa: en órbita se suele comer el 80 % de lo necesario.','Revisa cuánto has dormido las últimas 3 noches.','Si el cansancio es nuevo y fuerte, mide temperatura y pulso.'],
+   escalar:'Avisa si dura 3 días o más, o si se suma fiebre, falta de aire o palpitaciones.'},
+  {re:/estrenim|barriga|estomago|abdomen|diarrea|vientre|gases/, t:'Molestias digestivas',
+   espacio:() => 'Sin gravedad el intestino se mueve más lento y se bebe menos, así que el estreñimiento y los gases son frecuentes.',
+   pasos:['Bebe agua a lo largo del día.','Mantén el ejercicio: ayuda al tránsito.','Come despacio y evita lo que te sentó mal.','Anota cuándo fue la última deposición.'],
+   escalar:'Es urgente si el dolor es fuerte y fijo en un punto, hay fiebre, vómitos o sangre.'},
+  {re:/muela|diente|encia|dental/, t:'Dolor dental',
+   espacio:() => 'A bordo no hay dentista: el botiquín trae material de empaste temporal y el oficial médico puede usarlo con guía desde Tierra.',
+   pasos:['Enjuaga con agua tibia.','Evita masticar por ese lado y los alimentos muy fríos o calientes.','Anota si hay hinchazón de la cara o fiebre.','Pide valoración al oficial médico.'],
+   escalar:'Avisa hoy si hay hinchazón de la cara, fiebre o dificultad para tragar.'},
+];
+function tarjetaCaso(c){
+  return `<p><strong>${c.t}.</strong> ${esc(c.espacio(diaMision()))}</p><h4>Haz ahora</h4><ol>${c.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">Cuándo escalar</span> ${esc(c.escalar)}</p>${c.compania ? '' : '<p>Del 1 al 10, ¿cuánto te molesta ahora?</p>'}`;
+}
+function tarjetaUrgencia(u){
+  return `<strong>${u.sinCierre ? '' : 'Emergencia: '}${u.t}</strong><ol>${u.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol>${u.sinCierre ? '<p>Yo sigo aquí contigo. ¿Quién de la tripulación está más cerca ahora?</p>' : `<p>${CIERRE_URG}</p>`}`;
+}
+
+const LUMA = {msgs:[], ocupado:false, sample:null, ia:null, caida:'', dict:null, tts:null, rec:null, espera:null, saludo:''};
+const ESTADO = 'Tu acompañante de salud a bordo';
+const aTexto = h => { const d = document.createElement('div'); d.innerHTML = h.replace(/<\/(p|li|h4|strong)>/g, '. </$1>'); return d.textContent.replace(/\s+/g, ' ').replace(/(\. )+/g, '. ').replace(/([:;,?!])\./g, '$1').trim(); };
+const orbe = c => { $('orbe').className = 'orbe' + (c ? ' ' + c : ''); };
+function pintaChat(){
+  $('chat').innerHTML = LUMA.msgs.map(m => `<div class="msg ${m.de}${m.urg ? ' urg' : ''}${m.aviso ? ' aviso' : ''}"><div class="quien">${m.de === 'tu' ? S.p : 'Luma'}</div><div class="txt">${m.html}</div></div>`).join('');
+  $('chat').scrollTop = $('chat').scrollHeight;
+}
+function hablar(texto){
+  if (!$('vozOn').checked || !texto) return;
+  const fin = () => { orbe(''); $('callar').hidden = true; };
+  orbe('vivo'); $('callar').hidden = false;
+  if (LUMA.tts){ const di = () => LUMA.tts.speak(texto.slice(0, 1900), {language:'es'});
+    return di().catch(e => e && e.code === 'busy' ? new Promise(r => setTimeout(r, 900)).then(di) : null).then(fin, fin); }
+  if (window.speechSynthesis){ try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(texto.slice(0, 1900)); u.lang = 'es-ES';
+      const v = speechSynthesis.getVoices().find(x => x.lang.startsWith('es')); if (v) u.voice = v; u.rate = 0.98; u.onend = u.onerror = fin; speechSynthesis.speak(u); return; } catch (e) {} }
+  fin();
+}
+function callar(){ try { LUMA.tts?.stop(); } catch (e) {} try { window.speechSynthesis?.cancel(); } catch (e) {} orbe(''); $('callar').hidden = true; }
+function saludo(){
+  const p = S.p, i = S.i, hay = VARS12.some(k => reg(p, k, i)), al = hay ? evaluar(p, i) : [];
+  const estado = !hay ? 'Hoy no tengo registros tuyos.' : al.length ? `Veo ${al.length === 1 ? 'una lectura' : al.length + ' cosas'} fuera de tu rango: ${al.map(a => a.titulo.toLowerCase()).join(', ')}.` : 'Tus lecturas de hoy están dentro de tu rango.';
+  return `<p>Hola, ${p}. Soy Luma, tu acompañante de salud. Es el día ${diaMision()} de la misión. ${estado}</p><p>¿Cómo te sientes?</p>`;
+}
+function iniciaChat(forzar){
+  if (LUMA.msgs.length > 1 && !forzar) return;
+  LUMA.espera = null; LUMA.msgs = [{de:'luma', html:saludo()}]; pintaChat();
+}
+function modo(){
+  $('lumaModo').textContent = LUMA.sample ? 'Conversación con IA' : LUMA.caida ? 'IA sin conexión' : LUMA.buscando ? 'Conectando con la IA…' : 'Sin IA en esta vista';
+  $('lumaModo').classList.toggle('caida', !LUMA.sample && !!LUMA.caida); $('reconectar').hidden = !(LUMA.ia && !LUMA.sample);
+  $('lumaNota').textContent = LUMA.sample ? 'Luma conversa con un modelo de lenguaje que recibe los registros del día, el pronóstico y los datos verificados del vuelo. Orienta, no diagnostica ni receta: eso es del médico de vuelo.'
+    : 'Modo sin conexión: Luma responde con los registros, el pronóstico y los procedimientos cargados. Publicada como artefacto de Claude, conversa con un modelo de lenguaje. Orienta, no diagnostica ni receta.';
+  const voz = !!(LUMA.tts || window.speechSynthesis); $('vozCaja').hidden = !voz;
+  $('mic').hidden = !(LUMA.dict || LUMA.rec);
+}
+
+/** Lo que Luma necesita saber en cada turno: quién es, dónde están, qué dicen los registros y qué hechos puede citar. */
+function contexto(){
+  const p = S.p, i = S.i, hay = VARS12.some(k => reg(p, k, i)), al = hay ? evaluar(p, i) : [], fc = hay ? pronostico(p, i) : [];
+  const lect = VARS12.map(k => { const r = reg(p, k, i); return r ? `${REAL.vars[k].nombre}: ${num(r.v)} ${REAL.vars[k].unidad} (${r.base ? 'línea base' : SEV[r.e].toLowerCase()}; normal ${rango(k, REAL.trip[p][k])})` : null; }).filter(Boolean);
+  const otros = TRIP.filter(x => x !== p).map(x => { const a = VARS12.some(k => reg(x, k, i)) ? evaluar(x, i) : null; return `${x}: ${!a ? 'sin registros' : a.length ? a.map(y => y.titulo.toLowerCase() + ' (' + SEV[y.sev].toLowerCase() + ')').join(', ') : 'sin alertas'}`; });
+  return `Eres Luma, acompañante de salud a bordo de una nave espacial (prototipo POLIS SENSE SPACE). Hablas por voz con el astronauta ${p}.
+
+CÓMO RESPONDES
+- En español, con calidez y calma, como alguien que acompaña. Frases cortas, pensadas para oírse. Sin markdown, sin listas con viñetas, sin emojis.
+- Normalmente menos de 90 palabras. Solo te extiendes si te piden detalle o es una emergencia.
+- Haces una sola pregunta de seguimiento a la vez: dónde, desde cuándo, o cuánto del 1 al 10.
+- Si es una emergencia, empiezas por los pasos inmediatos, numerados y breves, y después dices que avisen al oficial médico de la tripulación y a control de misión.
+
+DÓNDE ESTÁN
+- Día ${diaMision()} de misión, en microgravedad. No hay hospital ni ambulancia.
+- A bordo hay un oficial médico de la tripulación, un botiquín y un desfibrilador. En Tierra hay médicos de vuelo; se puede pedir una conferencia médica privada y las comunicaciones pueden tardar.
+- Desde órbita baja una evacuación tarda horas; en una misión lejana no es posible.
+- Ten presente el día de misión: qué es esperable ahora (adaptación en los primeros días; hueso, músculo, visión y ánimo en misiones largas) y qué no.
+
+QUÉ PUEDES Y QUÉ NO
+- Das información médica general y fiable, primeros auxilios, qué puede estar pasando, qué vigilar y cuándo escalar.
+- No inventas cifras. Para datos del vuelo espacial usa solo DATOS VERIFICADOS; para el astronauta, solo REGISTROS y PRONÓSTICO. Si no lo sabes o no hay evidencia, lo dices.
+- No das un diagnóstico definitivo ni dosis de medicamentos: la medicación la indica el oficial médico con el médico de vuelo. Sí explicas posibilidades y qué las distingue.
+- El pronóstico es una estimación estadística con cinco personas; preséntalo como probabilidad, no como certeza.
+
+REGISTROS DE ${p} HOY
+${lect.length ? lect.join('\n') : 'Sin registros este día.'}
+
+ALERTAS DE HOY
+${al.length ? al.map(a => `${a.titulo} (${SEV[a.sev].toLowerCase()}). Por qué: ${a.porque.join('; ')}. Causa probable: ${a.causa} Casos similares: ${a.similares}`).join('\n') : 'Ninguna.'}
+
+PRONÓSTICO PARA MAÑANA
+${fc.map(f => `${f.titulo}: ${pct(f.pr)} % (habitual en ${p}: ${Math.round(f.habitual * 100)} %)${f.razones.length ? '. Motivos: ' + f.razones.join('; ') : ''}${f.zonas.length ? '. Zonas habituales: ' + f.zonas.map(z => RNOMBRE[z.z]).join(', ') : ''}`).join('\n') || 'Sin datos.'}
+
+RESTO DE LA TRIPULACIÓN HOY
+${otros.join('\n')}
+
+PROCEDIMIENTOS A BORDO (pasos de ejemplo, primeros auxilios generales)
+${[...URGENCIAS, ...SINTOMAS].map(c => `${c.t}: ${c.pasos.join(' ')}`).join('\n')}
+
+DATOS VERIFICADOS DEL VUELO ESPACIAL (cítalos tal cual cuando vengan al caso)
+${HECHOS.join('\n')}`;
+}
+async function enviar(q){
+  q = (q || '').trim(); if (!q || LUMA.ocupado) return;
+  $('q').value = ''; callar();
+  if (LUMA.msgs.length === 0) iniciaChat(true);
+  LUMA.msgs.push({de:'tu', html:esc(q)}); pintaChat();
+  const f = fold(q.slice(0, 300)), urg = URGENCIAS.find(u => u.re.test(f));
+  if (urg){ const h = tarjetaUrgencia(urg); LUMA.msgs.push({de:'luma', html:h, urg:true}); LUMA.espera = null; pintaChat(); hablar(aTexto(h)); return; }
+  // Respuesta a "del 1 al 10": la entiende el modo sin conexión; con IA lo lleva el modelo
+  const n = f.match(/^\D{0,12}(10|[1-9])\b\D{0,12}$/);
+  if (!LUMA.sample && LUMA.espera && n){ const v = +n[1], h = v >= 7 ? `<p>Un ${v} es mucho. No esperes: avisa ahora al oficial médico y dile desde cuándo y dónde. Mientras, sigue los pasos de arriba y dime si cambia.</p>` : v >= 4 ? `<p>Un ${v}: molesta pero es manejable. Sigue los pasos, y volvemos a medir en una hora. Si sube a 7 o más, avisa al oficial médico.</p>` : `<p>Un ${v}: leve. Sigue los pasos y lo anotamos. Si mañana sigue igual o sube, lo revisamos.</p>`;
+    LUMA.msgs.push({de:'luma', html:h}); LUMA.espera = null; pintaChat(); hablar(aTexto(h)); return; }
+  if (LUMA.sample){
+    LUMA.ocupado = true; orbe('vivo'); $('lumaEstado').textContent = 'Pensando…';
+    const m = {de:'luma', html:'<p class="muted">…</p>'}; LUMA.msgs.push(m); pintaChat();
+    // Solo los turnos reales de la conversación (sin avisos), y como mucho los 12 últimos para no crecer sin límite
+    let previos = LUMA.msgs.slice(1, -1).filter(x => !x.aviso).map(x => ({role:x.de === 'tu' ? 'user' : 'assistant', content:aTexto(x.html)})).slice(-12);
+    while (previos.length && previos[0].role !== 'user') previos.shift();
+    previos[0] = {role:'user', content:contexto() + '\n\nCONVERSACIÓN\n' + previos[0].content};
+    const ctl = new AbortController(); let lento = false; const reloj = setTimeout(() => { lento = true; ctl.abort(); }, 45000);
+    try {
+      const r = await LUMA.sample(previos, {cache:false, signal:ctl.signal, onText:({text}) => { if (text){ m.html = `<p>${esc(text).replace(/\n+/g, '</p><p>')}</p>`; pintaChat(); } }});
+      clearTimeout(reloj);
+      m.html = `<p>${esc(r.text).replace(/\n+/g, '</p><p>')}</p>`; pintaChat(); LUMA.ocupado = false; $('lumaEstado').textContent = ESTADO; hablar(r.text); return;
+    } catch (e){
+      // La IA falló: se dice por qué, y esta respuesta sale del modo sin conexión para no dejar al astronauta sin nada
+      clearTimeout(reloj); LUMA.msgs.pop(); LUMA.ocupado = false; orbe(''); $('lumaEstado').textContent = ESTADO;
+      const c = e && e.code, motivo = lento ? 'la respuesta tardó más de 45 segundos' : c === 'not_granted' ? 'no hay permiso para usar la IA en esta página' : c === 'rate_limited' ? 'se alcanzó el límite de consultas; espera un minuto' : 'no se pudo contactar con la IA' + (c ? ` (${c})` : '');
+      if (c === 'not_granted' || c === 'rate_limited'){ LUMA.sample = null; LUMA.caida = motivo; modo(); if (c === 'rate_limited') setTimeout(reconectar, 60000); }
+      LUMA.msgs.push({de:'luma', aviso:true, html:`<p>Perdí la conexión con la IA: ${esc(motivo)}. Te respondo con lo que tengo cargado${LUMA.sample ? '; el siguiente mensaje lo vuelvo a intentar con la IA' : ' hasta que pulses Reconectar'}.</p>`});
+    }
+  }
+  let h = /^(hola|buenas|buenos dias|hey|que tal)\b/.test(f) ? `<p>Hola, ${S.p}. Aquí estoy. ¿Cómo te sientes hoy?</p>`
+    : /gracias/.test(f) ? '<p>Para eso estoy. Si algo cambia, dímelo.</p>'
+    : /quien eres|que eres|como te llamas|tu nombre/.test(f) ? '<p>Soy Luma, tu acompañante de salud a bordo. Miro tus registros cada día, te aviso si algo se sale de lo normal y te ayudo a decidir qué hacer.</p>'
+    : /que dia|cuantos dias|dia de mision|cuanto llevamos/.test(f) ? `<p>Es el día ${diaMision()} de la misión.${diaMision() <= 3 ? ' Todavía estás en la fase de adaptación: mareo, congestión y dolor de espalda son esperables.' : diaMision() > 30 ? ' A estas alturas lo que más hay que cuidar es el ejercicio, el sueño, la visión y el ánimo.' : ''}</p>`
+    : respuestaLocal(q);
+  if (!h) h = '<p>No tengo un procedimiento para eso en este modo. Dime el síntoma con otras palabras, dónde es y desde cuándo. Si es grave o no estás seguro, avisa al oficial médico.</p>';
+  LUMA.espera = /Del 1 al 10/.test(h) ? 'escala' : null;
+  LUMA.msgs.push({de:'luma', html:h}); pintaChat(); hablar(aTexto(h));
+}
+$('askForm').addEventListener('submit', e => { e.preventDefault(); enviar($('q').value); });
+$('sugs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) enviar(b.textContent); });
+function reconectar(){ if (LUMA.ia && !LUMA.sample){ LUMA.sample = LUMA.ia; LUMA.caida = ''; modo(); } }
+$('reconectar').addEventListener('click', reconectar);
+$('callar').addEventListener('click', callar);
+$('nueva').addEventListener('click', () => { callar(); iniciaChat(true); });
+$('vozOn').addEventListener('change', e => { if (!e.target.checked) callar(); });
+
+// Oído: dictado del artefacto si existe; si no, el reconocimiento de voz del navegador
+const micEstado = on => { $('mic').setAttribute('aria-pressed', String(on)); $('mic').textContent = on ? 'Escuchando…' : 'Hablar'; orbe(on ? 'vivo oye' : ''); };
+const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (Rec){ try { const r = new Rec(); r.lang = 'es-ES'; r.interimResults = true; r.continuous = false;
+    r.onresult = e => { const t = [...e.results].map(x => x[0].transcript).join(' '); $('q').value = t; if (e.results[e.results.length - 1].isFinal){ micEstado(false); enviar(t); } };
+    r.onend = () => micEstado(false); r.onerror = () => micEstado(false); LUMA.rec = r; } catch (e) {} }
+$('mic').addEventListener('click', () => {
+  const oyendo = $('mic').getAttribute('aria-pressed') === 'true'; callar();
+  if (LUMA.dict){ if (oyendo){ LUMA.dict.stop().catch(() => {}); return; } LUMA.dict.start().catch(e => { micEstado(false); if (e && e.code === 'not_granted'){ LUMA.dict = null; modo(); } }); return; }
+  if (LUMA.rec){ try { if (oyendo) LUMA.rec.stop(); else { LUMA.rec.start(); micEstado(true); } } catch (e) { micEstado(false); } }
+});
+// Capacidades del artefacto de Claude: llegan más tarde y pueden no existir
+LUMA.buscando = true;
+function conectaClaude(intento){
+  if (!(window.claude && typeof window.claude.use === 'function')){ if (intento < 24) setTimeout(() => conectaClaude(intento + 1), 500); else { LUMA.buscando = false; modo(); } return; }
+  window.claude.use('sample').then(x => { LUMA.sample = LUMA.ia = x; LUMA.buscando = false; modo(); }, () => { LUMA.buscando = false; modo(); });
+  window.claude.use('tts').then(x => { LUMA.tts = x; modo(); }, () => {});
+  window.claude.use('dictation').then(d => { if (!d) return; LUMA.dict = d; modo();
+    d.onPartial(({text}) => { $('q').value = text; });
+    d.onFinal(({text}) => { $('q').value = text; d.stop().catch(() => {}).then(() => enviar(text)); });
+    d.onState(({state}) => micEstado(state === 'listening')); }, () => {});
+}
+conectaClaude(0);
+modo();
+
+render();
+</script>
+</body>
+</html>

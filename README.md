@@ -26,6 +26,7 @@ Instalar Engram: `brew install gentleman-programming/tap/engram` o binario en ht
 |---|---|---|
 | Specs, planes, tareas, constitución | `.specify/`, `specs/` | Git |
 | Datos de salud en el espacio (valores publicados) | `data/salud-espacial/` | Git — ver su README |
+| Registros reales con alertas (PMData) y hallazgos de SOMA | `data/monitoreo-real/` | Git — ver su README |
 | Prototipo de la app (usa la base de datos) | `prototipo/` | Git — abrir `prototipo/index.html` |
 | Código | resto del repo | Git |
 | Memoria del agente | `.engram/chunks/` | `sync-in` / `sync-out` |
