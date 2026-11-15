@@ -1017,10 +1017,10 @@ function iniciaChat(forzar){
   LUMA.espera = null; LUMA.msgs = [{de:'luma', html:saludo()}]; pintaChat();
 }
 function modo(){
-  $('lumaModo').textContent = LUMA.sample ? 'Conversación con IA' : LUMA.caida ? 'IA sin conexión' : LUMA.buscando ? 'Conectando con la IA…' : 'Sin IA en esta vista';
+  $('lumaModo').textContent = LUMA.sample ? 'Conversación con IA' : LUMA.caida ? 'IA sin conexión' : LUMA.buscando ? 'Conectando con la IA…' : 'Modo a bordo, sin conexión';
   $('lumaModo').classList.toggle('caida', !LUMA.sample && !!LUMA.caida); $('reconectar').hidden = !(LUMA.ia && !LUMA.sample);
   $('lumaNota').textContent = LUMA.sample ? 'Luma conversa con un modelo de lenguaje que recibe los registros del día, el pronóstico y los datos verificados del vuelo. Orienta, no diagnostica ni receta: eso es del médico de vuelo.'
-    : 'Modo sin conexión: Luma responde con los registros, el pronóstico y los procedimientos cargados. Publicada como artefacto de Claude, conversa con un modelo de lenguaje. Orienta, no diagnostica ni receta.';
+    : 'Modo a bordo: Luma responde sin conexión, con los registros, el pronóstico y los procedimientos cargados. Orienta, no diagnostica ni receta: eso es del médico de vuelo.';
   const voz = !!(LUMA.tts || window.speechSynthesis); $('vozCaja').hidden = !voz;
   $('mic').hidden = !(LUMA.dict || LUMA.rec);
 }
