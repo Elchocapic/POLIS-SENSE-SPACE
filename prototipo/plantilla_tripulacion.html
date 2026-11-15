@@ -363,6 +363,7 @@ button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weig
   <p class="pie">Prototipo, no es un dispositivo médico. Las causas y los pronósticos son estimaciones a partir de los registros, no diagnósticos.</p>
 </div>
 
+<script src="luma-config.js"></script>
 <script>
 /*REAL*/
 /*MODELO*/
@@ -1026,7 +1027,14 @@ function modo(){
 }
 
 /** Lo que Luma necesita saber en cada turno: quién es, dónde están, qué dicen los registros y qué hechos puede citar. */
-function contexto(){
+/** Hechos que vienen al caso de la pregunta (para el modelo gratuito, que admite menos texto por minuto). */
+function hechosPara(q){
+  const pal = new Set(fold(q || '').split(/[^a-z0-9]+/).filter(w => w.length >= 5));
+  const pts = HECHOS.map((h, n) => { const f = fold(h); let k = 0; pal.forEach(w => { if (f.includes(w.slice(0, 6))) k++; }); return [k, n]; });
+  const elegidos = pts.filter(x => x[0] > 0).sort((a, b) => b[0] - a[0]).slice(0, 8).map(x => x[1]);
+  return [...new Set([...elegidos, HECHOS.length - 3, HECHOS.length - 2, HECHOS.length - 1])].map(n => HECHOS[n]);
+}
+function contexto(corto, q){
   const p = S.p, i = S.i, hay = VARS12.some(k => reg(p, k, i)), al = hay ? evaluar(p, i) : [], fc = hay ? pronostico(p, i) : [];
   const lect = VARS12.map(k => { const r = reg(p, k, i); return r ? `${REAL.vars[k].nombre}: ${num(r.v)} ${REAL.vars[k].unidad} (${r.base ? 'línea base' : SEV[r.e].toLowerCase()}; normal ${rango(k, REAL.trip[p][k])})` : null; }).filter(Boolean);
   const otros = TRIP.filter(x => x !== p).map(x => { const a = VARS12.some(k => reg(x, k, i)) ? evaluar(x, i) : null; return `${x}: ${!a ? 'sin registros' : a.length ? a.map(y => y.titulo.toLowerCase() + ' (' + SEV[y.sev].toLowerCase() + ')').join(', ') : 'sin alertas'}`; });
@@ -1062,11 +1070,10 @@ ${fc.map(f => `${f.titulo}: ${pct(f.pr)} % (habitual en ${p}: ${Math.round(f.hab
 RESTO DE LA TRIPULACIÓN HOY
 ${otros.join('\n')}
 
-PROCEDIMIENTOS A BORDO (pasos de ejemplo, primeros auxilios generales)
-${[...URGENCIAS, ...SINTOMAS].map(c => `${c.t}: ${c.pasos.join(' ')}`).join('\n')}
+${corto ? '' : 'PROCEDIMIENTOS A BORDO (pasos de ejemplo, primeros auxilios generales)\n' + [...URGENCIAS, ...SINTOMAS].map(c => `${c.t}: ${c.pasos.join(' ')}`).join('\n')}
 
 DATOS VERIFICADOS DEL VUELO ESPACIAL (cítalos tal cual cuando vengan al caso)
-${HECHOS.join('\n')}`;
+${(corto ? hechosPara(q) : HECHOS).join('\n')}`;
 }
 async function enviar(q){
   q = (q || '').trim(); if (!q || LUMA.ocupado) return;
@@ -1085,7 +1092,7 @@ async function enviar(q){
     // Solo los turnos reales de la conversación (sin avisos), y como mucho los 12 últimos para no crecer sin límite
     let previos = LUMA.msgs.slice(1, -1).filter(x => !x.aviso).map(x => ({role:x.de === 'tu' ? 'user' : 'assistant', content:aTexto(x.html)})).slice(-12);
     while (previos.length && previos[0].role !== 'user') previos.shift();
-    previos[0] = {role:'user', content:contexto() + '\n\nCONVERSACIÓN\n' + previos[0].content};
+    previos[0] = {role:'user', content:contexto(LUMA.remoto, q) + '\n\nCONVERSACIÓN\n' + previos[0].content};
     const ctl = new AbortController(); let lento = false; const reloj = setTimeout(() => { lento = true; ctl.abort(); }, 45000);
     try {
       const r = await LUMA.sample(previos, {cache:false, signal:ctl.signal, onText:({text}) => { if (text){ m.html = `<p>${esc(text).replace(/\n+/g, '</p><p>')}</p>`; pintaChat(); } }});
@@ -1128,10 +1135,22 @@ $('mic').addEventListener('click', () => {
   if (LUMA.rec){ try { if (oyendo) LUMA.rec.stop(); else { LUMA.rec.start(); micEstado(true); } } catch (e) { micEstado(false); } }
 });
 // Capacidades del artefacto de Claude: llegan más tarde y pueden no existir
+/** Cerebro para el sitio público: un intermediario propio (ver servidor-luma/) que consulta un modelo gratuito. */
+function iaRemota(url){
+  return async (mensajes, o) => {
+    let r; try { r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({messages:mensajes.slice(-12)}), signal:o && o.signal}); }
+    catch (e) { throw {code:'red'}; }
+    let j = {}; try { j = await r.json(); } catch (e) {}
+    if (r.status === 429) throw {code:'rate_limited'};
+    if (!r.ok || !j.text) throw {code:j.error || 'servidor'};
+    return {text:j.text};
+  };
+}
+function usaRemota(){ if (!LUMA.ia && window.LUMA_API){ LUMA.remoto = true; LUMA.sample = LUMA.ia = iaRemota(window.LUMA_API); } LUMA.buscando = false; modo(); }
 LUMA.buscando = true;
 function conectaClaude(intento){
-  if (!(window.claude && typeof window.claude.use === 'function')){ if (intento < 24) setTimeout(() => conectaClaude(intento + 1), 500); else { LUMA.buscando = false; modo(); } return; }
-  window.claude.use('sample').then(x => { LUMA.sample = LUMA.ia = x; LUMA.buscando = false; modo(); }, () => { LUMA.buscando = false; modo(); });
+  if (!(window.claude && typeof window.claude.use === 'function')){ if (intento < (window.LUMA_API ? 3 : 24)) setTimeout(() => conectaClaude(intento + 1), 500); else usaRemota(); return; }
+  window.claude.use('sample').then(x => { if (x){ LUMA.sample = LUMA.ia = x; LUMA.buscando = false; modo(); } else usaRemota(); }, usaRemota);
   window.claude.use('tts').then(x => { LUMA.tts = x; modo(); }, () => {});
   window.claude.use('dictation').then(d => { if (!d) return; LUMA.dict = d; modo();
     d.onPartial(({text}) => { $('q').value = text; });
