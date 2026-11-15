@@ -4,11 +4,13 @@
 //
 // Variables (Settings → Variables and Secrets):
 //   GROQ_API_KEY  (secreto, obligatorio)  clave creada en console.groq.com
-//   MODELO        (texto, opcional)       por defecto llama-3.3-70b-versatile
+//   MODELO        (texto, opcional)       por defecto openai/gpt-oss-120b
 //   ORIGENES      (texto, opcional)       sitios que pueden usarlo, separados por coma
 
 const ORIGENES_DEFECTO = 'https://elchocapic.github.io,http://localhost:8000,http://127.0.0.1:8000';
-const MAX_MENSAJES = 14, MAX_CARACTERES = 16000, MAX_RESPUESTA = 450;
+const MODELO_DEFECTO = 'openai/gpt-oss-120b';
+// El modelo razona antes de contestar y ese razonamiento cuenta en el tope, por eso el margen es amplio.
+const MAX_MENSAJES = 14, MAX_CARACTERES = 16000, MAX_RESPUESTA = 1500;
 
 function cabeceras(origen, permitido) {
   return {
@@ -44,13 +46,16 @@ export default {
     }
     if (total > MAX_CARACTERES) return responde({ error: 'tamano', mensaje: 'Conversación demasiado larga.' }, 413, cab);
 
+    const pide = extra => fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + env.GROQ_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: env.MODELO || MODELO_DEFECTO, messages: mensajes, temperature: 0.4, max_tokens: MAX_RESPUESTA, ...extra }),
+    });
     let r;
     try {
-      r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + env.GROQ_API_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: env.MODELO || 'llama-3.3-70b-versatile', messages: mensajes, temperature: 0.4, max_tokens: MAX_RESPUESTA }),
-      });
+      // Poco razonamiento y sin mostrarlo: respuestas rápidas. Si el modelo no admite esos ajustes, se repite sin ellos.
+      r = await pide({ reasoning_effort: 'low', include_reasoning: false });
+      if (r.status === 400) r = await pide({});
     } catch (e) { return responde({ error: 'red', mensaje: 'No se pudo contactar con el modelo.' }, 502, cab); }
 
     if (r.status === 429) return responde({ error: 'limite', mensaje: 'Se alcanzó el límite gratuito; espera un minuto.' }, 429, cab);

@@ -26,7 +26,7 @@ sigue funcionando en modo a bordo y lo avisa. Las emergencias no dependen de la 
 
 | Variable | Para qué | Por defecto |
 |---|---|---|
-| `MODELO` | Modelo de Groq a usar | `llama-3.3-70b-versatile` |
+| `MODELO` | Modelo de Groq a usar | `openai/gpt-oss-120b` |
 | `ORIGENES` | Sitios que pueden usar el Worker, separados por coma | `https://elchocapic.github.io` y `localhost:8000` |
 
 Si el sitio se publica en otra dirección, hay que añadirla a `ORIGENES` o el Worker responderá 403.
