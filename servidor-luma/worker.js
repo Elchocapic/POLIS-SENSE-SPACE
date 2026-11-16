@@ -31,20 +31,20 @@ export default {
     const cab = cabeceras(origen, permitido);
 
     if (peticion.method === 'OPTIONS') return new Response(null, { status: 204, headers: cab });
-    if (peticion.method !== 'POST') return responde({ error: 'metodo', mensaje: 'Solo POST.' }, 405, cab);
-    if (!permitido) return responde({ error: 'origen', mensaje: 'Este sitio no puede usar el asistente.' }, 403, cab);
-    if (!env.GROQ_API_KEY) return responde({ error: 'config', mensaje: 'Falta el secreto GROQ_API_KEY en el Worker.' }, 500, cab);
+    if (peticion.method !== 'POST') return responde({ error: 'method', mensaje: 'POST only.' }, 405, cab);
+    if (!permitido) return responde({ error: 'origin', mensaje: 'This site cannot use the assistant.' }, 403, cab);
+    if (!env.GROQ_API_KEY) return responde({ error: 'config', mensaje: 'The GROQ_API_KEY secret is missing in the Worker.' }, 500, cab);
 
     let datos;
-    try { datos = await peticion.json(); } catch (e) { return responde({ error: 'formato', mensaje: 'El cuerpo no es JSON.' }, 400, cab); }
+    try { datos = await peticion.json(); } catch (e) { return responde({ error: 'format', mensaje: 'The body is not JSON.' }, 400, cab); }
     const mensajes = Array.isArray(datos && datos.messages) ? datos.messages : null;
-    if (!mensajes || !mensajes.length || mensajes.length > MAX_MENSAJES) return responde({ error: 'formato', mensaje: 'Lista de mensajes vacía o demasiado larga.' }, 400, cab);
+    if (!mensajes || !mensajes.length || mensajes.length > MAX_MENSAJES) return responde({ error: 'format', mensaje: 'Message list is empty or too long.' }, 400, cab);
     let total = 0;
     for (const m of mensajes) {
-      if (!m || !['system', 'user', 'assistant'].includes(m.role) || typeof m.content !== 'string') return responde({ error: 'formato', mensaje: 'Mensaje con forma incorrecta.' }, 400, cab);
+      if (!m || !['system', 'user', 'assistant'].includes(m.role) || typeof m.content !== 'string') return responde({ error: 'format', mensaje: 'Malformed message.' }, 400, cab);
       total += m.content.length;
     }
-    if (total > MAX_CARACTERES) return responde({ error: 'tamano', mensaje: 'Conversación demasiado larga.' }, 413, cab);
+    if (total > MAX_CARACTERES) return responde({ error: 'size', mensaje: 'Conversation too long.' }, 413, cab);
 
     const pide = extra => fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -56,13 +56,13 @@ export default {
       // Poco razonamiento y sin mostrarlo: respuestas rápidas. Si el modelo no admite esos ajustes, se repite sin ellos.
       r = await pide({ reasoning_effort: 'low', include_reasoning: false });
       if (r.status === 400) r = await pide({});
-    } catch (e) { return responde({ error: 'red', mensaje: 'No se pudo contactar con el modelo.' }, 502, cab); }
+    } catch (e) { return responde({ error: 'network', mensaje: 'Could not reach the model.' }, 502, cab); }
 
-    if (r.status === 429) return responde({ error: 'limite', mensaje: 'Se alcanzó el límite gratuito; espera un minuto.' }, 429, cab);
-    if (!r.ok) { let detalle = ''; try { detalle = (await r.json()).error.message; } catch (e) {} return responde({ error: 'modelo', mensaje: detalle || 'El modelo devolvió un error.', estado: r.status }, 502, cab); }
+    if (r.status === 429) return responde({ error: 'limit', mensaje: 'Free tier limit reached; wait a minute.' }, 429, cab);
+    if (!r.ok) { let detalle = ''; try { detalle = (await r.json()).error.message; } catch (e) {} return responde({ error: 'model', mensaje: detalle || 'The model returned an error.', estado: r.status }, 502, cab); }
     const j = await r.json();
     const texto = j && j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content;
-    if (!texto) return responde({ error: 'vacio', mensaje: 'El modelo no devolvió texto.' }, 502, cab);
+    if (!texto) return responde({ error: 'empty', mensaje: 'The model returned no text.' }, 502, cab);
     return responde({ text: texto }, 200, cab);
   },
 };

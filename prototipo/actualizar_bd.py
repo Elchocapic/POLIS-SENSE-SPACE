@@ -92,7 +92,13 @@ def tramo(texto, desde, hasta):
 
 
 SEP = "// ====================================================================="
-proc = tramo(html, "const PROC = {", SEP) + "\n" + tramo(html, "const fold = ", SEP)
+# La página de tripulación está en inglés: usa la versión en inglés de los procedimientos y del asistente.
+proc = (RAIZ / "prototipo" / "procedimientos_en.js").read_text(encoding="utf-8")
+EN = json.loads((RAIZ / "prototipo" / "traduccion_en.json").read_text(encoding="utf-8"))
+real_en = json.loads(json.dumps(real))
+for k, v in real_en["vars"].items():
+    v.update(EN["vars"][k])
+codigo_real_en = "const REAL = " + json.dumps(real_en, ensure_ascii=False, separators=(",", ":")) + ";"
 trip = TRIP_PLANTILLA.read_text(encoding="utf-8")
 modelo = json.loads(MODELO_JSON.read_text(encoding="utf-8"))
 campos = ("b", "w", "avisos_correctos", "casos_detectados", "auc_tiempo")
@@ -109,11 +115,14 @@ HECHOS_EXTRA = [
     "Atención médica en la ISS: hay un oficial médico de la tripulación, médicos de vuelo en Tierra con conferencia médica privada, un desfibrilador a bordo y evacuación posible en horas.",
 ]
 hechos = [e["hallazgo"] + " (" + e["mision"] + ")" for e in json.loads(BD_JSON.read_text(encoding="utf-8"))["efectos"]] + HECHOS_EXTRA
+if len(EN["hechos"]) != len(hechos):
+    raise SystemExit("traduccion_en.json debe tener un hecho en inglés por cada hecho de la base")
+hechos = EN["hechos"]
 codigo_hechos = "const HECHOS = " + json.dumps(hechos, ensure_ascii=False, separators=(",", ":")) + ";"
 for marca in ("/*REAL*/", "/*MODELO*/", "/*MALLA*/", "/*HECHOS*/", "/*PROC*/"):
     if marca not in trip:
         raise SystemExit(f"plantilla_tripulacion.html no tiene el marcador {marca}")
-TRIP_SALIDA.write_text(trip.replace("/*REAL*/", codigo_real).replace("/*MODELO*/", codigo_modelo).replace("/*MALLA*/", codigo_malla).replace("/*HECHOS*/", codigo_hechos).replace("/*PROC*/", proc),
+TRIP_SALIDA.write_text(trip.replace("/*REAL*/", codigo_real_en).replace("/*MODELO*/", codigo_modelo).replace("/*MALLA*/", codigo_malla).replace("/*HECHOS*/", codigo_hechos).replace("/*PROC*/", proc),
                        encoding="utf-8")
 print("prototipo/tripulacion.html actualizado")
 print("prototipo/index.html actualizado:", len(bd["efectos"]), "hallazgos,", len(bd["fuentes"]), "fuentes,",
