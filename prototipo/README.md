@@ -71,8 +71,10 @@ página lo dibuja con WebGL sin librerías; el aviso del mouse nombra la parte e
 derecho" o "Espalda baja"). Los datos solo distinguen ocho zonas, y esas son las que se colorean. Sin WebGL
 se muestra la silueta plana.
 
-Se edita en `plantilla_tripulacion.html`. Los procedimientos se copian de `plantilla.html` al generar y el
-modelo de pronóstico viene de `data/monitoreo-real/pronostico.json`.
+Se edita en `plantilla_tripulacion.html`. **Esta página está en inglés**: los procedimientos y el asistente
+sin conexión vienen de `procedimientos_en.js`, y los nombres de las variables y los hechos que cita Luma vienen de
+`traduccion_en.json` (si se añade un hecho a la base, hay que añadir su traducción ahí). El modelo de pronóstico viene de
+`data/monitoreo-real/pronostico.json`. Luma entiende las emergencias en inglés y en español.
 
 ## Editar
 

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POLIS SENSE SPACE · Tripulación</title>
+<title>POLIS SENSE SPACE · Crew</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -241,47 +241,47 @@ button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weig
   <header class="topbar">
     <div class="brand">
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="6" fill="#e9edfb"/><ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="#7de3d0" stroke-width="1.6" transform="rotate(-24 16 16)"/><circle cx="27.6" cy="10.4" r="1.7" fill="#7de3d0"/></svg>
-      <div><strong>POLIS SENSE SPACE</strong><small>Monitoreo de salud de la tripulación</small></div>
+      <div><strong>POLIS SENSE SPACE</strong><small>Crew health monitoring</small></div>
     </div>
-    <span class="badge">Datos reales en Tierra · prototipo</span>
+    <span class="badge">Real data from Earth · prototype</span>
   </header>
 
-  <section class="mission-bar" aria-label="Día del registro">
+  <section class="mission-bar" aria-label="Record day">
     <div class="field">
-      <label class="label" for="dia">Día <span id="diaTxt" class="mono" style="letter-spacing:0;text-transform:none;color:var(--text)"></span></label>
+      <label class="label" for="dia">Day <span id="diaTxt" class="mono" style="letter-spacing:0;text-transform:none;color:var(--text)"></span></label>
       <div class="dayline">
-        <button type="button" id="prev" aria-label="Día anterior">◀</button>
+        <button type="button" id="prev" aria-label="Previous day">◀</button>
         <input type="range" id="dia" min="0" max="150" step="1">
-        <button type="button" id="next" aria-label="Día siguiente">▶</button>
+        <button type="button" id="next" aria-label="Next day">▶</button>
       </div>
     </div>
     <div class="field">
-      <label class="label" for="caso">Ir a un caso</label>
+      <label class="label" for="caso">Go to a case</label>
       <select id="caso"></select>
     </div>
     <dl class="readouts" id="readouts"></dl>
   </section>
 
-  <div role="tablist" aria-label="Secciones" class="tabs" id="tabs">
-    <button type="button" role="tab" data-t="crew">Tripulación</button>
+  <div role="tablist" aria-label="Sections" class="tabs" id="tabs">
+    <button type="button" role="tab" data-t="crew">Crew</button>
     <button type="button" role="tab" data-t="asis">Luma</button>
   </div>
 
   <main class="panel">
-    <!-- TRIPULACIÓN -->
+    <!-- CREW -->
     <div id="v-crew">
-      <div class="crew-strip" id="crew" role="group" aria-label="Tripulación"></div>
+      <div class="crew-strip" id="crew" role="group" aria-label="Crew"></div>
       <div class="dossier">
         <header class="dossier-head">
           <div><h2 id="nombre"></h2><p class="muted" id="resumen" style="margin:0"></p></div>
           <span id="estado" class="pill s0"></span>
         </header>
-        <section class="cuerpo" aria-label="Cuerpo en 3D con las zonas afectadas">
+        <section class="cuerpo" aria-label="3D body with the affected areas">
           <div class="escena" id="escena">
-            <canvas id="gl" tabindex="0" aria-label="Cuerpo en 3D. Arrastra o usa las flechas izquierda y derecha para girarlo."></canvas>
+            <canvas id="gl" tabindex="0" aria-label="3D body. Drag it or use the left and right arrow keys to rotate it."></canvas>
             <div id="tip" class="tip" hidden></div>
             <svg class="human" id="plano" hidden viewBox="0 0 240 560" role="img" aria-labelledby="humanT">
-            <title id="humanT">Silueta del cuerpo con las zonas afectadas ese día</title>
+            <title id="humanT">Body silhouette with the areas affected that day</title>
             <defs>
               <linearGradient id="piel" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="560"><stop offset="0" stop-color="#4658a0"/><stop offset="1" stop-color="#222e62"/></linearGradient>
               <linearGradient id="grave" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="560"><stop offset="0" stop-color="#ff8375"/><stop offset="1" stop-color="#e2544a"/></linearGradient>
@@ -308,48 +308,48 @@ button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weig
             <path class="anat" d="M109 73 C113 79 127 79 131 73"/>
             
           </svg>
-            <div class="vistas" id="vistas" role="group" aria-label="Vista del cuerpo">
-              <button type="button" data-yaw="0">Frente</button><button type="button" data-yaw="-90">Lado derecho</button><button type="button" data-yaw="180">Espalda</button><button type="button" data-yaw="90">Lado izquierdo</button>
+            <div class="vistas" id="vistas" role="group" aria-label="Body view">
+              <button type="button" data-yaw="0">Front</button><button type="button" data-yaw="-90">Right side</button><button type="button" data-yaw="180">Back</button><button type="button" data-yaw="90">Left side</button>
             </div>
           </div>
           <div class="lado">
-            <h3 class="section-title" style="margin-top:0">Zonas afectadas</h3>
-            <p class="small muted" id="ayuda3d">Arrastra el cuerpo para girarlo. Pasa el mouse por una zona, o tócala, para ver qué tiene.</p>
+            <h3 class="section-title" style="margin-top:0">Affected areas</h3>
+            <p class="small muted" id="ayuda3d">Drag the body to rotate it. Hover over an area, or tap it, to see what is going on.</p>
             <ul class="zlist" id="zlist"></ul>
-            <h3 class="section-title">Qué significa cada color</h3>
+            <h3 class="section-title">What each color means</h3>
             <ul class="tipos" id="tipos"></ul>
           </div>
         </section>
-        <h3 class="section-title">Lecturas del día</h3>
+        <h3 class="section-title">Today's readings</h3>
         <dl class="vitals" id="vitals"></dl>
-        <h3 class="section-title">Alertas</h3>
+        <h3 class="section-title">Alerts</h3>
         <div id="alertas"></div>
-        <h3 class="section-title">Pronóstico para mañana</h3>
+        <h3 class="section-title">Forecast for tomorrow</h3>
         <div id="manana"></div>
       </div>
     </div>
 
-    <!-- ASISTENTE -->
+    <!-- ASSISTANT -->
     <div id="v-asis" hidden>
-      <div class="crew-strip" id="acrew" role="group" aria-label="Astronauta para el asistente"></div>
+      <div class="crew-strip" id="acrew" role="group" aria-label="Astronaut for the assistant"></div>
       <div class="asis">
-        <section class="charla" aria-label="Conversación con Luma">
+        <section class="charla" aria-label="Conversation with Luma">
           <header class="luma-head">
             <div class="orbe" id="orbe" aria-hidden="true"><i></i><i></i><i></i></div>
-            <div><h2>Luma</h2><p class="muted" id="lumaEstado" style="margin:0">Tu acompañante de salud a bordo</p></div>
-            <span class="pill" id="lumaModo"></span><button type="button" id="reconectar" hidden>Reconectar</button>
+            <div><h2>Luma</h2><p class="muted" id="lumaEstado" style="margin:0">Your health companion on board</p></div>
+            <span class="pill" id="lumaModo"></span><button type="button" id="reconectar" hidden>Reconnect</button>
           </header>
           <div id="chat" class="chat" role="log" aria-live="polite"></div>
           <form class="ask" id="askForm">
-            <button type="button" id="mic" hidden aria-pressed="false">Hablar</button>
-            <input type="text" id="q" aria-label="Mensaje para Luma" placeholder="Escribe o pulsa Hablar: «me duele la espalda»" autocomplete="off">
-            <button type="submit" class="primary">Enviar</button>
+            <button type="button" id="mic" hidden aria-pressed="false">Talk</button>
+            <input type="text" id="q" aria-label="Message for Luma" placeholder="Type or press Talk: “my back hurts”" autocomplete="off">
+            <button type="submit" class="primary">Send</button>
           </form>
-          <div class="chips" id="sugs"><button type="button">¿Cómo estoy hoy?</button><button type="button">¿Me va a doler algo mañana?</button><button type="button">Tengo náuseas y mareo</button><button type="button">Me duele la espalda</button><button type="button">No puedo dormir</button><button type="button">Me siento solo</button><button type="button">Mi compañero no responde</button></div>
+          <div class="chips" id="sugs"><button type="button">How am I today?</button><button type="button">Will anything hurt tomorrow?</button><button type="button">I feel nauseous and dizzy</button><button type="button">My back hurts</button><button type="button">I can't sleep</button><button type="button">I feel lonely</button><button type="button">My crewmate isn't responding</button></div>
           <div class="opciones">
-            <label id="vozCaja" hidden><input type="checkbox" id="vozOn" checked> Responder en voz alta</label>
-            <button type="button" id="callar" hidden>Callar</button>
-            <button type="button" id="nueva">Nueva conversación</button>
+            <label id="vozCaja" hidden><input type="checkbox" id="vozOn" checked> Read answers aloud</label>
+            <button type="button" id="callar" hidden>Stop talking</button>
+            <button type="button" id="nueva">New conversation</button>
           </div>
           <p class="src" id="lumaNota"></p>
         </section>
@@ -360,7 +360,7 @@ button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weig
       </div>
     </div>
   </main>
-  <p class="pie">Prototipo, no es un dispositivo médico. Las causas y los pronósticos son estimaciones a partir de los registros, no diagnósticos.</p>
+  <p class="pie">Prototype, not a medical device. Causes and forecasts are estimates based on the records, not diagnoses.</p>
 </div>
 
 <script src="luma-config.js"></script>
@@ -371,26 +371,26 @@ button.link{border:0;padding:0;background:none;font-family:var(--sans);font-weig
 /*HECHOS*/
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const coma = (n, d=1) => n.toFixed(d).replace('.', ',');
+const coma = (n, d=1) => n.toFixed(d);
 const signo = (n, d=1) => (n > 0 ? '+' : n < 0 ? '−' : '') + coma(Math.abs(n), d);
 const num = n => coma(n, Number.isInteger(n) ? 0 : 1);
 
-// Procedimientos y asistente: se copian de plantilla.html al generar la página, para no mantenerlos dos veces.
+// Procedures and assistant (English): copied from procedimientos_en.js when the page is generated.
 /*PROC*/
 
-const SEV = ['Normal', 'Vigilar', 'Grave'];
-const ZONAS = {cabeza:'Cabeza', torax:'Tórax', abdomen:'Abdomen', pelvis:'Cadera y pelvis', brazoD:'Brazo derecho', brazoI:'Brazo izquierdo', piernaD:'Pierna derecha', piernaI:'Pierna izquierda'};
+const SEV = ['Normal', 'Watch', 'Serious'];
+const ZONAS = {cabeza:'Head', torax:'Chest', abdomen:'Abdomen', pelvis:'Hip and pelvis', brazoD:'Right arm', brazoI:'Left arm', piernaD:'Right leg', piernaI:'Left leg'};
 const RZ = {corazon:['torax'], cabeza:['cabeza'], musculos:[]};
 const RDOLOR = {pierna_izquierda:['piernaI'], pierna_derecha:['piernaD'], brazo_izquierdo:['brazoI'], brazo_derecho:['brazoD'], pelvis:['pelvis'], tronco:['torax','abdomen'], cabeza:['cabeza']};
-const RNOMBRE = {pierna_izquierda:'pierna izquierda', pierna_derecha:'pierna derecha', brazo_izquierdo:'brazo izquierdo', brazo_derecho:'brazo derecho', pelvis:'pelvis', tronco:'tronco', cabeza:'cabeza'};
+const RNOMBRE = {pierna_izquierda:'left leg', pierna_derecha:'right leg', brazo_izquierdo:'left arm', brazo_derecho:'right arm', pelvis:'pelvis', tronco:'torso', cabeza:'head'};
 const GRUPOS = [
-  {id:'pulso',  proc:'pulso',    titulo:'Pulso fuera de tu rango',   vars:['pulso_reposo','carga_cardiaca','recuperacion_nocturna']},
-  {id:'sueno',  proc:'sueno',    titulo:'Sueño fuera de tu rango',   vars:['sueno','horas_sueno','sueno_profundo','inquietud']},
-  {id:'animo',  proc:'animo',    titulo:'Ánimo bajo o estrés alto',  vars:['animo','estres']},
-  {id:'fatiga', proc:'fatiga',   titulo:'Fatiga o baja disposición', vars:['fatiga','disposicion']},
-  {id:'dolor',  proc:'muscular', titulo:'Dolor muscular',            vars:['dolor']},
+  {id:'pulso',  proc:'pulso',    titulo:'Pulse outside your range',  vars:['pulso_reposo','carga_cardiaca','recuperacion_nocturna']},
+  {id:'sueno',  proc:'sueno',    titulo:'Sleep outside your range',  vars:['sueno','horas_sueno','sueno_profundo','inquietud']},
+  {id:'animo',  proc:'animo',    titulo:'Low mood or high stress',   vars:['animo','estres']},
+  {id:'fatiga', proc:'fatiga',   titulo:'Fatigue or low readiness',  vars:['fatiga','disposicion']},
+  {id:'dolor',  proc:'muscular', titulo:'Muscle pain',               vars:['dolor']},
 ];
-const CASOS = [['P04','2020-03-02','P04, cinco variables a la vez'], ['P04','2020-01-06','P04, inicio del desajuste de horario'], ['P04','2020-02-04','P04, pulso, sueño y dolor'], ['P01','2020-02-07','P01, dolor intenso en piernas y pelvis'], ['P05','2019-12-05','P05, pulso, ánimo y fatiga'], ['P02','2019-11-10','P02, línea base (sin alertas)']];
+const CASOS = [['P04','2020-03-02','P04, five variables at once'], ['P04','2020-01-06','P04, start of the schedule disruption'], ['P04','2020-02-04','P04, pulse, sleep and pain'], ['P01','2020-02-07','P01, intense pain in legs and pelvis'], ['P05','2019-12-05','P05, pulse, mood and fatigue'], ['P02','2019-11-10','P02, baseline (no alerts)']];
 const TRIP = Object.keys(REAL.trip);
 const S = {p:'P04', i:REAL.dias.indexOf('2020-03-02'), tab:'crew', checks:{}};
 
@@ -402,7 +402,7 @@ function reg(p, k, i){
 }
 function rango(k, s){
   const lado = REAL.vars[k].lado;
-  return lado === 'ambos' ? `${num(s.li)} a ${num(s.ls)}` : lado === 'alto' ? `hasta ${num(s.ls)}` : `desde ${num(s.li)}`;
+  return lado === 'ambos' ? `${num(s.li)} to ${num(s.ls)}` : lado === 'alto' ? `up to ${num(s.ls)}` : `from ${num(s.li)}`;
 }
 function racha(p, k, i){ const s = REAL.trip[p][k]; let j = s.pos.get(i) ?? -1, n = 0; for (; j >= 0 && s.d[j][2] > 0; j--) n++; return n; }
 
@@ -417,23 +417,23 @@ const EPIS = Object.fromEntries(GRUPOS.map(g => [g.id, TRIP.flatMap(p => { const
   for (let i = 0; i <= REAL.dias.length; i++){ const f = i < REAL.dias.length && fueraGrupo(p, g, i);
     if (f && ini < 0) ini = i; if (!f && ini >= 0){ out.push({p, ini, fin:i - 1}); ini = -1; } }
   return out; })]));
-/** Resumen de los episodios parecidos que ya terminaron antes de este día, en toda la tripulación. */
+/** Summary of similar episodes that ended before this day, across the whole crew. */
 function similares(p, gid, i){
   const eps = EPIS[gid].filter(e => e.fin < i), n = eps.length;
-  if (!n) return 'Es el primer episodio de este tipo en los registros de la tripulación.';
+  if (!n) return 'This is the first episode of this kind in the crew records.';
   const dur = eps.map(e => e.fin - e.ini + 1).sort((a, b) => a - b), med = dur[dur.length >> 1], max = dur[dur.length - 1];
   const propios = eps.filter(e => e.p === p).length;
   const conSueno = eps.filter(e => malSuenoEn(e.p, e.ini)).length, conCarga = eps.filter(e => cargaEn(e.p, e.ini).alta).length;
   const cortos = eps.filter(e => e.fin - e.ini + 1 <= 2).length;
-  const veces = (k, de) => `${k} de ${de}`;
-  let t = `${n} ${n === 1 ? 'episodio parecido' : 'episodios parecidos'} antes de este día en la tripulación, ${propios ? propios + ' de ellos de este astronauta' : 'ninguno de este astronauta'}. `;
-  t += `${veces(cortos, n)} se resolvieron en 2 días o menos; la duración típica fue de ${med} ${med === 1 ? 'día' : 'días'} y el más largo duró ${max}. `;
-  const f = []; if (gid !== 'sueno' && conSueno) f.push(`mal sueño en ${veces(conSueno, n)}`); if (conCarga) f.push(`carga física alta en ${veces(conCarga, n)}`);
-  t += f.length ? `Al empezar había ${f.join(' y ')}. ` : 'Al empezar no había mal sueño ni carga física alta. ';
-  return t + 'Los registros no guardan qué hizo cada persona, así que no se sabe qué los resolvió.';
+  const veces = (k, de) => `${k} of ${de}`;
+  let t = `${n} similar ${n === 1 ? 'episode' : 'episodes'} before this day in the crew, ${propios ? propios + ' of them from this astronaut' : 'none from this astronaut'}. `;
+  t += `${veces(cortos, n)} resolved in 2 days or less; the typical duration was ${med} ${med === 1 ? 'day' : 'days'} and the longest lasted ${max}. `;
+  const f = []; if (gid !== 'sueno' && conSueno) f.push(`poor sleep in ${veces(conSueno, n)}`); if (conCarga) f.push(`high physical load in ${veces(conCarga, n)}`);
+  t += f.length ? `At the start there was ${f.join(' and ')}. ` : 'At the start there was no poor sleep or high physical load. ';
+  return t + 'The records do not say what each person did, so it is not known what resolved them.';
 }
 
-/** Alertas del día agrupadas por sistema, con causa probable y las demás posibilidades que los datos apoyan o no. */
+/** Alerts of the day grouped by system, with the likely cause and the other possibilities the data support or not. */
 function evaluar(p, i){
   const est = k => reg(p, k, i)?.e ?? 0;
   const malSueno = GRUPOS[1].vars.some(k => est(k) > 0);
@@ -442,52 +442,52 @@ function evaluar(p, i){
   const carga = REAL.trip[p].carga_cardiaca;
   const cargaMax = Math.max(...[i, i-1, i-2].map(d => reg(p, 'carga_cardiaca', d)?.v ?? 0));
   const cargaAlta = cargaMax > Math.max(1.5 * carga.m, carga.m + 15);
-  const txtCarga = `en los últimos 3 días hubo uno con ${num(cargaMax)} minutos de pulso sobre 120 lpm (tu media diaria: ${num(carga.m)})`;
+  const txtCarga = `in the last 3 days there was one with ${num(cargaMax)} minutes of pulse above 120 bpm (your daily average: ${num(carga.m)})`;
   const dias = racha(p, 'pulso_reposo', i);
-  const H = {   // hipótesis reutilizables: [texto, veredicto]; true = los datos la apoyan, false = no, null = no hay dato
-    sueno:['Mal sueño la noche anterior', malSueno],
-    carga:['Carga física alta en los últimos 3 días', cargaAlta],
-    animo:['Ánimo bajo o estrés alto el mismo día', animoBajo],
-    dolor:['Dolor muscular el mismo día', conDolor],
-    racha:['Tendencia de varios días (fatiga acumulada o desajuste de horario)', dias >= 5],
-    fiebre:['Inicio de infección o fiebre', null, 'mide la temperatura'],
-    agua:['Deshidratación', null, 'revisa cuánto bebiste'],
-    co2:['CO₂ alto en la cabina', null, 'revisa el medidor'],
-    cabina:['Ruido, luz o temperatura de la cabina', null, 'revisa el ambiente'],
-    trabajo:['Carga de trabajo o aislamiento', null, 'coméntalo con la tripulación'],
-    comida:['Alimentación o hidratación incompletas', null, 'revisa el registro de comidas'],
-    lesion:['Lesión y no solo sobrecarga', null, 'revisa inflamación y movilidad'],
+  const H = {   // reusable hypotheses: [text, verdict]; true = the data support it, false = they do not, null = no data
+    sueno:['Poor sleep the night before', malSueno],
+    carga:['High physical load in the last 3 days', cargaAlta],
+    animo:['Low mood or high stress on the same day', animoBajo],
+    dolor:['Muscle pain on the same day', conDolor],
+    racha:['Multi-day trend (accumulated fatigue or schedule disruption)', dias >= 5],
+    fiebre:['Start of an infection or fever', null, 'take your temperature'],
+    agua:['Dehydration', null, 'check how much you drank'],
+    co2:['High CO₂ in the cabin', null, 'check the meter'],
+    cabina:['Cabin noise, light or temperature', null, 'check the environment'],
+    trabajo:['Workload or isolation', null, 'talk it over with the crew'],
+    comida:['Incomplete food or hydration', null, 'check the food log'],
+    lesion:['An injury and not just overload', null, 'check swelling and mobility'],
   };
   const a = [];
   for (const g of GRUPOS){
     const fuera = g.vars.map(k => [k, reg(p, k, i)]).filter(([, r]) => r && r.e > 0);
     if (!fuera.length) continue;
     const sev = Math.max(...fuera.map(([, r]) => r.e));
-    const porque = fuera.map(([k, r]) => { const u = REAL.vars[k].unidad; return `${REAL.vars[k].nombre}: ${num(r.v)}${/\d/.test(u) ? '' : ' ' + u}, y tu rango normal va ${rango(k, REAL.trip[p][k])}`; });
+    const porque = fuera.map(([k, r]) => { const u = REAL.vars[k].unidad; return `${REAL.vars[k].nombre}: ${num(r.v)}${/\d/.test(u) ? '' : ' ' + u}, and your normal range is ${rango(k, REAL.trip[p][k])}`; });
     let zonas = [...new Set(fuera.flatMap(([k]) => RZ[REAL.vars[k].zona]))], causa, pos, zonaTxt = '';
     if (g.id === 'pulso'){
-      if (dias >= 2) porque.push(`${dias} registros seguidos con el pulso fuera de lo normal`);
-      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango el mismo día.'
-        : cargaAlta ? `Probable carga física: ${txtCarga}.`
-        : dias >= 5 ? `Tendencia sostenida, no un mal día aislado. Es compatible con fatiga acumulada, desajuste de horario o inicio de enfermedad; la temperatura ayuda a distinguir.`
-        : 'Sin causa clara con los datos del reloj. Repite la medición y revisa temperatura y ambiente de cabina.';
+      if (dias >= 2) porque.push(`${dias} consecutive records with the pulse out of normal`);
+      causa = malSueno ? 'Probably behavioral: it coincides with sleep outside your range on the same day.'
+        : cargaAlta ? `Likely physical load: ${txtCarga}.`
+        : dias >= 5 ? `Sustained trend, not an isolated bad day. It is consistent with accumulated fatigue, schedule disruption or the start of an illness; temperature helps tell them apart.`
+        : 'No clear cause from the watch data. Repeat the measurement and check temperature and cabin environment.';
       pos = [H.sueno, H.carga, H.racha, H.fiebre, H.agua, H.co2];
     } else if (g.id === 'sueno'){
-      causa = animoBajo ? 'Coincide con ánimo bajo o estrés alto el mismo día: atiende ambos.'
-        : cargaAlta ? `Coincide con carga física alta: ${txtCarga}.`
-        : 'Conductual o ambiental: el pulso y el ánimo están en tu rango. Revisa horario, luz y ruido.';
+      causa = animoBajo ? 'It coincides with low mood or high stress on the same day: address both.'
+        : cargaAlta ? `It coincides with high physical load: ${txtCarga}.`
+        : 'Behavioral or environmental: pulse and mood are within your range. Check schedule, light and noise.';
       pos = [H.animo, H.carga, H.dolor, H.cabina];
     } else if (g.id === 'animo'){
-      causa = 'Conductual: es frecuente en aislamiento y confinamiento prolongados.' + (malSueno ? ' Coincide con sueño fuera de tu rango.' : '');
+      causa = 'Behavioral: it is common in prolonged isolation and confinement.' + (malSueno ? ' It coincides with sleep outside your range.' : '');
       pos = [H.sueno, H.dolor, H.carga, H.trabajo];
     } else if (g.id === 'fatiga'){
-      causa = malSueno ? 'Probablemente conductual: coincide con sueño fuera de tu rango.' : cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin causa clara todavía. Revisa sueño, alimentación y carga de trabajo.';
+      causa = malSueno ? 'Probably behavioral: it coincides with sleep outside your range.' : cargaAlta ? `Likely physical load: ${txtCarga}.` : 'No clear cause yet. Check sleep, food and workload.';
       pos = [H.sueno, H.carga, H.dolor, H.comida];
-      zonaTxt = 'General, sin zona localizada';
+      zonaTxt = 'General, no specific area';
     } else {
       const z = REAL.dolor[p]?.[i] ?? [];
-      if (z.length){ zonas = [...new Set(z.flatMap(x => RDOLOR[x] ?? []))]; zonaTxt = z.map(x => RNOMBRE[x] ?? x).join(', '); porque.push('zona que reportó: ' + zonaTxt); }
-      causa = cargaAlta ? `Probable carga física: ${txtCarga}.` : 'Sin ejercicio intenso reciente en los datos del reloj. Vigila si se repite en la misma zona.';
+      if (z.length){ zonas = [...new Set(z.flatMap(x => RDOLOR[x] ?? []))]; zonaTxt = z.map(x => RNOMBRE[x] ?? x).join(', '); porque.push('area reported: ' + zonaTxt); }
+      causa = cargaAlta ? `Likely physical load: ${txtCarga}.` : 'No recent intense exercise in the watch data. Watch whether it repeats in the same area.';
       pos = [H.carga, H.sueno, H.lesion];
     }
     const pr = PROC[g.proc];
@@ -503,38 +503,38 @@ function chispa(s, k, j){
   const mn = Math.min(lo, ...t), mx = Math.max(hi, ...t), sp = (mx - mn) || 1;
   const x = i => p + i * (W - 2*p) / (t.length - 1), y = v => H - p - (v - mn) / sp * (H - 2*p);
   const e = s.d[j][2], col = e === 2 ? 'var(--critical)' : e === 1 ? 'var(--watch)' : 'var(--brand)';
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Últimos ${t.length} registros"><rect x="0" y="${y(hi).toFixed(1)}" width="${W}" height="${Math.max(1, y(lo) - y(hi)).toFixed(1)}" fill="#22306a"/><polyline points="${t.map((v, i) => x(i).toFixed(1) + ',' + y(v).toFixed(1)).join(' ')}" fill="none" stroke="#c9d3f5" stroke-width="1.3" vector-effect="non-scaling-stroke"/><circle cx="${x(t.length-1).toFixed(1)}" cy="${y(t[t.length-1]).toFixed(1)}" r="2.6" fill="${col}"/></svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Last ${t.length} records"><rect x="0" y="${y(hi).toFixed(1)}" width="${W}" height="${Math.max(1, y(lo) - y(hi)).toFixed(1)}" fill="#22306a"/><polyline points="${t.map((v, i) => x(i).toFixed(1) + ',' + y(v).toFixed(1)).join(' ')}" fill="none" stroke="#c9d3f5" stroke-width="1.3" vector-effect="non-scaling-stroke"/><circle cx="${x(t.length-1).toFixed(1)}" cy="${y(t[t.length-1]).toFixed(1)}" r="2.6" fill="${col}"/></svg>`;
 }
 
-const VEREDICTO = v => v === true ? ['si', 'Los datos lo apoyan'] : v === false ? ['no', 'Los datos no lo apoyan'] : ['nd', 'Sin dato'];
+const VEREDICTO = v => v === true ? ['si', 'Data support it'] : v === false ? ['no', 'Data do not support it'] : ['nd', 'No data'];
 function tarjeta(a){
   const ids = a.items.map((_, i) => `chk-${a.id}-${i}`), listos = ids.filter(id => S.checks[id]).length;
   return `<li class="alert s${a.sev}">
     <div class="alert-head"><span class="pill s${a.sev}">${SEV[a.sev]}</span><strong>${a.titulo}</strong></div>
-    <p><span class="label">Por qué salta</span>${esc(a.porque.join('; '))}.</p>
-    <p><span class="label">Causa probable</span>${esc(a.causa)}</p>
-    <h4>Otras posibilidades</h4>
+    <p><span class="label">Why it triggers</span>${esc(a.porque.join('; '))}.</p>
+    <p><span class="label">Likely cause</span>${esc(a.causa)}</p>
+    <h4>Other possibilities</h4>
     <table class="poss"><tbody>${a.pos.map(([t, v, c]) => { const [cls, txt] = VEREDICTO(v); return `<tr><td>${esc(t)}${v === null && c ? `<span class="muted">: ${esc(c)}</span>` : ''}</td><td class="${cls}">${txt}</td></tr>`; }).join('')}</tbody></table>
-<h4>Casos similares</h4><p>${esc(a.similares)}</p>
-    <h4>Reúne antes de empezar <span class="ready mono">${listos}/${ids.length}</span></h4>
+<h4>Similar cases</h4><p>${esc(a.similares)}</p>
+    <h4>Gather before starting <span class="ready mono">${listos}/${ids.length}</span></h4>
     <ul class="chk">${a.items.map((it, i) => `<li><label for="${ids[i]}"><input type="checkbox" id="${ids[i]}"${S.checks[ids[i]] ? ' checked' : ''}>${esc(it)}</label></li>`).join('')}</ul>
-    <h4>Haz ahora</h4><ol>${a.pasos.map(p => `<li>${esc(p)}</li>`).join('')}</ol>
-    <p><span class="label">Cuándo escalar</span>${esc(a.escalar)}</p>
+    <h4>Do now</h4><ol>${a.pasos.map(p => `<li>${esc(p)}</li>`).join('')}</ol>
+    <p><span class="label">When to escalate</span>${esc(a.escalar)}</p>
   </li>`;
 }
 
 
-// Color por tipo de problema; la intensidad indica la gravedad (grave = color pleno y latido)
+// Color by type of problem; intensity shows severity (serious = full color with a pulse)
 const TIPOS = {
-  dolor:{nombre:'Dolor muscular', color:'#ff6f61'}, pulso:{nombre:'Pulso y corazón', color:'#ff5fa8'}, sueno:{nombre:'Sueño', color:'#9a86ff'},
-  animo:{nombre:'Ánimo y estrés', color:'#ffa94d'}, fatiga:{nombre:'Fatiga, todo el cuerpo', color:'#4fc3f7'},
+  dolor:{nombre:'Muscle pain', color:'#ff6f61'}, pulso:{nombre:'Pulse and heart', color:'#ff5fa8'}, sueno:{nombre:'Sleep', color:'#9a86ff'},
+  animo:{nombre:'Mood and stress', color:'#ffa94d'}, fatiga:{nombre:'Fatigue, whole body', color:'#4fc3f7'},
 };
 const rgb = h => [1, 3, 5].map(k => parseInt(h.slice(k, k + 2), 16) / 255);
 function textoZona(z, parte){
   const d = S.info?.[z]; if (!d) return '';
   const l = d.tipos.map(t => `<span><i style="background:${TIPOS[t.t].color}"></i>${esc(TIPOS[t.t].nombre.split(',')[0])} · ${SEV[t.sev].toLowerCase()}<br>${esc(t.det)}</span>`);
-  if (d.pred) l.push(`<span><i class="raya"></i>Posible dolor mañana: ${d.pred} %</span>`);
-  return `<b>${esc(parte ?? ZONAS[z])}</b>${l.join('') || '<span class="muted">Sin novedades</span>'}`;
+  if (d.pred) l.push(`<span><i class="raya"></i>Possible pain tomorrow: ${d.pred} %</span>`);
+  return `<b>${esc(parte ?? ZONAS[z])}</b>${l.join('') || '<span class="muted">Nothing new</span>'}`;
 }
 
 // =====================================================================
@@ -543,13 +543,13 @@ function textoZona(z, parte){
 // en zona y color, y la misma regla sirve para saber qué parte hay bajo el cursor.
 // =====================================================================
 const ORDEN = ['cabeza', 'torax', 'abdomen', 'pelvis', 'brazoD', 'brazoI', 'piernaD', 'piernaI'];
-// Partes del cuerpo que distingue el modelo, para el aviso al pasar el mouse: [de frente, de espalda]
-const PARTES = [['Cabeza'], ['Cuello', 'Nuca'], ['Pecho', 'Espalda alta'], ['Abdomen', 'Espalda baja'], ['Cadera y pelvis', 'Glúteos'], ['Muslo'], ['Pierna', 'Pantorrilla'], ['Pie'], ['Brazo'], ['Antebrazo'], ['Mano']];
+// Body parts the model distinguishes, for the hover tooltip: [front, back]
+const PARTES = [['Head'], ['Neck', 'Back of the neck'], ['Chest', 'Upper back'], ['Abdomen', 'Lower back'], ['Hip and pelvis', 'Glutes'], ['Thigh'], ['Lower leg', 'Calf'], ['Foot'], ['Upper arm'], ['Forearm'], ['Hand']];
 function nombreParte(h){ const n = PARTES[h.sub][h.frente ? 0 : 1] ?? PARTES[h.sub][0];
-  return h.sub < 5 ? n : `${n} ${/^(Mano|Pierna|Pantorrilla)$/.test(n) ? (h.z % 2 ? 'izquierda' : 'derecha') : (h.z % 2 ? 'izquierdo' : 'derecho')}`; }
+  return h.sub < 5 ? n : `${h.z % 2 ? 'Left' : 'Right'} ${n.toLowerCase()}`; }
 const CUERPO = (() => {
   const cv = $('gl'), gl = cv.getContext('webgl', {antialias:true, alpha:true});
-  if (!gl || typeof MALLA === 'undefined'){ cv.hidden = true; $('vistas').hidden = true; $('plano').removeAttribute('hidden'); $('ayuda3d').textContent = 'Este navegador no puede mostrar el cuerpo en 3D; se muestra la vista plana.'; return null; }
+  if (!gl || typeof MALLA === 'undefined'){ cv.hidden = true; $('vistas').hidden = true; $('plano').removeAttribute('hidden'); $('ayuda3d').textContent = 'This browser cannot show the body in 3D; showing the flat view instead.'; return null; }
   const bytes = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
   const q = new Int16Array(bytes(MALLA.v).buffer), idx = new Uint16Array(bytes(MALLA.f).buffer);
   const pos = Float32Array.from(q, v => v / MALLA.escala), nor = new Float32Array(pos.length), partes = bytes(MALLA.z);
@@ -672,7 +672,7 @@ const CUERPO = (() => {
   };
 })();
 $('tipos').innerHTML = Object.values(TIPOS).map(t => `<li><i style="background:${t.color}"></i>${t.nombre}</li>`).join('')
-  + '<li><i style="background:linear-gradient(135deg,#ff6f61 50%,#9a86ff 50%)"></i>Bandas: dos problemas en la misma zona</li><li><i class="raya"></i>Rayado fino: posible dolor mañana</li><li>Color pleno y con latido: grave. Color suave: vigilar.</li>';
+  + '<li><i style="background:linear-gradient(135deg,#ff6f61 50%,#9a86ff 50%)"></i>Stripes: two problems in the same area</li><li><i class="raya"></i>Fine hatching: possible pain tomorrow</li><li>Full color with a pulse: serious. Soft color: watch.</li>';
 
 function render(){
   const fecha = REAL.dias[S.i], porTrip = Object.fromEntries(TRIP.map(p => [p, evaluar(p, S.i)])), alertas = porTrip[S.p];
@@ -681,67 +681,67 @@ function render(){
   const enBase = p => hay(p) && Object.keys(REAL.vars).every(k => { const r = reg(p, k, S.i); return !r || r.base; });
 
   // Barra de misión
-  $('dia').value = S.i; $('diaTxt').textContent = `${S.i + 1} de ${REAL.dias.length} · ${fecha}`;
+  $('dia').value = S.i; $('diaTxt').textContent = `${S.i + 1} of ${REAL.dias.length} · ${fecha}`;
   const caso = CASOS.findIndex(([p, d]) => p === S.p && d === fecha); $('caso').value = caso < 0 ? '' : String(caso);
   const graves = TRIP.filter(p => sevDe(p) === 2), vig = TRIP.filter(p => sevDe(p) === 1);
-  $('readouts').innerHTML = `<div><dt>En alerta</dt><dd class="${graves.length ? 'high' : ''}">${graves.length ? graves.join(' ') : 'ninguno'}</dd></div>
-    <div><dt>En vigilancia</dt><dd class="${vig.length ? 'mid' : ''}">${vig.length ? vig.join(' ') : 'ninguno'}</dd></div>
-    <div><dt>Fase</dt><dd>${TRIP.filter(hay).every(enBase) ? 'línea base' : 'monitoreo'}</dd></div>
-    <div><dt>Registros del día</dt><dd>${TRIP.reduce((n, p) => n + Object.keys(REAL.vars).filter(k => reg(p, k, S.i)).length, 0)} de ${TRIP.length * Object.keys(REAL.vars).length}</dd></div>`;
+  $('readouts').innerHTML = `<div><dt>On alert</dt><dd class="${graves.length ? 'high' : ''}">${graves.length ? graves.join(' ') : 'none'}</dd></div>
+    <div><dt>Under watch</dt><dd class="${vig.length ? 'mid' : ''}">${vig.length ? vig.join(' ') : 'none'}</dd></div>
+    <div><dt>Phase</dt><dd>${TRIP.filter(hay).every(enBase) ? 'baseline' : 'monitoring'}</dd></div>
+    <div><dt>Records today</dt><dd>${TRIP.reduce((n, p) => n + Object.keys(REAL.vars).filter(k => reg(p, k, S.i)).length, 0)} of ${TRIP.length * Object.keys(REAL.vars).length}</dd></div>`;
 
   // Pestañas
   document.querySelectorAll('#tabs button').forEach(b => { b.setAttribute('aria-selected', String(b.dataset.t === S.tab)); $('v-' + b.dataset.t).hidden = b.dataset.t !== S.tab; });
 
   // Fichas de tripulación
   $('crew').innerHTML = TRIP.map(p => { const m = sevDe(p), pr = reg(p, 'pulso_reposo', S.i), su = reg(p, 'sueno', S.i), b = enBase(p);
-    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronauta</span><b>${p}</b>
-      <span class="pill ${b ? 'base' : 's' + m}"${hay(p) ? '' : ' style="color:var(--faint);border-color:var(--rule-strong)"'}>${!hay(p) ? 'Sin registros' : b ? 'Línea base' : m ? `${porTrip[p].length} ${porTrip[p].length === 1 ? 'alerta' : 'alertas'} · ${SEV[m]}` : 'Sin alertas'}</span>
-      <span class="mini">${pr ? num(pr.v) + ' lpm' : 'sin pulso'} · sueño ${su ? num(su.v) : '–'}</span></button>`; }).join('');
+    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronaut</span><b>${p}</b>
+      <span class="pill ${b ? 'base' : 's' + m}"${hay(p) ? '' : ' style="color:var(--faint);border-color:var(--rule-strong)"'}>${!hay(p) ? 'No records' : b ? 'Baseline' : m ? `${porTrip[p].length} ${porTrip[p].length === 1 ? 'alert' : 'alerts'} · ${SEV[m]}` : 'No alerts'}</span>
+      <span class="mini">${pr ? num(pr.v) + ' bpm' : 'no pulse'} · sleep ${su ? num(su.v) : '–'}</span></button>`; }).join('');
 
   // Expediente del astronauta elegido
   const m = sevDe(S.p), base = enBase(S.p);
-  $('nombre').textContent = 'Astronauta ' + S.p;
+  $('nombre').textContent = 'Astronaut ' + S.p;
   const conDato = Object.keys(REAL.vars).filter(k => reg(S.p, k, S.i)), fuera = conDato.filter(k => reg(S.p, k, S.i).e > 0);
-  $('resumen').textContent = !conDato.length ? 'Este día no hay registros de este astronauta.'
-    : base ? `Día de línea base: ${conDato.length} lecturas que se usan para calcular su rango normal.`
-    : `${conDato.length} lecturas este día, ${fuera.length} fuera de su rango normal.`;
+  $('resumen').textContent = !conDato.length ? 'There are no records for this astronaut on this day.'
+    : base ? `Baseline day: ${conDato.length} readings used to calculate their normal range.`
+    : `${conDato.length} readings on this day, ${fuera.length} outside their normal range.`;
   $('estado').className = 'pill ' + (base ? 'base' : 's' + m);
-  $('estado').textContent = !conDato.length ? 'Sin registros' : base ? 'Línea base' : m ? SEV[m] : 'Sin alertas';
+  $('estado').textContent = !conDato.length ? 'No records' : base ? 'Baseline' : m ? SEV[m] : 'No alerts';
 
   $('vitals').innerHTML = Object.keys(REAL.vars).map(k => {
     const v = REAL.vars[k], s = REAL.trip[S.p][k], r = reg(S.p, k, S.i);
-    if (!r) return `<div class="nd"><dt>${esc(v.nombre)}</dt><dd>sin dato</dd></div>`;
-    return `<div class="s${r.e}"><dt><span>${esc(v.nombre)}</span><i>${r.base ? 'base' : r.e ? SEV[r.e] : ''}</i></dt>
+    if (!r) return `<div class="nd"><dt>${esc(v.nombre)}</dt><dd>no data</dd></div>`;
+    return `<div class="s${r.e}"><dt><span>${esc(v.nombre)}</span><i>${r.base ? 'baseline' : r.e ? SEV[r.e] : ''}</i></dt>
       <dd>${num(r.v)} <small>${esc(v.unidad)}</small></dd><span class="rng">normal: ${rango(k, s)}</span>${chispa(s, k, r.j)}</div>`;
   }).join('');
 
   $('alertas').innerHTML = alertas.length ? `<ul class="alerts">${alertas.map(tarjeta).join('')}</ul>`
-    : `<p class="calm">${base ? 'Todavía es línea base: estos días sirven para aprender su rango normal y no generan alertas.' : conDato.length ? 'Todas las lecturas de este día están dentro de su rango normal.' : 'Sin registros este día.'}</p>`;
+    : `<p class="calm">${base ? 'Still baseline: these days are used to learn their normal range and do not generate alerts.' : conDato.length ? 'All readings for this day are within their normal range.' : 'No records on this day.'}</p>`;
 
   const fc = conDato.length ? pronostico(S.p, S.i) : [];
   $('manana').innerHTML = fc.length ? `<dl class="mini-fc">${fc.map(f => `<div class="n${f.nivel}"><dt>${f.titulo}</dt><dd>${pct(f.pr)} % <small>${NIVEL[f.nivel]}</small></dd></div>`).join('')}</dl>
-    <p class="small muted" style="margin-top:.6rem">Probabilidad de que mañana aparezca cada problema, estimada con los registros hasta hoy. <button type="button" class="link" id="verAsis">Ver motivos y cómo adelantarse</button></p>` : '<p class="calm">Sin registros este día, no hay pronóstico.</p>';
+    <p class="small muted" style="margin-top:.6rem">Probability that each problem appears tomorrow, estimated from the records up to today. <button type="button" class="link" id="verAsis">See reasons and how to get ahead of it</button></p>` : '<p class="calm">No records on this day, so there is no forecast.</p>';
 
-  // Cuerpo: qué tiene cada zona, por tipo de problema
+  // Body: what each area has, by type of problem
   const info = {}; for (const z in ZONAS) info[z] = {tipos:[], pred:null};
   for (const a of alertas) for (const z of (a.zonas.length ? a.zonas : Object.keys(ZONAS)))
-    info[z].tipos.push({t:a.id, sev:a.sev, general:!a.zonas.length, det:a.id === 'dolor' ? `Dolor ${num(reg(S.p, 'dolor', S.i).v)} en una escala de 1 a 5, donde 5 es sin dolor` : a.porque[0].split(', y tu rango')[0]});
+    info[z].tipos.push({t:a.id, sev:a.sev, general:!a.zonas.length, det:a.id === 'dolor' ? `Pain ${num(reg(S.p, 'dolor', S.i).v)} on a 1 to 5 scale, where 5 is no pain` : a.porque[0].split(', and your normal range')[0]});
   const fd = fc.find(f => f.id === 'dolor'), posibles = fd && fd.nivel >= 1 ? [...new Set(fd.zonas.flatMap(z => RDOLOR[z.z] ?? []))] : [];
   for (const z of posibles) if (!info[z].tipos.some(t => t.t === 'dolor')) info[z].pred = pct(fd.pr);
   S.info = info;
   if (CUERPO) CUERPO.pinta(info);
   else document.querySelectorAll('.bz').forEach(el => { const zs = el.dataset.z === 'abdomen' ? ['abdomen', 'pelvis'] : [el.dataset.z], t = zs.flatMap(z => info[z].tipos).filter(x => !x.general), m = Math.max(0, ...t.map(x => x.sev)); el.setAttribute('class', 'bz s' + m + (!m && zs.some(z => info[z].pred) ? ' pred' : '')); });
   const filas = Object.keys(ZONAS).filter(z => info[z].tipos.some(t => !t.general) || info[z].pred).map(z => { const t = info[z].tipos.filter(x => !x.general), m = Math.max(0, ...t.map(x => x.sev));
-    return `<li class="s${m}"><span>${ZONAS[z]}${t.map(x => `<small class="muted"><i style="background:${TIPOS[x.t].color}"></i>${esc(TIPOS[x.t].nombre)}: ${esc(x.det)}</small>`).join('')}${info[z].pred ? `<small class="muted"><i class="raya"></i>Posible dolor mañana, ${info[z].pred} %</small>` : ''}</span><span>${m ? SEV[m] : 'Mañana'}</span></li>`; });
+    return `<li class="s${m}"><span>${ZONAS[z]}${t.map(x => `<small class="muted"><i style="background:${TIPOS[x.t].color}"></i>${esc(TIPOS[x.t].nombre)}: ${esc(x.det)}</small>`).join('')}${info[z].pred ? `<small class="muted"><i class="raya"></i>Possible pain tomorrow, ${info[z].pred} %</small>` : ''}</span><span>${m ? SEV[m] : 'Tomorrow'}</span></li>`; });
   const general = alertas.filter(a => !a.zonas.length);
-  $('zlist').innerHTML = filas.join('') + general.map(a => `<li class="s${a.sev}"><span>Todo el cuerpo<small class="muted"><i style="background:${TIPOS[a.id].color}"></i>${esc(a.titulo)}</small></span><span>${SEV[a.sev]}</span></li>`).join('')
-    || '<li><span class="muted">Ninguna zona fuera de lo normal este día.</span><span></span></li>';
+  $('zlist').innerHTML = filas.join('') + general.map(a => `<li class="s${a.sev}"><span>Whole body<small class="muted"><i style="background:${TIPOS[a.id].color}"></i>${esc(a.titulo)}</small></span><span>${SEV[a.sev]}</span></li>`).join('')
+    || '<li><span class="muted">No area out of normal on this day.</span><span></span></li>';
 
   renderAsistente(alertas);
 }
 
 function ir(p, i){ S.p = p; S.i = Math.min(REAL.dias.length - 1, Math.max(0, i)); S.checks = {}; render(); }
-$('caso').innerHTML = '<option value="">Elegir…</option>' + CASOS.map(([, d, t], n) => `<option value="${n}">${esc(t)} (${d})</option>`).join('');
+$('caso').innerHTML = '<option value="">Choose…</option>' + CASOS.map(([, d, t], n) => `<option value="${n}">${esc(t)} (${d})</option>`).join('');
 $('caso').addEventListener('change', e => { const c = CASOS[+e.target.value]; if (e.target.value !== '' && c) ir(c[0], REAL.dias.indexOf(c[1])); });
 $('dia').addEventListener('input', e => ir(S.p, +e.target.value));
 $('prev').addEventListener('click', () => ir(S.p, S.i - 1));
@@ -757,7 +757,7 @@ document.addEventListener('keydown', e => { if (S.tab !== 'crew' || /INPUT|SELEC
 // Pronóstico: cuatro regresiones logísticas entrenadas con los 151 días de los cinco astronautas
 // (data/monitoreo-real/entrenar_pronostico.py). Aquí solo se calculan las mismas variables y se aplican los pesos.
 // =====================================================================
-const NIVEL = ['bajo', 'medio', 'alto'];
+const NIVEL = ['low', 'medium', 'high'];
 const VARS12 = Object.keys(REAL.vars), SUENO_V = GRUPOS[1].vars;
 const clip = x => Math.max(-4, Math.min(4, x));
 const DOW = REAL.dias.map(d => new Date(d + 'T00:00:00Z').getUTCDay());
@@ -788,18 +788,18 @@ function probabilidad(p, i, obj){
   return {pr:1 / (1 + Math.exp(-t)), x, m};
 }
 const OBJ = {
-  dolor:{titulo:'Dolor muscular', grupo:'dolor', adelantate:['Si hoy hubo ejercicio intenso, mañana haz una sesión suave: el dolor muscular suele crecer el primer día y alcanzar su máximo entre 24 y 72 horas después.','Sube la intensidad poco a poco; el dolor aparece sobre todo con esfuerzos a los que el músculo no está acostumbrado.','Cuida el sueño de esta noche: dormir mal aumenta la sensibilidad al dolor al día siguiente.','Deja a mano la compresa fría y la banda elástica.']},
-  pulso:{titulo:'Pulso fuera de rango', grupo:'pulso', adelantate:['Hidrátate y evita el ejercicio intenso mañana a primera hora.','Mide la temperatura al despertar: el pulso en reposo también sube cuando el cuerpo combate una infección.','No decidas por un solo día: mira si se repite varios días y si coincide con mal sueño, estrés o entrenamiento fuerte.','Vuelve a medir tras 10 minutos de reposo antes de registrar.']},
-  sueno:{titulo:'Sueño fuera de rango', grupo:'sueno', adelantate:['Respeta la hora de dormir programada y atenúa la luz una hora antes.','Evita la cafeína en las 6 horas previas.','Si hay dolor o estrés hoy, atiéndelo antes de acostarte.','Deja listos antifaz y tapones para los oídos.']},
-  fatiga:{titulo:'Fatiga', grupo:'fatiga', adelantate:['Baja la intensidad de la sesión de ejercicio de mañana.','Completa hoy las comidas y la hidratación del plan.','Programa las tareas críticas de mañana con doble verificación.','Acuéstate a la hora programada.']},
+  dolor:{titulo:'Muscle pain', grupo:'dolor', adelantate:['If there was intense exercise today, do a light session tomorrow: muscle soreness usually grows on the first day and peaks 24 to 72 hours later.','Increase intensity gradually; pain shows up mostly with efforts the muscle is not used to.','Take care of tonight\'s sleep: sleeping badly increases pain sensitivity the next day.','Keep the cold pack and the elastic band at hand.']},
+  pulso:{titulo:'Pulse out of range', grupo:'pulso', adelantate:['Hydrate and avoid intense exercise first thing tomorrow.','Take your temperature when you wake up: resting pulse also rises when the body fights an infection.','Do not decide based on a single day: see whether it repeats over several days and whether it coincides with poor sleep, stress or hard training.','Measure again after 10 minutes of rest before logging.']},
+  sueno:{titulo:'Sleep out of range', grupo:'sueno', adelantate:['Keep to the scheduled bedtime and dim the lights an hour before.','Avoid caffeine in the 6 hours before.','If there is pain or stress today, deal with it before going to bed.','Have the eye mask and earplugs ready.']},
+  fatiga:{titulo:'Fatigue', grupo:'fatiga', adelantate:['Lower the intensity of tomorrow\'s exercise session.','Finish today\'s planned meals and hydration.','Schedule tomorrow\'s critical tasks with a double check.','Go to bed at the scheduled time.']},
 };
-const RAZON = {dolor_hoy:'hoy ya hay dolor muscular', dolor_ayer:'ayer hubo dolor muscular', carga3:'carga física alta en los últimos 3 días', carga_ayer:'carga física alta ayer', sueno_fuera:'el sueño de hoy está fuera de rango', sueno3:'tres días de sueño por debajo de lo habitual', pulso_fuera:'el pulso de hoy está fuera de rango', fatiga_baja:'hoy reportaste fatiga'};
+const RAZON = {dolor_hoy:'there is already muscle pain today', dolor_ayer:'there was muscle pain yesterday', carga3:'high physical load in the last 3 days', carga_ayer:'high physical load yesterday', sueno_fuera:'today\'s sleep is out of range', sueno3:'three days of sleep below usual', pulso_fuera:'today\'s pulse is out of range', fatiga_baja:'you reported fatigue today'};
 function razones(f){
   const out = [];
   for (const k in f.m.w){ const c = f.m.w[k] * (f.x[k] ?? 0); if (c < 0.15 || k.startsWith('tasa_')) continue;
     let t = RAZON[k];
-    if (!t && k.startsWith('sem_')) t = `suele pasarte ese día de la semana (${Math.round(f.x[k] * 100)} % de las veces)`;
-    if (!t && k.startsWith('z_')){ const v = REAL.vars[k.slice(2)]; t = `${v.nombre.replace(/ \(.*\)/, '').toLowerCase()} ${f.x[k] > 0 ? 'por encima' : 'por debajo'} de tu media hoy`; }
+    if (!t && k.startsWith('sem_')) t = `it tends to happen to you on this day of the week (${Math.round(f.x[k] * 100)} % of the time)`;
+    if (!t && k.startsWith('z_')){ const v = REAL.vars[k.slice(2)]; t = `${v.nombre.replace(/ \(.*\)/, '').toLowerCase()} ${f.x[k] > 0 ? 'above' : 'below'} your average today`; }
     if (t) out.push([c, t]); }
   return out.sort((a, b) => b[0] - a[0]).slice(0, 3).map(r => r[1]);
 }
@@ -808,87 +808,87 @@ function zonasHabituales(p, i){
   for (const d in REAL.dolor[p] ?? {}) if (+d <= i){ tot++; for (const z of REAL.dolor[p][d]) n[z] = (n[z] ?? 0) + 1; }
   return Object.entries(n).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([z, k]) => ({z, pct:Math.round(k / tot * 100)}));
 }
-/** Pronóstico de mañana para un astronauta, ordenado de mayor a menor probabilidad. */
+/** Tomorrow's forecast for an astronaut, sorted from highest to lowest probability. */
 function pronostico(p, i){
   return Object.keys(OBJ).map(id => { const f = probabilidad(p, i, id), habitual = f.x['tasa_' + id];
     return {id, ...OBJ[id], pr:f.pr, habitual, nivel:f.pr >= 0.5 ? 2 : f.pr >= 0.25 ? 1 : 0, razones:razones(f), m:f.m, zonas:id === 'dolor' ? zonasHabituales(p, i) : []};
   }).sort((a, b) => b.pr - a.pr);
 }
-function acierto(m){ return `En pruebas con días que el modelo no había visto, ${Math.round(m.avisos_correctos * 100)} % de sus avisos fueron correctos y avisó a tiempo del ${Math.round(m.casos_detectados * 100)} % de los casos.`; }
+function acierto(m){ return `In tests on days the model had not seen, ${Math.round(m.avisos_correctos * 100)} % of its warnings were correct and it warned in time for ${Math.round(m.casos_detectados * 100)} % of the cases.`; }
 function bloquePronostico(f){
-  return `<article class="fc n${f.nivel}"><div class="fc-head"><span class="pill ${f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">Riesgo ${NIVEL[f.nivel]}</span><strong>${f.titulo}</strong><span class="pct">${pct(f.pr)} %</span></div>
-    <div class="meter" role="img" aria-label="Probabilidad ${pct(f.pr)} %, habitual ${Math.round(f.habitual * 100)} %"><i style="width:${(f.pr * 100).toFixed(1)}%"></i><b style="left:${(f.habitual * 100).toFixed(1)}%"></b></div>
-    <p class="small muted">La marca blanca es lo habitual en ti: te pasa ${Math.round(f.habitual * 100)} % de los días.</p>
-    ${f.razones.length ? `<h4>Por qué</h4><ul>${f.razones.map(r => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join('')}</ul>` : f.nivel ? '<h4>Por qué</h4><p>Sobre todo porque te pasa con frecuencia; hoy no hay una señal concreta.</p>' : ''}
-    ${f.zonas.length && f.nivel ? `<p><span class="label">Dónde suele ser</span> ${esc(f.zonas.map(z => `${RNOMBRE[z.z]} (${z.pct} %)`).join(', '))}</p>` : ''}
-    ${f.nivel ? `<h4>Para adelantarse</h4><ol>${f.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : ''}
+  return `<article class="fc n${f.nivel}"><div class="fc-head"><span class="pill ${f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">${NIVEL[f.nivel][0].toUpperCase() + NIVEL[f.nivel].slice(1)} risk</span><strong>${f.titulo}</strong><span class="pct">${pct(f.pr)} %</span></div>
+    <div class="meter" role="img" aria-label="Probability ${pct(f.pr)} %, usual ${Math.round(f.habitual * 100)} %"><i style="width:${(f.pr * 100).toFixed(1)}%"></i><b style="left:${(f.habitual * 100).toFixed(1)}%"></b></div>
+    <p class="small muted">The white mark is what is usual for you: it happens on ${Math.round(f.habitual * 100)} % of days.</p>
+    ${f.razones.length ? `<h4>Why</h4><ul>${f.razones.map(r => `<li>${esc(r[0].toUpperCase() + r.slice(1))}.</li>`).join('')}</ul>` : f.nivel ? '<h4>Why</h4><p>Mostly because it happens to you often; there is no specific signal today.</p>' : ''}
+    ${f.zonas.length && f.nivel ? `<p><span class="label">Where it usually is</span> ${esc(f.zonas.map(z => `${RNOMBRE[z.z]} (${z.pct} %)`).join(', '))}</p>` : ''}
+    ${f.nivel ? `<h4>To get ahead of it</h4><ol>${f.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : ''}
     <p class="src">${acierto(f.m)}</p></article>`;
 }
 function renderAsistente(alertas){
   $('acrew').innerHTML = TRIP.map(p => { const hay = VARS12.some(k => reg(p, k, S.i)), f = hay ? pronostico(p, S.i)[0] : null;
-    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronauta</span><b>${p}</b>
-      <span class="pill ${!f ? '' : f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">${!f ? 'Sin registros' : f.nivel ? `${f.titulo} ${pct(f.pr)} %` : 'Riesgo bajo'}</span></button>`; }).join('');
+    return `<button type="button" class="crew-tab" data-p="${p}" aria-pressed="${p === S.p}"><span class="label">Astronaut</span><b>${p}</b>
+      <span class="pill ${!f ? '' : f.nivel === 2 ? 's2' : f.nivel === 1 ? 's1' : 's0'}">${!f ? 'No records' : f.nivel ? `${f.titulo} ${pct(f.pr)} %` : 'Low risk'}</span></button>`; }).join('');
   const hay = VARS12.some(k => reg(S.p, k, S.i));
-  $('pTitulo').textContent = `Pronóstico para mañana · ${S.p}`;
+  $('pTitulo').textContent = `Forecast for tomorrow · ${S.p}`;
   if (LUMA.saludo !== S.p + S.i){ LUMA.saludo = S.p + S.i; iniciaChat(LUMA.msgs.length <= 1); }
-  $('pIntro').textContent = hay ? `Con los registros hasta el día ${S.i + 1} (${REAL.dias[S.i]}). Mañana es ${REAL.dias[S.i + 1] ?? 'el día siguiente al último registro'}.` : 'Este día no hay registros de este astronauta.';
-  $('pronos').innerHTML = hay ? pronostico(S.p, S.i).map(bloquePronostico).join('') : '<p class="calm">Elige otro día u otro astronauta.</p>';
+  $('pIntro').textContent = hay ? `With records up to day ${S.i + 1} (${REAL.dias[S.i]}). Tomorrow is ${REAL.dias[S.i + 1] ?? 'the day after the last record'}.` : 'There are no records for this astronaut on this day.';
+  $('pronos').innerHTML = hay ? pronostico(S.p, S.i).map(bloquePronostico).join('') : '<p class="calm">Choose another day or another astronaut.</p>';
 }
 
 // =====================================================================
 // Asistente: entiende la intención de la pregunta y responde con los registros, el pronóstico y los procedimientos
 // =====================================================================
-const TEMA = [['dolor', /dol|duel|muscul|agujet|piern|braz|espald/], ['pulso', /puls|corazon|latid|cardia|palpit/], ['sueno', /suen|dorm|insomn|descans/], ['fatiga', /fatig|cansa|agota|energ|dispos/], ['animo', /anim|estres|trist|ansie|nervio/]];
-const NO_DX = /(tengo una? (infeccion|fractura|enfermedad|tumor)|diagnos|que enfermedad|estoy enfermo|medicament|pastilla|dosis de|recet|debo tomar|que tomo|^\W*que tengo\W*$)/;
+const TEMA = [['dolor', /pain|hurt|sore|ache|muscl|stiff|\bleg|\barm|\bback\b/], ['pulso', /pulse|heart|beat|cardia|palpit/], ['sueno', /sleep|insomn|\brest\b/], ['fatiga', /fatigu|tired|exhaust|energy|drained|worn out|readiness/], ['animo', /mood|stress|\bsad|anxi|nervous|lonely/]];
+const NO_DX = /(do i have an? (infection|fracture|disease|illness|tumou?r)|diagnos|what disease|am i sick|medicat|\bpills?\b|dose of|dosage|prescri|should i take|what (should|can) i take|^\W*what do i have\W*$)/;
 const pct = x => Math.min(99, Math.max(1, Math.round(x * 100)));
 const temaDe = f => TEMA.find(([, re]) => re.test(f))?.[0];
-/** Respuesta sin conexión: registros, pronóstico, casos frecuentes en el espacio y procedimientos. Devuelve HTML o null. */
+/** Offline answer: records, forecast, common cases in space and procedures. Returns HTML or null. */
 function respuestaLocal(q){
   const f = fold(q.slice(0, 300));
   const cita = f.match(/\bp0?([1-5])\b/); if (cita){ S.p = 'P0' + cita[1]; render(); }
   const p = S.p, i = S.i, alertas = evaluar(p, i), tema = temaDe(f), hay = VARS12.some(k => reg(p, k, i));
   const caja = h => h;
-  if (NO_DX.test(f)) return caja('<p><strong>No puedo diagnosticar ni recetar.</strong> Puedo decirte qué lecturas están fuera de tu rango, qué puede venir mañana y qué procedimiento seguir. Para un diagnóstico o un medicamento, contacta al oficial médico o al médico de vuelo.</p>');
-  if (/tripul|quien|todos|equipo|cual astronauta/.test(f)){
+  if (NO_DX.test(f)) return caja('<p><strong>I cannot diagnose or prescribe.</strong> I can tell you which readings are outside your range, what may come tomorrow and which procedure to follow. For a diagnosis or a medication, contact the crew medical officer or the flight surgeon.</p>');
+  if (/crew|everyone|everybody|\bteam\b|which astronaut|who needs/.test(f)){
     const filas = TRIP.filter(x => VARS12.some(k => reg(x, k, i))).map(x => [x, pronostico(x, i)[0]]).sort((a, b) => b[1].pr - a[1].pr);
-    return caja(`<p>Riesgo más alto de cada astronauta para mañana:</p><ol>${filas.map(([x, r]) => `<li><strong>${x}</strong>: ${r.titulo.toLowerCase()}, ${pct(r.pr)} % (riesgo ${NIVEL[r.nivel]})</li>`).join('')}</ol><p>Quien más atención necesita es <strong>${filas[0][0]}</strong>.</p>`);
+    return caja(`<p>Highest risk for each astronaut tomorrow:</p><ol>${filas.map(([x, r]) => `<li><strong>${x}</strong>: ${r.titulo.toLowerCase()}, ${pct(r.pr)} % (${NIVEL[r.nivel]} risk)</li>`).join('')}</ol><p>The one who needs the most attention is <strong>${filas[0][0]}</strong>.</p>`);
   }
-  if (!hay) return caja(`<p>No hay registros de ${p} este día, así que no puedo estimar nada. Elige otro día.</p>`);
-  if (/manana|pronost|predic|predec|riesgo|va a doler|voy a|prevenir|evitar|adelant|antes de tiempo/.test(f)){
+  if (!hay) return caja(`<p>There are no records for ${p} on this day, so I cannot estimate anything. Choose another day.</p>`);
+  if (/tomorrow|forecast|predict|\brisk|going to hurt|will .{0,20}hurt|prevent|avoid|get ahead|in advance|ahead of time/.test(f)){
     const fc = pronostico(p, i), sel = tema && OBJ[tema] ? fc.filter(x => x.id === tema) : fc;
     const top = sel[0];
-    return caja(`<p>${tema && OBJ[tema] ? '' : `Lo más probable para ${p} mañana: `}<strong>${top.titulo.toLowerCase()}, ${pct(top.pr)} %</strong> (riesgo ${NIVEL[top.nivel]}; lo habitual en ${p} es ${Math.round(top.habitual * 100)} %).</p>
-      ${top.razones.length ? `<h4>Por qué</h4><ul>${top.razones.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
-      ${top.zonas.length && top.nivel ? `<p>Si aparece, suele ser en ${esc(top.zonas.map(z => RNOMBRE[z.z]).join(', '))}.</p>` : ''}
-      ${top.nivel ? `<h4>Para adelantarse</h4><ol>${top.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : '<p>No hace falta hacer nada especial; mantén la rutina.</p>'}
-      ${sel.length > 1 ? `<p class="src">Resto: ${sel.slice(1).map(x => `${x.titulo.toLowerCase()} ${pct(x.pr)} %`).join(', ')}.</p>` : ''}
+    return caja(`<p>${tema && OBJ[tema] ? '' : `Most likely for ${p} tomorrow: `}<strong>${tema && OBJ[tema] ? top.titulo : top.titulo.toLowerCase()}, ${pct(top.pr)} %</strong> (${NIVEL[top.nivel]} risk; usual for ${p} is ${Math.round(top.habitual * 100)} %).</p>
+      ${top.razones.length ? `<h4>Why</h4><ul>${top.razones.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
+      ${top.zonas.length && top.nivel ? `<p>If it appears, it is usually in the ${esc(top.zonas.map(z => RNOMBRE[z.z]).join(', '))}.</p>` : ''}
+      ${top.nivel ? `<h4>To get ahead of it</h4><ol>${top.adelantate.map(t => `<li>${esc(t)}</li>`).join('')}</ol>` : '<p>Nothing special is needed; keep your routine.</p>'}
+      ${sel.length > 1 ? `<p class="src">Others: ${sel.slice(1).map(x => `${x.titulo.toLowerCase()} ${pct(x.pr)} %`).join(', ')}.</p>` : ''}
       <p class="src">${acierto(top.m)}</p>`);
   }
-  if (/antes|similar|otras veces|historial|ha pasado|paso antes/.test(f)){
+  if (/similar|other times|history|happened before|has this happened|previous|in the past/.test(f)){
     const a = (tema && alertas.find(x => x.id === tema)) || alertas[0];
-    return caja(a ? `<p><strong>${a.titulo}.</strong> ${esc(a.similares)}</p>` : `<p>Hoy ${p} no tiene alertas con las que comparar. ${tema && EPIS[tema] ? esc(similares(p, tema, i + 1)) : ''}</p>`);
+    return caja(a ? `<p><strong>${a.titulo}.</strong> ${esc(a.similares)}</p>` : `<p>Today ${p} has no alerts to compare with. ${tema && EPIS[tema] ? esc(similares(p, tema, i + 1)) : ''}</p>`);
   }
-  if (/por que|porque|causa|motivo|a que se debe/.test(f)){
+  if (/\bwhy\b|cause|reason|due to/.test(f)){
     const a = (tema && alertas.find(x => x.id === tema)) || (!tema && alertas[0]);
-    if (!a) return caja(`<p>Hoy ${tema ? 'esa lectura está dentro del rango normal de ' + p : p + ' no tiene alertas'}, así que no hay nada que explicar.</p>`);
+    if (!a) return caja(`<p>Today ${tema ? 'that reading is within the normal range of ' + p : p + ' has no alerts'}, so there is nothing to explain.</p>`);
     const si = a.pos.filter(x => x[1] === true).map(x => x[0].toLowerCase()), nd = a.pos.filter(x => x[1] === null);
     return caja(`<p><strong>${a.titulo}.</strong> ${esc(a.porque.join('; '))}.</p><p>${esc(a.causa)}</p>
-      ${si.length ? `<p>Los datos apoyan: ${esc(si.join('; '))}.</p>` : ''}
-      ${nd.length ? `<h4>Para descartar lo que los registros no ven</h4><ul>${nd.map(x => `<li>${esc(x[0])}: ${esc(x[2])}.</li>`).join('')}</ul>` : ''}`);
+      ${si.length ? `<p>The data support: ${esc(si.join('; '))}.</p>` : ''}
+      ${nd.length ? `<h4>To rule out what the records cannot see</h4><ul>${nd.map(x => `<li>${esc(x[0])}: ${esc(x[2])}.</li>`).join('')}</ul>` : ''}`);
   }
-  if (/como esto|como esta|como me encuentro|como voy|resumen|mi estado|estado de hoy/.test(f) && !/que hago|que hacer/.test(f)){
+  if (/how am i|how('?s| is| are) (my|p0|the)|how do i look|how i'?m doing|summary|my status|status today|today'?s status/.test(f) && !/what (should|do) i do|what to do/.test(f)){
     const fc = pronostico(p, i)[0];
-    return caja(`<p>${alertas.length ? `Hoy ${p} tiene ${alertas.length} ${alertas.length === 1 ? 'alerta' : 'alertas'}:` : `Hoy todas las lecturas de ${p} están dentro de su rango normal.`}</p>
-      ${alertas.length ? `<ul>${alertas.map(a => `<li><strong>${a.titulo}</strong> (${SEV[a.sev].toLowerCase()}). ${esc(a.causa)}</li>`).join('')}</ul><p>Empieza por la primera: ${esc(alertas[0].pasos[0].toLowerCase())}</p>` : ''}
-      <p>Para mañana, lo más probable es ${fc.titulo.toLowerCase()} (${pct(fc.pr)} %, riesgo ${NIVEL[fc.nivel]}).</p>`);
+    return caja(`<p>${alertas.length ? `Today ${p} has ${alertas.length} ${alertas.length === 1 ? 'alert' : 'alerts'}:` : `Today all of ${p}'s readings are within their normal range.`}</p>
+      ${alertas.length ? `<ul>${alertas.map(a => `<li><strong>${a.titulo}</strong> (${SEV[a.sev].toLowerCase()}). ${esc(a.causa)}</li>`).join('')}</ul><p>Start with the first one: ${esc(alertas[0].pasos[0][0].toLowerCase() + alertas[0].pasos[0].slice(1))}</p>` : ''}
+      <p>For tomorrow, the most likely is ${fc.titulo.toLowerCase()} (${pct(fc.pr)} %, ${NIVEL[fc.nivel]} risk).</p>`);
   }
   const caso = SINTOMAS.find(c => c.re.test(f));
   if (caso) return caja(tarjetaCaso(caso));
   const r = responder(q);
   if (r.tipo === 'proc' || tema){
-    const clave = r.tipo === 'proc' ? r.proc : GRUPOS.find(g => g.id === tema)?.proc, pr = PROC[clave], x = /pierna|pie|tobillo|rodilla/.test(f) ? 'pierna' : 'brazo';
-    if (pr) return caja(`<p><strong>${esc(pr.titulo)}</strong></p><h4>Reúne antes de empezar</h4><ul>${pr.items(x).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-      <h4>Haz ahora</h4><ol>${pr.pasos(x).map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">Cuándo escalar</span> ${esc(pr.escalar)}</p>`);
+    const clave = r.tipo === 'proc' ? r.proc : GRUPOS.find(g => g.id === tema)?.proc, pr = PROC[clave], x = /\bleg|foot|feet|ankle|knee/.test(f) ? 'pierna' : 'brazo';
+    if (pr) return caja(`<p><strong>${esc(pr.titulo)}</strong></p><h4>Gather before starting</h4><ul>${pr.items(x).map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+      <h4>Do now</h4><ol>${pr.pasos(x).map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">When to escalate</span> ${esc(pr.escalar)}</p>`);
   }
   return null;
 }
@@ -900,97 +900,97 @@ function respuestaLocal(q){
 // Las emergencias se detectan siempre aquí, sin esperar a ningún modelo.
 // =====================================================================
 const diaMision = () => S.i + 1;
-const CIERRE_URG = 'Avisa ya al oficial médico de la tripulación y a control de misión. Desde una estación en órbita baja se puede evacuar en horas; más lejos no, así que primero se actúa a bordo.';
+const CIERRE_URG = 'Alert the crew medical officer and mission control now. From a station in low orbit, evacuation can take hours; farther away it is not possible, so act on board first.';
 const URGENCIAS = [
-  {re:/no respira|no responde|inconscien|sin pulso|paro card|se desmayo|desmayad|no reacciona|no despierta/, t:'Persona que no responde',
-   pasos:['Pide ayuda en voz alta: oficial médico y control de misión.','Comprueba si respira y si reacciona al hablarle y tocarle el hombro.','Si no respira: sujétalo a una superficie firme, empieza compresiones en el centro del pecho y que alguien traiga el desfibrilador.','Enciende el desfibrilador y sigue sus instrucciones de voz.','No pares hasta que respire o te releven.']},
-  {re:/dolor (en el |de |del )?pecho|opresion en el pecho|me aprieta el pecho|infarto/, t:'Dolor en el pecho',
-   pasos:['Detén toda actividad y quédate en reposo, sujeto y cómodo.','Avisa de inmediato; no esperes a ver si se pasa.','Que alguien mida pulso, presión y oxígeno, y acerque el desfibrilador.','Anota la hora de inicio, si el dolor se extiende al brazo, la mandíbula o la espalda, y si hay sudor frío o falta de aire.']},
-  {re:/atragant|se ahoga|me ahogo|no puedo respirar|no puede respirar|falta de aire|asfixi/, t:'Dificultad grave para respirar',
-   pasos:['Si es un atragantamiento y no puede toser ni hablar: compresiones abdominales desde atrás, sujetándote tú a una estructura.','Si puede toser, que siga tosiendo; no le golpees la espalda.','Colócalo erguido, afloja la ropa y mide el oxígeno.','Revisa el aire de la cabina: CO₂, humo u olores. Si hay duda, mascarilla y cambio de módulo.']},
-  {re:/sangra mucho|hemorragia|no para de sangrar|sangrado abundante|corte profundo/, t:'Sangrado abundante',
-   pasos:['Ponte guantes y presiona fuerte y directo sobre la herida con gasas.','No retires las gasas empapadas: añade más encima.','Mantén la presión al menos 10 minutos sin mirar.','Recoge la sangre que flote con paños absorbentes, y vigila pulso y nivel de conciencia.']},
-  {re:/convuls|ataque epilep/, t:'Convulsión',
-   pasos:['Aparta objetos y sujeta suavemente a la persona para que no golpee nada; no la inmovilices con fuerza.','No metas nada en su boca.','Mira la hora: si dura más de 5 minutos o se repite, es más grave.','Cuando pare, comprueba que respira y quédate con ella.']},
-  {re:/alergia grave|anafil|se le hincha la (cara|lengua|garganta)|labios hinchados|garganta cerrada/, t:'Reacción alérgica grave',
-   pasos:['Avisa de inmediato: puede cerrar la vía aérea en minutos.','Que el oficial médico prepare el autoinyector del botiquín.','Mantén a la persona erguida si le cuesta respirar; mide oxígeno y pulso.','Aparta lo que la haya causado: alimento, medicamento o producto.']},
-  {re:/quemadura|me queme|se quemo|quimico en el ojo|liquido en el ojo|salpico en el ojo/, t:'Quemadura o químico en el ojo',
-   pasos:['Aparta la fuente de calor o el producto.','Quemadura: enfría con agua o paños húmedos 10 a 20 minutos; no revientes ampollas ni pongas cremas.','Ojo: enjuaga con el lavaojos al menos 15 minutos, con el párpado abierto.','Cubre con gasa estéril sin apretar.']},
-  {re:/humo|incendio|fuego|amoniaco|fuga de|despresuriz|perdida de presion|alarma de la nave|huele a quemado/, t:'Emergencia de la nave',
-   pasos:['Sigue el procedimiento de emergencia de la nave: es antes que cualquier atención médica.','Mascarilla puesta si hay humo, amoníaco u olor extraño.','Reúnete con la tripulación en el punto seguro y haz recuento.','Cuando el ambiente sea seguro, revisa a cada persona: respiración, ojos y piel.']},
-  {re:/golpe en la cabeza|se golpeo la cabeza|me golpee la cabeza|traumatismo/, t:'Golpe en la cabeza',
-   pasos:['Comprueba si está consciente y orientado: nombre, lugar, qué pasó.','Si perdió el conocimiento, vomita, está confuso o tiene pupilas distintas, es urgente.','Presiona con gasa si sangra; aplica frío envuelto en tela.','Vigílalo las siguientes horas y no lo dejes solo.']},
-  {re:/suicid|quitarme la vida|hacerme dano|no quiero vivir|matarme|desaparecer para siempre/, t:'No estás solo en esto', sinCierre:true,
-   pasos:['Gracias por decírmelo. Lo que sientes importa y merece atención ahora.','No te quedes a solas: busca a un compañero de la tripulación y díselo con estas mismas palabras.','Pide ya una conferencia privada con el médico de vuelo o el equipo de apoyo psicológico.','Mientras llega la ayuda, quédate donde haya gente y aleja lo que pueda hacerte daño.']},
+  {re:/no respira|no responde|inconscien|sin pulso|paro card|se desmayo|desmayad|no reacciona|no despierta|not breathing|isn'?t breathing|unresponsive|not respond|isn'?t respond|doesn'?t respond|won'?t respond|unconscious|no pulse|cardiac arrest|passed out|fainted|won'?t wake|not waking/, t:'Person not responding',
+   pasos:['Call for help out loud: medical officer and mission control.','Check whether they are breathing and react when you talk to them and tap their shoulder.','If they are not breathing: secure them to a firm surface, start compressions in the center of the chest and have someone bring the defibrillator.','Turn on the defibrillator and follow its voice instructions.','Do not stop until they breathe or someone takes over.']},
+  {re:/dolor (en el |de |del )?pecho|opresion en el pecho|me aprieta el pecho|infarto|chest pain|pain in (my|the|his|her) chest|chest (is )?(tight|pressure|hurts)|tight chest|heart attack/, t:'Chest pain',
+   pasos:['Stop all activity and rest, secured and comfortable.','Report it right away; do not wait to see if it goes away.','Have someone measure pulse, blood pressure and oxygen, and bring the defibrillator close.','Note the time it started, whether the pain spreads to the arm, jaw or back, and whether there is cold sweat or shortness of breath.']},
+  {re:/atragant|se ahoga|me ahogo|no puedo respirar|no puede respirar|falta de aire|asfixi|chok|can'?t breathe|cannot breathe|unable to breathe|short(ness)? of breath|suffocat/, t:'Severe difficulty breathing',
+   pasos:['If they are choking and cannot cough or speak: abdominal thrusts from behind, anchoring yourself to a structure.','If they can cough, let them keep coughing; do not hit their back.','Keep them upright, loosen their clothing and measure oxygen.','Check the cabin air: CO₂, smoke or odors. If in doubt, mask on and move to another module.']},
+  {re:/sangra mucho|hemorragia|no para de sangrar|sangrado abundante|corte profundo|bleeding (a lot|heavily|badly)|heavy bleeding|hemorrhag|haemorrhag|won'?t stop bleeding|deep cut/, t:'Heavy bleeding',
+   pasos:['Put on gloves and press hard, directly on the wound, with gauze.','Do not remove soaked gauze: add more on top.','Keep the pressure for at least 10 minutes without looking.','Collect floating blood with absorbent cloths, and watch pulse and level of consciousness.']},
+  {re:/convuls|ataque epilep|seizure|epilep/, t:'Seizure',
+   pasos:['Move objects away and gently hold the person so they do not hit anything; do not restrain them forcefully.','Do not put anything in their mouth.','Check the time: if it lasts more than 5 minutes or happens again, it is more serious.','When it stops, check that they are breathing and stay with them.']},
+  {re:/alergia grave|anafil|se le hincha la (cara|lengua|garganta)|labios hinchados|garganta cerrada|severe allerg|anaphyla|(face|tongue|throat|lips) (is |are )?swell|swollen (face|tongue|throat|lips)|throat (is )?closing/, t:'Severe allergic reaction',
+   pasos:['Report it immediately: it can close the airway within minutes.','Have the medical officer prepare the auto-injector from the medical kit.','Keep the person upright if breathing is hard; measure oxygen and pulse.','Remove whatever caused it: food, medication or product.']},
+  {re:/quemadura|me queme|se quemo|quimico en el ojo|liquido en el ojo|salpico en el ojo|\bburn(ed|t|s)?\b|chemical in .{0,6}eye|splash.{0,15}eye|liquid in .{0,6}eye/, t:'Burn or chemical in the eye',
+   pasos:['Remove the heat source or the product.','Burn: cool it with water or damp cloths for 10 to 20 minutes; do not pop blisters or apply creams.','Eye: rinse with the eyewash for at least 15 minutes, holding the eyelid open.','Cover loosely with sterile gauze.']},
+  {re:/humo|incendio|fuego|amoniaco|fuga de|despresuriz|perdida de presion|alarma de la nave|huele a quemado|smoke|\bfire\b|ammonia|\bleak|depressur|pressure loss|loss of pressure|cabin alarm|ship alarm|burning smell|smells? (like )?burn/, t:'Spacecraft emergency',
+   pasos:['Follow the spacecraft emergency procedure: it comes before any medical care.','Put on a mask if there is smoke, ammonia or a strange smell.','Gather with the crew at the safe point and do a head count.','When the environment is safe, check each person: breathing, eyes and skin.']},
+  {re:/golpe en la cabeza|se golpeo la cabeza|me golpee la cabeza|traumatismo|hit (my|his|her|their) head|bump(ed)? (my|his|her|their) head|head (injury|trauma)|blow to the head|concussion/, t:'Blow to the head',
+   pasos:['Check whether they are conscious and oriented: name, place, what happened.','If they lost consciousness, are vomiting, are confused or have unequal pupils, it is urgent.','Press with gauze if it bleeds; apply cold wrapped in cloth.','Watch them over the next hours and do not leave them alone.']},
+  {re:/suicid|quitarme la vida|hacerme dano|no quiero vivir|matarme|desaparecer para siempre|kill myself|end my life|take my (own )?life|hurt myself|harm myself|don'?t want to (live|be alive)|want to die|disappear forever/, t:'You are not alone in this', sinCierre:true,
+   pasos:['Thank you for telling me. What you feel matters and deserves attention now.','Do not stay alone: find a crewmate and tell them using these same words.','Ask right now for a private conference with the flight surgeon or the psychological support team.','While help is on the way, stay where there are people and move away anything that could hurt you.']},
 ];
-// Casos frecuentes en el espacio. `espacio(d)` dice qué cambia según el día de misión; las cifras salen de HECHOS o de las fuentes del README.
+// Common cases in space. `espacio(d)` says what changes depending on the mission day; figures come from HECHOS or the README sources.
 const SINTOMAS = [
-  {re:/nausea|mareo|mareado|vomit|ganas de devolver|\basco\b/, t:'Náuseas y mareo',
-   espacio:d => d <= 3 ? `Es el día ${d}: lo esperable. Entre 6 y 8 de cada 10 astronautas tienen mareo espacial en los primeros 2 o 3 días, y casi siempre se pasa antes de 72 horas.` : `Ya es el día ${d}. El mareo espacial suele pasar en los primeros 3 días, así que conviene buscar otra causa: CO₂ alto, deshidratación, una infección o un medicamento.`,
-   pasos:['Mueve la cabeza despacio y evita giros bruscos.','Fija la vista en una referencia estable, como un panel o la «pared» que uses de suelo.','Ten una bolsa a mano y bebe a sorbos pequeños.','Deja para después las tareas delicadas.','Si no cede, pide al oficial médico el tratamiento del botiquín.'],
-   escalar:'Avisa si vomitas todo lo que bebes más de 12 horas, si hay dolor de cabeza intenso o visión doble, o si empieza después de la primera semana.'},
-  {re:/espalda|lumbar|columna|cintura/, t:'Dolor de espalda',
-   espacio:d => d <= 5 ? `Muy frecuente al principio: la mitad de los astronautas lo tiene en los primeros días, casi siempre leve, porque la columna se estira sin gravedad.` : `En el día ${d} ya no es el dolor típico de adaptación; piensa en la carga de ejercicio, la postura al dormir o una sobrecarga.`,
-   pasos:['Lleva las rodillas al pecho, en posición fetal, unos minutos: es lo que más alivia.','Haz ejercicio suave en la cinta o la bicicleta.','Ajusta la sujeción del saco de dormir para descansar algo flexionado.','Anota del 1 al 10 cuánto duele y si cambia con la postura.'],
-   escalar:'Es urgente si el dolor baja por una pierna, hay adormecimiento, pérdida de fuerza o dificultad para orinar.'},
-  {re:/cabeza|cefalea|jaqueca|migran/, t:'Dolor de cabeza',
-   espacio:d => `En cabina lo primero es el aire: cada 1 mmHg más de CO₂ duplica la probabilidad de dolor de cabeza.${d <= 4 ? ' Además, en los primeros días los líquidos se desplazan hacia la cabeza y dan sensación de presión.' : ''}`,
-   pasos:['Mira el medidor de CO₂ y pásate a una zona bien ventilada.','Bebe agua: en órbita se bebe menos de lo necesario.','Descansa 20 minutos con poca luz.','Si has dormido poco, recupéralo esta noche.'],
-   escalar:'Es urgente si empieza de golpe y muy fuerte, o si viene con visión alterada, confusión, debilidad en un lado o fiebre.'},
-  {re:/congestion|nariz tapada|cara hinchada|sinus|moco/, t:'Congestión y cara hinchada',
-   espacio:d => `Sin gravedad los líquidos del cuerpo se van hacia la cabeza: cara hinchada y nariz tapada son habituales${d <= 7 ? ' en la primera semana' : ''} y no significan resfriado por sí solos.`,
-   pasos:['Hidrátate con normalidad.','Usa el lavado nasal salino del botiquín.','Duerme con la cabeza algo elevada respecto al flujo de aire.','Vigila si aparece fiebre o dolor de oído.'],
-   escalar:'Avisa si hay fiebre, dolor facial intenso o secreción con mal olor.'},
-  {re:/vision|veo borroso|\bvista\b|veo doble|\bojos?\b/, t:'Cambios en la visión',
-   espacio:d => `En misiones largas, cerca de 2 de cada 3 astronautas muestran signos tempranos del síndrome neuro-ocular del vuelo espacial.${d < 30 ? ' En el día ' + d + ' sería pronto para eso, así que hay que mirar otras causas.' : ''}`,
-   pasos:['Tapa un ojo y luego el otro: anota si el cambio es en uno o en los dos, de cerca o de lejos.','Si entró polvo o una partícula, enjuaga con el lavaojos; no te frotes.','Haz la prueba de visión de a bordo y guarda el resultado.','Repórtalo en el próximo contacto con el médico de vuelo.'],
-   escalar:'Es urgente si pierdes visión de golpe, ves destellos o una sombra, o hay dolor fuerte en el ojo.'},
-  {re:/dormir|insomnio|desvel|\bsueno\b|descansar|pesadilla/, t:'Problemas para dormir',
-   espacio:() => 'Dormir poco es lo normal en órbita, no un fallo tuyo: el promedio en la estación es de unas 6 horas por noche aunque se programen 8 y media, con 16 amaneceres al día.',
-   pasos:['Mantén la misma hora de acostarte y levantarte.','Antifaz y tapones; baja la luz una hora antes.','Nada de cafeína en las 6 horas previas.','Si hay dolor o preocupación, atiéndelo antes de acostarte.','Evita tareas críticas mañana si dormiste menos de 5 horas, o hazlas con doble verificación.'],
-   escalar:'Avisa si llevas 3 noches seguidas durmiendo menos de 5 horas.'},
-  {re:/fiebre|temperatura|escalofrio|garganta|\btos\b|resfri|gripe|infeccion/, t:'Fiebre o infección',
-   espacio:d => d > 60 ? `Ojo con el termómetro: tras unos 2 meses en órbita la temperatura en reposo puede estar hasta 1 °C más alta que en Tierra sin que haya infección.` : `En el día ${d} la temperatura en reposo todavía debería parecerse a la de Tierra, así que una subida cuenta.`,
-   pasos:['Mide la temperatura y repítela en 15 minutos.','Bebe líquidos y reduce el ejercicio.','Usa mascarilla y mantén distancia de la tripulación.','Anota otros síntomas: tos, dolor al orinar, heridas, dolor de oído.'],
-   escalar:'Avisa hoy mismo si pasa de 38,5 °C, dura más de 24 horas o viene con dificultad para respirar.'},
-  {re:/costado|rinon|orina con sangre|orinar|calculo|piedra/, t:'Dolor en el costado o al orinar',
-   espacio:() => 'En el espacio el hueso suelta calcio y se bebe poco, y eso favorece los cálculos en el riñón. Beber suficiente es la mejor prevención.',
-   pasos:['Bebe agua de forma constante durante el día.','Anota dónde duele, si va y viene, y el color de la orina.','Mide la temperatura.','Avisa al oficial médico: decidirá el tratamiento del botiquín.'],
-   escalar:'Es urgente si hay fiebre, vómitos, dolor que no cede o no puedes orinar.'},
-  {re:/piel|sarpullido|erupcion|picor|roncha|ampolla|herpes/, t:'Problemas de piel',
-   espacio:() => 'La piel se irrita con facilidad en cabina, y el estrés del vuelo reactiva virus dormidos: 6 de cada 10 astronautas los eliminan, aunque pocos tienen síntomas.',
-   pasos:['Limpia con una toallita húmeda y seca sin frotar.','No rasques ni revientes ampollas.','Toma una foto con fecha para el médico de vuelo.','Revisa si coincide con un producto, una prenda o un sensor nuevo.'],
-   escalar:'Avisa si se extiende rápido, duele, supura o aparece cerca del ojo.'},
-  {re:/(siento|estoy|encuentro|muy|tan) sol[oa]\b|soledad|trist|ansie|angust|extran|deprim|llor|miedo|nervios|agobi|estres/, t:'Ánimo, estrés y soledad', compania:true,
-   espacio:d => `Llevas ${d} ${d === 1 ? 'día' : 'días'} lejos de casa, en un espacio pequeño y con mucho trabajo. Sentirse así es frecuente en aislamiento, y decirlo es lo correcto.`,
-   pasos:['Cuéntame qué es lo que más pesa ahora: el cansancio, la gente o lo que dejaste en casa.','Haz una pausa de 10 minutos con respiración lenta: 4 segundos al inspirar, 6 al soltar.','Habla con un compañero de la tripulación hoy.','Programa una llamada con tu familia.','Pide una conferencia privada de apoyo psicológico si se repite.'],
-   escalar:'Avisa si dura más de una semana, si afecta al sueño o al trabajo, o si aparecen ideas de hacerte daño.'},
-  {re:/radiacion|tormenta solar|dosimetro|erupcion solar/, t:'Radiación',
-   espacio:() => 'La dosis habitual a bordo es de 0,2 a 0,5 mSv al día. En un evento solar el límite es de 250 mSv, y por eso se va al refugio.',
-   pasos:['Si hay aviso de tormenta solar, ve al refugio designado y quédate hasta que control de misión lo indique.','Lleva tu dosímetro y anota la lectura.','Bebe agua y descansa.','Reporta náuseas, cansancio extremo o enrojecimiento de la piel.'],
-   escalar:'Avisa de inmediato si hay náuseas o vómitos en las horas siguientes a un evento solar.'},
-  {re:/debil|flojo|sin fuerza|musculo|hueso|me canso|agotad|cansanci|fatiga/, t:'Debilidad y cansancio',
-   espacio:d => `Sin gravedad se pierde entre 1 y 1,5 % de hueso al mes en las zonas de carga, y músculo. Llevas ${d} días: el ejercicio diario es el tratamiento, y la tripulación suele hacer menos del asignado.`,
-   pasos:['Completa la sesión de ejercicio de hoy, aunque sea más suave.','Come la ración completa: en órbita se suele comer el 80 % de lo necesario.','Revisa cuánto has dormido las últimas 3 noches.','Si el cansancio es nuevo y fuerte, mide temperatura y pulso.'],
-   escalar:'Avisa si dura 3 días o más, o si se suma fiebre, falta de aire o palpitaciones.'},
-  {re:/estrenim|barriga|estomago|abdomen|diarrea|vientre|gases/, t:'Molestias digestivas',
-   espacio:() => 'Sin gravedad el intestino se mueve más lento y se bebe menos, así que el estreñimiento y los gases son frecuentes.',
-   pasos:['Bebe agua a lo largo del día.','Mantén el ejercicio: ayuda al tránsito.','Come despacio y evita lo que te sentó mal.','Anota cuándo fue la última deposición.'],
-   escalar:'Es urgente si el dolor es fuerte y fijo en un punto, hay fiebre, vómitos o sangre.'},
-  {re:/muela|diente|encia|dental/, t:'Dolor dental',
-   espacio:() => 'A bordo no hay dentista: el botiquín trae material de empaste temporal y el oficial médico puede usarlo con guía desde Tierra.',
-   pasos:['Enjuaga con agua tibia.','Evita masticar por ese lado y los alimentos muy fríos o calientes.','Anota si hay hinchazón de la cara o fiebre.','Pide valoración al oficial médico.'],
-   escalar:'Avisa hoy si hay hinchazón de la cara, fiebre o dificultad para tragar.'},
+  {re:/nause|dizz|vomit|throw(ing)? up|motion sick|space sick|queasy|sick to my stomach/, t:'Nausea and dizziness',
+   espacio:d => d <= 3 ? `It is day ${d}: this is expected. 6 to 8 out of 10 astronauts get space motion sickness in the first 2 or 3 days, and it almost always passes within 72 hours.` : `It is already day ${d}. Space motion sickness usually passes in the first 3 days, so it is worth looking for another cause: high CO₂, dehydration, an infection or a medication.`,
+   pasos:['Move your head slowly and avoid sudden turns.','Fix your gaze on a stable reference, like a panel or the “wall” you use as the floor.','Keep a bag at hand and drink in small sips.','Leave delicate tasks for later.','If it does not ease, ask the medical officer for the treatment in the medical kit.'],
+   escalar:'Report it if you vomit everything you drink for more than 12 hours, if there is a severe headache or double vision, or if it starts after the first week.'},
+  {re:/\bback\b|lumbar|spine/, t:'Back pain',
+   espacio:d => d <= 5 ? `Very common at the start: half of astronauts get it in the first days, almost always mild, because the spine stretches without gravity.` : `On day ${d} this is no longer the typical adaptation pain; think about exercise load, sleeping posture or overuse.`,
+   pasos:['Bring your knees to your chest, in the fetal position, for a few minutes: it is what helps most.','Do light exercise on the treadmill or the bike.','Adjust the sleeping bag restraints to rest slightly bent.','Rate the pain from 1 to 10 and note whether it changes with posture.'],
+   escalar:'It is urgent if the pain goes down a leg, or there is numbness, loss of strength or difficulty urinating.'},
+  {re:/headache|migraine|head (hurts|ache|pressure)|my head/, t:'Headache',
+   espacio:d => `In the cabin, the air comes first: each 1 mmHg more of CO₂ doubles the chance of a headache.${d <= 4 ? ' Also, in the first days fluids shift toward the head and cause a feeling of pressure.' : ''}`,
+   pasos:['Check the CO₂ meter and move to a well-ventilated area.','Drink water: in orbit people drink less than they need.','Rest for 20 minutes in low light.','If you have slept little, make up for it tonight.'],
+   escalar:'It is urgent if it starts suddenly and very strong, or if it comes with altered vision, confusion, weakness on one side or fever.'},
+  {re:/congest|stuffy|blocked nose|puffy face|swollen face|sinus|mucus|runny nose/, t:'Congestion and puffy face',
+   espacio:d => `Without gravity, body fluids move toward the head: a puffy face and a stuffy nose are common${d <= 7 ? ' in the first week' : ''} and do not mean a cold on their own.`,
+   pasos:['Hydrate normally.','Use the saline nasal rinse from the medical kit.','Sleep with your head slightly raised relative to the airflow.','Watch for fever or ear pain.'],
+   escalar:'Report it if there is fever, intense facial pain or foul-smelling discharge.'},
+  {re:/vision|blurr|double vision|seeing double|\beyes?\b|eyesight/, t:'Changes in vision',
+   espacio:d => `On long missions, about 2 out of 3 astronauts show early signs of spaceflight-associated neuro-ocular syndrome.${d < 30 ? ' On day ' + d + ' that would be early, so other causes need to be checked.' : ''}`,
+   pasos:['Cover one eye and then the other: note whether the change is in one or both, near or far.','If dust or a particle got in, rinse with the eyewash; do not rub.','Do the on-board vision test and save the result.','Report it at the next contact with the flight surgeon.'],
+   escalar:'It is urgent if you suddenly lose vision, see flashes or a shadow, or there is strong eye pain.'},
+  {re:/sleep|insomni|awake at night|can'?t rest|nightmare/, t:'Trouble sleeping',
+   espacio:() => 'Sleeping little is normal in orbit, not your fault: the average on the station is about 6 hours a night even though 8 and a half are scheduled, with 16 sunrises a day.',
+   pasos:['Keep the same time for going to bed and getting up.','Eye mask and earplugs; dim the light an hour before.','No caffeine in the 6 hours before.','If there is pain or worry, deal with it before going to bed.','Avoid critical tasks tomorrow if you slept less than 5 hours, or do them with a double check.'],
+   escalar:'Report it if you have slept less than 5 hours for 3 nights in a row.'},
+  {re:/fever|temperature|chills|sore throat|cough|\bcold\b|\bflu\b|infect/, t:'Fever or infection',
+   espacio:d => d > 60 ? `Careful with the thermometer: after about 2 months in orbit, resting temperature can be up to 1 °C higher than on Earth without any infection.` : `On day ${d} resting temperature should still be similar to Earth's, so a rise counts.`,
+   pasos:['Take your temperature and repeat it in 15 minutes.','Drink fluids and cut back on exercise.','Wear a mask and keep your distance from the crew.','Note other symptoms: cough, pain when urinating, wounds, ear pain.'],
+   escalar:'Report it today if it goes above 38.5 °C, lasts more than 24 hours or comes with difficulty breathing.'},
+  {re:/flank|kidney|blood in (my |the )?urine|urinat|\bpee/, t:'Pain in the side or when urinating',
+   espacio:() => 'In space, bone releases calcium and people drink little, which favors kidney stones. Drinking enough is the best prevention.',
+   pasos:['Drink water steadily throughout the day.','Note where it hurts, whether it comes and goes, and the color of your urine.','Take your temperature.','Tell the medical officer: they will decide the treatment from the medical kit.'],
+   escalar:'It is urgent if there is fever, vomiting, pain that does not ease or you cannot urinate.'},
+  {re:/skin|rash|itch|hives|blister|herpes|cold sore/, t:'Skin problems',
+   espacio:() => 'Skin gets irritated easily in the cabin, and flight stress reactivates dormant viruses: 6 out of 10 astronauts shed them, although few have symptoms.',
+   pasos:['Clean with a wet wipe and pat dry without rubbing.','Do not scratch or pop blisters.','Take a dated photo for the flight surgeon.','Check whether it coincides with a new product, garment or sensor.'],
+   escalar:'Report it if it spreads quickly, hurts, oozes or appears near the eye.'},
+  {re:/lonely|\balone\b|loneliness|\bsad|anxi|anguish|homesick|miss (my|home)|depress|\bcry|afraid|scared|\bfear|nervous|overwhelm|stress/, t:'Mood, stress and loneliness', compania:true,
+   espacio:d => `You have been away from home for ${d} ${d === 1 ? 'day' : 'days'}, in a small space and with a lot of work. Feeling this way is common in isolation, and saying it is the right thing to do.`,
+   pasos:['Tell me what weighs on you most right now: the tiredness, the people or what you left at home.','Take a 10 minute break with slow breathing: 4 seconds in, 6 seconds out.','Talk with a crewmate today.','Schedule a call with your family.','Ask for a private psychological support conference if it happens again.'],
+   escalar:'Report it if it lasts more than a week, if it affects sleep or work, or if thoughts of hurting yourself appear.'},
+  {re:/radiation|solar storm|dosimeter|solar flare|solar particle/, t:'Radiation',
+   espacio:() => 'The usual dose on board is 0.2 to 0.5 mSv per day. In a solar event the limit is 250 mSv, and that is why you go to the shelter.',
+   pasos:['If there is a solar storm warning, go to the designated shelter and stay until mission control says so.','Take your dosimeter and note the reading.','Drink water and rest.','Report nausea, extreme tiredness or reddening of the skin.'],
+   escalar:'Report it immediately if there is nausea or vomiting in the hours after a solar event.'},
+  {re:/weak|no strength|muscle loss|\bbone|tired|exhaust|fatigu/, t:'Weakness and tiredness',
+   espacio:d => `Without gravity you lose between 1 and 1.5 % of bone per month in load-bearing areas, and muscle too. You are on day ${d}: daily exercise is the treatment, and crews usually do less than assigned.`,
+   pasos:['Complete today\'s exercise session, even if lighter.','Eat the full ration: in orbit people usually eat 80 % of what they need.','Check how much you slept the last 3 nights.','If the tiredness is new and strong, measure temperature and pulse.'],
+   escalar:'Report it if it lasts 3 days or more, or if fever, shortness of breath or palpitations are added.'},
+  {re:/constipat|belly|stomach|abdom|diarrh|bloat|\bgas\b/, t:'Digestive discomfort',
+   espacio:() => 'Without gravity the gut moves more slowly and people drink less, so constipation and gas are common.',
+   pasos:['Drink water throughout the day.','Keep exercising: it helps digestion.','Eat slowly and avoid whatever disagreed with you.','Note when your last bowel movement was.'],
+   escalar:'It is urgent if the pain is strong and fixed in one spot, or there is fever, vomiting or blood.'},
+  {re:/tooth|teeth|\bgums?\b|dental/, t:'Tooth pain',
+   espacio:() => 'There is no dentist on board: the medical kit has temporary filling material, and the medical officer can use it with guidance from Earth.',
+   pasos:['Rinse with warm water.','Avoid chewing on that side and very cold or hot foods.','Note whether there is facial swelling or fever.','Ask the medical officer for an assessment.'],
+   escalar:'Report it today if there is facial swelling, fever or difficulty swallowing.'},
 ];
 function tarjetaCaso(c){
-  return `<p><strong>${c.t}.</strong> ${esc(c.espacio(diaMision()))}</p><h4>Haz ahora</h4><ol>${c.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">Cuándo escalar</span> ${esc(c.escalar)}</p>${c.compania ? '' : '<p>Del 1 al 10, ¿cuánto te molesta ahora?</p>'}`;
+  return `<p><strong>${c.t}.</strong> ${esc(c.espacio(diaMision()))}</p><h4>Do now</h4><ol>${c.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol><p><span class="label">When to escalate</span> ${esc(c.escalar)}</p>${c.compania ? '' : '<p>From 1 to 10, how much does it bother you right now?</p>'}`;
 }
 function tarjetaUrgencia(u){
-  return `<strong>${u.sinCierre ? '' : 'Emergencia: '}${u.t}</strong><ol>${u.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol>${u.sinCierre ? '<p>Yo sigo aquí contigo. ¿Quién de la tripulación está más cerca ahora?</p>' : `<p>${CIERRE_URG}</p>`}`;
+  return `<strong>${u.sinCierre ? '' : 'Emergency: '}${u.t}</strong><ol>${u.pasos.map(t => `<li>${esc(t)}</li>`).join('')}</ol>${u.sinCierre ? '<p>I am still here with you. Who from the crew is closest to you right now?</p>' : `<p>${CIERRE_URG}</p>`}`;
 }
 
 const LUMA = {msgs:[], ocupado:false, sample:null, ia:null, caida:'', dict:null, tts:null, rec:null, espera:null, saludo:''};
-const ESTADO = 'Tu acompañante de salud a bordo';
+const ESTADO = 'Your health companion on board';
 const aTexto = h => { const d = document.createElement('div'); d.innerHTML = h.replace(/<\/(p|li|h4|strong)>/g, '. </$1>'); return d.textContent.replace(/\s+/g, ' ').replace(/(\. )+/g, '. ').replace(/([:;,?!])\./g, '$1').trim(); };
 const orbe = c => { $('orbe').className = 'orbe' + (c ? ' ' + c : ''); };
 function pintaChat(){
@@ -1001,27 +1001,27 @@ function hablar(texto){
   if (!$('vozOn').checked || !texto) return;
   const fin = () => { orbe(''); $('callar').hidden = true; };
   orbe('vivo'); $('callar').hidden = false;
-  if (LUMA.tts){ const di = () => LUMA.tts.speak(texto.slice(0, 1900), {language:'es'});
+  if (LUMA.tts){ const di = () => LUMA.tts.speak(texto.slice(0, 1900), {language:'en'});
     return di().catch(e => e && e.code === 'busy' ? new Promise(r => setTimeout(r, 900)).then(di) : null).then(fin, fin); }
-  if (window.speechSynthesis){ try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(texto.slice(0, 1900)); u.lang = 'es-ES';
-      const v = speechSynthesis.getVoices().find(x => x.lang.startsWith('es')); if (v) u.voice = v; u.rate = 0.98; u.onend = u.onerror = fin; speechSynthesis.speak(u); return; } catch (e) {} }
+  if (window.speechSynthesis){ try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(texto.slice(0, 1900)); u.lang = 'en-US';
+      const v = speechSynthesis.getVoices().find(x => x.lang.startsWith('en')); if (v) u.voice = v; u.rate = 0.98; u.onend = u.onerror = fin; speechSynthesis.speak(u); return; } catch (e) {} }
   fin();
 }
 function callar(){ try { LUMA.tts?.stop(); } catch (e) {} try { window.speechSynthesis?.cancel(); } catch (e) {} orbe(''); $('callar').hidden = true; }
 function saludo(){
   const p = S.p, i = S.i, hay = VARS12.some(k => reg(p, k, i)), al = hay ? evaluar(p, i) : [];
-  const estado = !hay ? 'Hoy no tengo registros tuyos.' : al.length ? `Veo ${al.length === 1 ? 'una lectura' : al.length + ' cosas'} fuera de tu rango: ${al.map(a => a.titulo.toLowerCase()).join(', ')}.` : 'Tus lecturas de hoy están dentro de tu rango.';
-  return `<p>Hola, ${p}. Soy Luma, tu acompañante de salud. Es el día ${diaMision()} de la misión. ${estado}</p><p>¿Cómo te sientes?</p>`;
+  const estado = !hay ? 'I have no records from you today.' : al.length ? `I see ${al.length === 1 ? 'one reading' : al.length + ' things'} outside your range: ${al.map(a => a.titulo.toLowerCase()).join(', ')}.` : 'Your readings today are within your range.';
+  return `<p>Hi, ${p}. I'm Luma, your health companion. It is day ${diaMision()} of the mission. ${estado}</p><p>How are you feeling?</p>`;
 }
 function iniciaChat(forzar){
   if (LUMA.msgs.length > 1 && !forzar) return;
   LUMA.espera = null; LUMA.msgs = [{de:'luma', html:saludo()}]; pintaChat();
 }
 function modo(){
-  $('lumaModo').textContent = LUMA.sample ? 'Conversación con IA' : LUMA.caida ? 'IA sin conexión' : LUMA.buscando ? 'Conectando con la IA…' : 'Modo a bordo, sin conexión';
+  $('lumaModo').textContent = LUMA.sample ? 'AI conversation' : LUMA.caida ? 'AI offline' : LUMA.buscando ? 'Connecting to the AI…' : 'On-board mode, offline';
   $('lumaModo').classList.toggle('caida', !LUMA.sample && !!LUMA.caida); $('reconectar').hidden = !(LUMA.ia && !LUMA.sample);
-  $('lumaNota').textContent = LUMA.sample ? 'Luma conversa con un modelo de lenguaje que recibe los registros del día, el pronóstico y los datos verificados del vuelo. Orienta, no diagnostica ni receta: eso es del médico de vuelo.'
-    : 'Modo a bordo: Luma responde sin conexión, con los registros, el pronóstico y los procedimientos cargados. Orienta, no diagnostica ni receta: eso es del médico de vuelo.';
+  $('lumaNota').textContent = LUMA.sample ? 'Luma talks with a language model that receives the day\'s records, the forecast and the verified spaceflight data. It guides you; it does not diagnose or prescribe: that is the flight surgeon\'s job.'
+    : 'On-board mode: Luma answers offline, using the records, the forecast and the loaded procedures. It guides you; it does not diagnose or prescribe: that is the flight surgeon\'s job.';
   const voz = !!(LUMA.tts || window.speechSynthesis); $('vozCaja').hidden = !voz;
   $('mic').hidden = !(LUMA.dict || LUMA.rec);
 }
@@ -1036,43 +1036,43 @@ function hechosPara(q){
 }
 function contexto(corto, q){
   const p = S.p, i = S.i, hay = VARS12.some(k => reg(p, k, i)), al = hay ? evaluar(p, i) : [], fc = hay ? pronostico(p, i) : [];
-  const lect = VARS12.map(k => { const r = reg(p, k, i); return r ? `${REAL.vars[k].nombre}: ${num(r.v)} ${REAL.vars[k].unidad} (${r.base ? 'línea base' : SEV[r.e].toLowerCase()}; normal ${rango(k, REAL.trip[p][k])})` : null; }).filter(Boolean);
-  const otros = TRIP.filter(x => x !== p).map(x => { const a = VARS12.some(k => reg(x, k, i)) ? evaluar(x, i) : null; return `${x}: ${!a ? 'sin registros' : a.length ? a.map(y => y.titulo.toLowerCase() + ' (' + SEV[y.sev].toLowerCase() + ')').join(', ') : 'sin alertas'}`; });
-  return `Eres Luma, acompañante de salud a bordo de una nave espacial (prototipo POLIS SENSE SPACE). Hablas por voz con el astronauta ${p}.
+  const lect = VARS12.map(k => { const r = reg(p, k, i); return r ? `${REAL.vars[k].nombre}: ${num(r.v)} ${REAL.vars[k].unidad} (${r.base ? 'baseline' : SEV[r.e].toLowerCase()}; normal ${rango(k, REAL.trip[p][k])})` : null; }).filter(Boolean);
+  const otros = TRIP.filter(x => x !== p).map(x => { const a = VARS12.some(k => reg(x, k, i)) ? evaluar(x, i) : null; return `${x}: ${!a ? 'no records' : a.length ? a.map(y => y.titulo.toLowerCase() + ' (' + SEV[y.sev].toLowerCase() + ')').join(', ') : 'no alerts'}`; });
+  return `You are Luma, a health companion on board a spacecraft (POLIS SENSE SPACE prototype). You talk by voice with astronaut ${p}.
 
-CÓMO RESPONDES
-- En español, con calidez y calma, como alguien que acompaña. Frases cortas, pensadas para oírse. Sin markdown, sin listas con viñetas, sin emojis.
-- Normalmente menos de 90 palabras. Solo te extiendes si te piden detalle o es una emergencia.
-- Haces una sola pregunta de seguimiento a la vez: dónde, desde cuándo, o cuánto del 1 al 10.
-- Si es una emergencia, empiezas por los pasos inmediatos, numerados y breves, y después dices que avisen al oficial médico de la tripulación y a control de misión.
+HOW YOU ANSWER
+- Always in English, warmly and calmly, like someone who keeps them company. Short sentences, meant to be heard. No markdown, no bullet lists, no emojis.
+- Usually under 90 words. Only go longer if they ask for detail or it is an emergency.
+- Ask only one follow-up question at a time: where, since when, or how much from 1 to 10.
+- If it is an emergency, start with the immediate steps, numbered and brief, and then tell them to alert the crew medical officer and mission control.
 
-DÓNDE ESTÁN
-- Día ${diaMision()} de misión, en microgravedad. No hay hospital ni ambulancia.
-- A bordo hay un oficial médico de la tripulación, un botiquín y un desfibrilador. En Tierra hay médicos de vuelo; se puede pedir una conferencia médica privada y las comunicaciones pueden tardar.
-- Desde órbita baja una evacuación tarda horas; en una misión lejana no es posible.
-- Ten presente el día de misión: qué es esperable ahora (adaptación en los primeros días; hueso, músculo, visión y ánimo en misiones largas) y qué no.
+WHERE THEY ARE
+- Mission day ${diaMision()}, in microgravity. There is no hospital or ambulance.
+- On board there is a crew medical officer, a medical kit and a defibrillator. On Earth there are flight surgeons; a private medical conference can be requested and communications may be delayed.
+- From low orbit an evacuation takes hours; on a distant mission it is not possible.
+- Keep the mission day in mind: what is expected now (adaptation in the first days; bone, muscle, vision and mood on long missions) and what is not.
 
-QUÉ PUEDES Y QUÉ NO
-- Das información médica general y fiable, primeros auxilios, qué puede estar pasando, qué vigilar y cuándo escalar.
-- No inventas cifras. Para datos del vuelo espacial usa solo DATOS VERIFICADOS; para el astronauta, solo REGISTROS y PRONÓSTICO. Si no lo sabes o no hay evidencia, lo dices.
-- No das un diagnóstico definitivo ni dosis de medicamentos: la medicación la indica el oficial médico con el médico de vuelo. Sí explicas posibilidades y qué las distingue.
-- El pronóstico es una estimación estadística con cinco personas; preséntalo como probabilidad, no como certeza.
+WHAT YOU CAN AND CANNOT DO
+- You give general, reliable medical information, first aid, what may be happening, what to watch for and when to escalate.
+- You do not make up figures. For spaceflight data use only VERIFIED DATA; for the astronaut, only RECORDS and FORECAST. If you do not know or there is no evidence, you say so.
+- You do not give a definitive diagnosis or medication doses: medication is decided by the medical officer with the flight surgeon. You do explain possibilities and what tells them apart.
+- The forecast is a statistical estimate based on five people; present it as a probability, not a certainty.
 
-REGISTROS DE ${p} HOY
-${lect.length ? lect.join('\n') : 'Sin registros este día.'}
+RECORDS FOR ${p} TODAY
+${lect.length ? lect.join('\n') : 'No records on this day.'}
 
-ALERTAS DE HOY
-${al.length ? al.map(a => `${a.titulo} (${SEV[a.sev].toLowerCase()}). Por qué: ${a.porque.join('; ')}. Causa probable: ${a.causa} Casos similares: ${a.similares}`).join('\n') : 'Ninguna.'}
+TODAY'S ALERTS
+${al.length ? al.map(a => `${a.titulo} (${SEV[a.sev].toLowerCase()}). Why: ${a.porque.join('; ')}. Likely cause: ${a.causa} Similar cases: ${a.similares}`).join('\n') : 'None.'}
 
-PRONÓSTICO PARA MAÑANA
-${fc.map(f => `${f.titulo}: ${pct(f.pr)} % (habitual en ${p}: ${Math.round(f.habitual * 100)} %)${f.razones.length ? '. Motivos: ' + f.razones.join('; ') : ''}${f.zonas.length ? '. Zonas habituales: ' + f.zonas.map(z => RNOMBRE[z.z]).join(', ') : ''}`).join('\n') || 'Sin datos.'}
+FORECAST FOR TOMORROW
+${fc.map(f => `${f.titulo}: ${pct(f.pr)} % (usual for ${p}: ${Math.round(f.habitual * 100)} %)${f.razones.length ? '. Reasons: ' + f.razones.join('; ') : ''}${f.zonas.length ? '. Usual areas: ' + f.zonas.map(z => RNOMBRE[z.z]).join(', ') : ''}`).join('\n') || 'No data.'}
 
-RESTO DE LA TRIPULACIÓN HOY
+REST OF THE CREW TODAY
 ${otros.join('\n')}
 
-${corto ? '' : 'PROCEDIMIENTOS A BORDO (pasos de ejemplo, primeros auxilios generales)\n' + [...URGENCIAS, ...SINTOMAS].map(c => `${c.t}: ${c.pasos.join(' ')}`).join('\n')}
+${corto ? '' : 'ON-BOARD PROCEDURES (sample steps, general first aid)\n' + [...URGENCIAS, ...SINTOMAS].map(c => `${c.t}: ${c.pasos.join(' ')}`).join('\n')}
 
-DATOS VERIFICADOS DEL VUELO ESPACIAL (cítalos tal cual cuando vengan al caso)
+VERIFIED SPACEFLIGHT DATA (quote them as they are when relevant)
 ${(corto ? hechosPara(q) : HECHOS).join('\n')}`;
 }
 async function enviar(q){
@@ -1084,15 +1084,15 @@ async function enviar(q){
   if (urg){ const h = tarjetaUrgencia(urg); LUMA.msgs.push({de:'luma', html:h, urg:true}); LUMA.espera = null; pintaChat(); hablar(aTexto(h)); return; }
   // Respuesta a "del 1 al 10": la entiende el modo sin conexión; con IA lo lleva el modelo
   const n = f.match(/^\D{0,12}(10|[1-9])\b\D{0,12}$/);
-  if (!LUMA.sample && LUMA.espera && n){ const v = +n[1], h = v >= 7 ? `<p>Un ${v} es mucho. No esperes: avisa ahora al oficial médico y dile desde cuándo y dónde. Mientras, sigue los pasos de arriba y dime si cambia.</p>` : v >= 4 ? `<p>Un ${v}: molesta pero es manejable. Sigue los pasos, y volvemos a medir en una hora. Si sube a 7 o más, avisa al oficial médico.</p>` : `<p>Un ${v}: leve. Sigue los pasos y lo anotamos. Si mañana sigue igual o sube, lo revisamos.</p>`;
+  if (!LUMA.sample && LUMA.espera && n){ const v = +n[1], h = v >= 7 ? `<p>A ${v} is a lot. Do not wait: alert the medical officer now and tell them since when and where. Meanwhile, follow the steps above and tell me if it changes.</p>` : v >= 4 ? `<p>A ${v}: it bothers you but it is manageable. Follow the steps, and we will check again in an hour. If it goes up to 7 or more, alert the medical officer.</p>` : `<p>A ${v}: mild. Follow the steps and we will log it. If it is the same or worse tomorrow, we will review it.</p>`;
     LUMA.msgs.push({de:'luma', html:h}); LUMA.espera = null; pintaChat(); hablar(aTexto(h)); return; }
   if (LUMA.sample){
-    LUMA.ocupado = true; orbe('vivo'); $('lumaEstado').textContent = 'Pensando…';
+    LUMA.ocupado = true; orbe('vivo'); $('lumaEstado').textContent = 'Thinking…';
     const m = {de:'luma', html:'<p class="muted">…</p>'}; LUMA.msgs.push(m); pintaChat();
     // Solo los turnos reales de la conversación (sin avisos), y como mucho los 12 últimos para no crecer sin límite
     let previos = LUMA.msgs.slice(1, -1).filter(x => !x.aviso).map(x => ({role:x.de === 'tu' ? 'user' : 'assistant', content:aTexto(x.html)})).slice(-12);
     while (previos.length && previos[0].role !== 'user') previos.shift();
-    previos[0] = {role:'user', content:contexto(LUMA.remoto, q) + '\n\nCONVERSACIÓN\n' + previos[0].content};
+    previos[0] = {role:'user', content:contexto(LUMA.remoto, q) + '\n\nCONVERSATION\n' + previos[0].content};
     const ctl = new AbortController(); let lento = false; const reloj = setTimeout(() => { lento = true; ctl.abort(); }, 45000);
     try {
       const r = await LUMA.sample(previos, {cache:false, signal:ctl.signal, onText:({text}) => { if (text){ m.html = `<p>${esc(text).replace(/\n+/g, '</p><p>')}</p>`; pintaChat(); } }});
@@ -1101,18 +1101,18 @@ async function enviar(q){
     } catch (e){
       // La IA falló: se dice por qué, y esta respuesta sale del modo sin conexión para no dejar al astronauta sin nada
       clearTimeout(reloj); LUMA.msgs.pop(); LUMA.ocupado = false; orbe(''); $('lumaEstado').textContent = ESTADO;
-      const c = e && e.code, motivo = lento ? 'la respuesta tardó más de 45 segundos' : c === 'not_granted' ? 'no hay permiso para usar la IA en esta página' : c === 'rate_limited' ? 'se alcanzó el límite de consultas; espera un minuto' : 'no se pudo contactar con la IA' + (c ? ` (${c}${e.detalle ? ': ' + String(e.detalle).slice(0, 220) : ''})` : '');
+      const c = e && e.code, motivo = lento ? 'the answer took more than 45 seconds' : c === 'not_granted' ? 'this page has no permission to use the AI' : c === 'rate_limited' ? 'the query limit was reached; wait a minute' : 'the AI could not be reached' + (c ? ` (${c}${e.detalle ? ': ' + String(e.detalle).slice(0, 220) : ''})` : '');
       if (c === 'not_granted' || c === 'rate_limited'){ LUMA.sample = null; LUMA.caida = motivo; modo(); if (c === 'rate_limited') setTimeout(reconectar, 60000); }
-      LUMA.msgs.push({de:'luma', aviso:true, html:`<p>Perdí la conexión con la IA: ${esc(motivo)}. Te respondo con lo que tengo cargado${LUMA.sample ? '; el siguiente mensaje lo vuelvo a intentar con la IA' : ' hasta que pulses Reconectar'}.</p>`});
+      LUMA.msgs.push({de:'luma', aviso:true, html:`<p>I lost the connection with the AI: ${esc(motivo)}. I will answer with what I have loaded${LUMA.sample ? '; I will try the AI again with the next message' : ' until you press Reconnect'}.</p>`});
     }
   }
-  let h = /^(hola|buenas|buenos dias|hey|que tal)\b/.test(f) && f.trim().length < 22 ? `<p>Hola, ${S.p}. Aquí estoy. ¿Cómo te sientes hoy?</p>`
-    : /gracias/.test(f) ? '<p>Para eso estoy. Si algo cambia, dímelo.</p>'
-    : /quien eres|que eres|como te llamas|tu nombre/.test(f) ? '<p>Soy Luma, tu acompañante de salud a bordo. Miro tus registros cada día, te aviso si algo se sale de lo normal y te ayudo a decidir qué hacer.</p>'
-    : /que dia|cuantos dias|dia de mision|cuanto llevamos/.test(f) ? `<p>Es el día ${diaMision()} de la misión.${diaMision() <= 3 ? ' Todavía estás en la fase de adaptación: mareo, congestión y dolor de espalda son esperables.' : diaMision() > 30 ? ' A estas alturas lo que más hay que cuidar es el ejercicio, el sueño, la visión y el ánimo.' : ''}</p>`
+  let h = /^(hi|hello|hey|good (morning|afternoon|evening)|what'?s up)\b/.test(f) && f.trim().length < 22 ? `<p>Hi, ${S.p}. I'm here. How are you feeling today?</p>`
+    : /thank/.test(f) ? '<p>That is what I am here for. If anything changes, tell me.</p>'
+    : /who are you|what are you|your name/.test(f) ? '<p>I\'m Luma, your health companion on board. I look at your records every day, let you know if something is out of normal and help you decide what to do.</p>'
+    : /what day|how many days|mission day|how long have we/.test(f) ? `<p>It is day ${diaMision()} of the mission.${diaMision() <= 3 ? ' You are still in the adaptation phase: dizziness, congestion and back pain are expected.' : diaMision() > 30 ? ' At this point, what needs the most care is exercise, sleep, vision and mood.' : ''}</p>` 
     : respuestaLocal(q);
-  if (!h) h = '<p>No tengo un procedimiento para eso en este modo. Dime el síntoma con otras palabras, dónde es y desde cuándo. Si es grave o no estás seguro, avisa al oficial médico.</p>';
-  LUMA.espera = /Del 1 al 10/.test(h) ? 'escala' : null;
+  if (!h) h = '<p>I do not have a procedure for that in this mode. Tell me the symptom in other words, where it is and since when. If it is serious or you are not sure, alert the medical officer.</p>';
+  LUMA.espera = /From 1 to 10/.test(h) ? 'escala' : null;
   LUMA.msgs.push({de:'luma', html:h}); pintaChat(); hablar(aTexto(h));
 }
 $('askForm').addEventListener('submit', e => { e.preventDefault(); enviar($('q').value); });
@@ -1124,9 +1124,9 @@ $('nueva').addEventListener('click', () => { callar(); iniciaChat(true); });
 $('vozOn').addEventListener('change', e => { if (!e.target.checked) callar(); });
 
 // Oído: dictado del artefacto si existe; si no, el reconocimiento de voz del navegador
-const micEstado = on => { $('mic').setAttribute('aria-pressed', String(on)); $('mic').textContent = on ? 'Escuchando…' : 'Hablar'; orbe(on ? 'vivo oye' : ''); };
+const micEstado = on => { $('mic').setAttribute('aria-pressed', String(on)); $('mic').textContent = on ? 'Listening…' : 'Talk'; orbe(on ? 'vivo oye' : ''); };
 const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (Rec){ try { const r = new Rec(); r.lang = 'es-ES'; r.interimResults = true; r.continuous = false;
+if (Rec){ try { const r = new Rec(); r.lang = 'en-US'; r.interimResults = true; r.continuous = false;
     r.onresult = e => { const t = [...e.results].map(x => x[0].transcript).join(' '); $('q').value = t; if (e.results[e.results.length - 1].isFinal){ micEstado(false); enviar(t); } };
     r.onend = () => micEstado(false); r.onerror = () => micEstado(false); LUMA.rec = r; } catch (e) {} }
 $('mic').addEventListener('click', () => {
@@ -1139,10 +1139,10 @@ $('mic').addEventListener('click', () => {
 function iaRemota(url){
   return async (mensajes, o) => {
     let r; try { r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({messages:mensajes.slice(-12)}), signal:o && o.signal}); }
-    catch (e) { throw {code:'red'}; }
+    catch (e) { throw {code:'network'}; }
     let j = {}; try { j = await r.json(); } catch (e) {}
     if (r.status === 429) throw {code:'rate_limited'};
-    if (!r.ok || !j.text) throw {code:j.error || 'servidor', detalle:[j.estado, j.mensaje].filter(Boolean).join(' ')};
+    if (!r.ok || !j.text) throw {code:j.error || 'server', detalle:[j.estado, j.mensaje].filter(Boolean).join(' ')};
     return {text:j.text};
   };
 }
